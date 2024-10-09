@@ -1,5 +1,5 @@
 // export const BASE_URL = "http://127.0.0.1:3000"; // If using proxy
-export const BASE_URL = "http://103.65.248.168"; // If using proxy
+export const BASE_URL = "https://api.vistamart.biz"; // If using proxy
 // export const BASE_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app'
 export const PRODUCTS_URL = "/api/products";
 export const FLASHDEALS_URL = "/api/flash-deals";
