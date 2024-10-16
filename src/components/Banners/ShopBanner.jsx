@@ -34,9 +34,9 @@ const ShopBanner = ({ vendor }) => {
 									<span>5 Reviews</span> | <span>63 Orders</span>
 								</div>
 							</div>
-							<button className="ml-auto bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
+							{/* <button className="ml-auto bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
 								<AiFillMessage className="mr-2" /> Chat
-							</button>
+							</button> */}
 						</div>
 					</div>
 				</div>
