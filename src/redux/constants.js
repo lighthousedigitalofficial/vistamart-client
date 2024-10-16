@@ -1,5 +1,6 @@
 // export const BASE_URL = "http://127.0.0.1:3000"; // If using proxy
-export const BASE_URL = "https://api.vistamart.biz"; // If using proxy
+export const BASE_URL =
+	"https://vistamart-api-git-dev-light-houses-projects-8457c583.vercel.app/api/v1"; // If using proxy // If using proxy
 // export const BASE_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app'
 
 export const FLASHDEALS_URL = "/admin/flash-deals";
