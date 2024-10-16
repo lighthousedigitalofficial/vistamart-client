@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { capitalizeFirstLetter } from '../../utils'
 import { SlArrowRight } from 'react-icons/sl'
-import { API_URL, DEFAULT_IMG } from '../../utils/constants'
+import { API_URL, BUCKET_URL, DEFAULT_IMG } from '../../utils/constants'
 const CategoryDropDown = () => {
     const { data: categories, isLoading } = useGetCategoriesQuery({})
     const [hoveredCategory, setHoveredCategory] = useState(null)
@@ -51,7 +51,7 @@ const CategoryDropDown = () => {
                                     <div className="image">
                                         <img
                                             src={
-                                                `${API_URL}/uploads/${category.logo}` ||
+                                                `${BUCKET_URL}${category.logo}` ||
                                                 DEFAULT_IMG
                                             }
                                             alt="Logo"
