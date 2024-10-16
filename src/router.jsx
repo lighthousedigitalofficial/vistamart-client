@@ -43,6 +43,9 @@ import ReturnPolicy from './_root/pages/ReturnPolicyPage'
 import CancellationPolicy from './_root/pages/CancellationPolicyPage'
 import SearchResultPage from './_root/pages/SearchResulstPage'
 import OrderView from './components/Product/OrderView'
+import CustomerReview from './components/Product/CustomerReview'
+import { productReviews } from './utils'
+import OrderDetail from './components/Profile/Order/OrderDetail'
 
 const router = createBrowserRouter([
     {
@@ -81,6 +84,10 @@ const router = createBrowserRouter([
                     {
                         path: 'my-orders',
                         element: <MyOrder />,
+                    },
+                    {
+                        path: 'order/:orderId',
+                        element: <OrderDetail />,
                     },
                     {
                         path: 'order-view/:id',
@@ -214,6 +221,11 @@ const router = createBrowserRouter([
                 element: <VendorLoginForm />,
             },
         ],
+    },
+    {
+        path: 'reviews',
+        element: <CustomerReview  reviews={productReviews} />,
+
     },
     // {
     // 	path: "/customer/auth",
