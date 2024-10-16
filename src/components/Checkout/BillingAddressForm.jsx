@@ -2,6 +2,8 @@ import { useFormContext } from 'react-hook-form'
 import { PhoneInput } from 'react-international-phone'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
+import ShippingAddress from './ShippingAddress'
+import ShippingMethod from './ShippingMethod'
 
 const BillingAddressForm = () => {
     const {
@@ -10,6 +12,7 @@ const BillingAddressForm = () => {
     } = useFormContext()
 
     return (
+        <div className='flex flex-col'>
         <div className="w-full">
             <h2 className="text-gray-900 font-bold text-xl mb-4">
                 Billing Address
@@ -109,6 +112,9 @@ const BillingAddressForm = () => {
                     )}
                 </div>
             </div>
+        </div>
+        <ShippingAddress/>
+        <ShippingMethod/>
         </div>
     )
 }

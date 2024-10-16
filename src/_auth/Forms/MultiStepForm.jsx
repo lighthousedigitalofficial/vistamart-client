@@ -41,22 +41,29 @@ const MultiStepForm = () => {
 
     const navigate = useNavigate()
 
-    const handleNext = async () => {
-        const isValid = await methods.trigger([
-            '',
-            'password',
-            'confirmPassword',
-            'phoneNumber',
-        ])
-        if (!isValid) {
-            toast.error('Please fill all the required inputs.')
-            return
-        }
-
-        if (step === 0) {
-            setStep(step + 1)
-        }
+const handleNext = async () => {
+    const isValid = await methods.trigger([
+        'password',
+        'confirmPassword',
+        'phoneNumber',
+    ])
+    if (!isValid) {
+        toast.error('Please fill all the required inputs.')
+        return
     }
+
+    const password = methods.getValues('password')
+    const confirmPassword = methods.getValues('confirmPassword')
+
+    if (password !== confirmPassword) {
+        toast.error('Passwords do not match.')
+        return
+    }
+
+    if (step === 0) {
+        setStep(step + 1)
+    }
+}
 
     const handlePrev = () => {
         if (step > 0) {

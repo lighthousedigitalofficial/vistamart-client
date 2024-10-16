@@ -109,12 +109,21 @@ const CheckoutPage = () => {
 					>
 						{step === 0 && <BillingAddressForm />}
 						{step === 1 && <PaymentMethod />}
+                    <button
+                        type="button"
+                        onClick={handleNext}
+                        className="h-8 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        disabled={isLoading}
+                    >
+                        Next
+                    </button>
 						<CartSummary
 							cart={cart}
 							handleNext={handleNext}
 							isLoading={isLoading}
 							step={step}
 						/>
+						
 					</form>
 				</FormProvider>
 			</div>
