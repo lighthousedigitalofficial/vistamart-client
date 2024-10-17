@@ -85,22 +85,6 @@ const ShippingAddress = () => {
               />
             </div>
 
-            {/* Google Map */}
-            <div className="mt-6">
-              <label className="input-label mb-2">Map</label>
-              <div className="relative">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14035.6253876223!2d73.04788209418869!3d33.69381165478396!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38dfbf59201e7ff7%3A0x67a7bff80837ea91!2sSoan%20Gardens%2C%20Islamabad%2C%20Pakistan!5e0!3m2!1sen!2sus!4v1632276369575!5m2!1sen!2sus"
-                  width="100%"
-                  height="250"
-                  allowFullScreen=""
-                  loading="lazy"
-                  className="rounded-md border border-gray-300"
-                  title="Google Map"
-                ></iframe>
-              </div>
-            </div>
-
             {/* Save Address Checkbox */}
             <div className="mt-6">
               <label className="inline-flex items-center">
@@ -115,14 +99,14 @@ const ShippingAddress = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end">
+            {/* <div className="flex justify-end">
               <button
                 type="submit"
                 className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 Submit
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

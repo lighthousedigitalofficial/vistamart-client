@@ -24,15 +24,15 @@ const ProductCard = ({ data: product }) => {
 
 	return (
 		product && (
-			<div className="bg-white rounded-lg overflow-hidden shadow-md shadow-gray-100 w-full max-w-xs">
-				<div className="relative rounded-lg overflow-hidden group cursor-pointer z-10">
+			<div className="bg-white overflow-hidden shadow-sm shadow-primary-100 w-full">
+				<div className="relative  overflow-hidden group cursor-pointer z-10">
 					{product?.discountAmount > 0 && (
 						<div className="discount-badge">-${product?.discountAmount}</div>
 					)}
 					<img
 						src={product?.thumbnail ? `${product.thumbnail}` : DEFAULT_IMG}
 						alt={product.name}
-						className="product__img"
+						className="product__img object-cover"
 					/>
 					<div className="product__quick-view z-20">
 						<button
@@ -43,18 +43,18 @@ const ProductCard = ({ data: product }) => {
 						</button>
 					</div>
 				</div>
-				<div className="p-4 group">
+				<div className="flex flex-col p-4 group gap-4">
 					<Link to={`/products/${product.slug}`}>
 						<p className="font-medium truncate mb-2 group-hover:text-primary-400 transition-all ease-in">
 							{product.name}
 						</p>
-						<div className="flex items-center gap-2">
+						<div className="flex items-center justify-between">
 							{oldPrice > product.price && (
 								<p className="text-sm line-through text-gray-500">
 									${oldPrice?.toFixed(2)}
 								</p>
 							)}
-							<p className="text-lg font-bold">${product.price?.toFixed(2)}</p>
+							<p className="text-sm font-bold">${product.price?.toFixed(2)}</p>
 						</div>
 					</Link>
 				</div>

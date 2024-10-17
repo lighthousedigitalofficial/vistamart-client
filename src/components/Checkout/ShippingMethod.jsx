@@ -63,7 +63,7 @@ const ShippingMethod = () => {
   };
 
   return (
-    <div className="">
+    <div className="w-full">
       <h2 className="text-2xl font-bold mb-4">Shipping Method</h2>
       <form onSubmit={fetchShippingRate} className="space-y-4">
         <div>
@@ -100,9 +100,10 @@ const ShippingMethod = () => {
         <div className="flex justify-end">
           <button
             type="submit"
+            // onClick={onClick}
             className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Submit
+            Save
           </button>
         </div>
         {error && <p className="text-red-500">{error}</p>}

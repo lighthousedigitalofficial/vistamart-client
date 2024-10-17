@@ -15,6 +15,7 @@ import BillingAddressForm from "../../components/Checkout/BillingAddressForm";
 import { useCreateOrderMutation } from "../../redux/slices/ordersApiSlice";
 import CartSummary from "../../components/Cart/CartSummery";
 import toast from "react-hot-toast";
+import ShippingMethod from "../../components/Checkout/ShippingMethod";
 
 const CheckoutPage = () => {
 	const [step, setStep] = useState(0);
@@ -107,16 +108,9 @@ const CheckoutPage = () => {
 						onSubmit={methods.handleSubmit(handleNext)}
 						className="flex flex-col lg:flex-row gap-8"
 					>
-						{step === 0 && <BillingAddressForm />}
-						{step === 1 && <PaymentMethod />}
-                    <button
-                        type="button"
-                        onClick={handleNext}
-                        className="h-8 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        disabled={isLoading}
-                    >
-                        Next
-                    </button>
+						{step === 0 && <BillingAddressForm onClick={handleNext} disabled={isLoading}/>}
+						{step === 1 && <PaymentMethod onClick={handleNext} disabled={isLoading}/>}
+						{/* {step === 2 && < />} */}
 						<CartSummary
 							cart={cart}
 							handleNext={handleNext}

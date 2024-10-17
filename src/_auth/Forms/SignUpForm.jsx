@@ -170,9 +170,9 @@ const SignUpForm = () => {
                     <button
                         type="button"
                         onClick={handleTogglePassword}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm"
+                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg"
                     >
-                        {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                        {showPassword ? <FaRegEyeSlash className='mt-6'/> : <FaRegEye className='mt-6' />}
                     </button>
                     {errors.password && (
                         <p className="text-red-500 text-xs italic">
@@ -194,9 +194,9 @@ const SignUpForm = () => {
                     <button
                         type="button"
                         onClick={handleToggleConfirmPassword}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg leading-5"
                     >
-                        {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                        {showConfirmPassword ? <FaRegEyeSlash className='mt-6'/> : <FaRegEye className='mt-6'/>}
                     </button>
                     {errors.confirmPassword && (
                         <p className="text-red-500 text-xs italic">

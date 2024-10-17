@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Rating } from '@material-tailwind/react'
 import { timeAgo } from '../../utils'
+import AddReview from './AddReview'
 
 let reviews = []
 
@@ -12,7 +13,10 @@ const calculateRatingPercentage = (rating, totalReviews) => {
 
     return (ratingCount / totalReviews) * 100
 }
-
+const handleReviewSubmit = async (data) => {
+    // Handle the review submission, e.g., send data to the server
+    console.log('Review submitted:', data)
+}
 const ProductReviews = ({ product }) => {
     console.log(product)
     reviews = product?.reviews || []
@@ -101,6 +105,7 @@ const ProductReviews = ({ product }) => {
                     </p>
                 )}
             </div>
+            <AddReview onSubmit={handleReviewSubmit}/>
         </div>
     )
 }
