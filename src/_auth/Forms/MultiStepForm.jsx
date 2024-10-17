@@ -9,25 +9,27 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 import {
-	deleteUploadedImages,
-	getUploadUrl,
-	uploadImageToS3,
-} from "./../../utils/helpers";
+    deleteUploadedImages,
+    getUploadUrl,
+    uploadImageToS3,
+} from './../../utils/helpers'
 
 // Combined schema for both steps
 const schema = z.object({
-	email: z.string().email("Invalid email address"),
-	password: z.string().min(8, "Password must be at least 8 characters"),
-	confirmPassword: z.string().min(8, "Password must be at least 8 characters"),
-	phoneNumber: z.string().min(1, "Phone number is required"),
-	firstName: z.string().min(1, "First name is required"),
-	lastName: z.string().min(1, "Last name is required"),
-	shopName: z.string().min(1, "Shop name is required"),
-	address: z.string().min(3, "Shop address is required"),
-	logo: z.any(),
-	banner: z.any(),
-	vendorImage: z.any(),
-});
+    email: z.string().email('Invalid email address'),
+    password: z.string().min(8, 'Password must be at least 8 characters'),
+    confirmPassword: z
+        .string()
+        .min(8, 'Password must be at least 8 characters'),
+    phoneNumber: z.string().min(1, 'Phone number is required'),
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    shopName: z.string().min(1, 'Shop name is required'),
+    address: z.string().min(3, 'Shop address is required'),
+    logo: z.any(),
+    banner: z.any(),
+    vendorImage: z.any(),
+})
 
 const MultiStepForm = () => {
 	const [logoImages, setLogoImages] = useState([]);
@@ -154,48 +156,6 @@ const MultiStepForm = () => {
 			console.error("Error: ", err);
 		}
 	};
-
-	// const onSubmit = async (data) => {
-	// 	try {
-	// 		// Extract file names or set default messages
-	// 		const logoFileName = logoImages?.[0]?.file || "No logo uploaded";
-	// 		const bannerFileName = bannerImages?.[0]?.file || "No banner uploaded";
-	// 		const vendorFileName = vendorImages?.[0]?.file || "No banner uploaded";
-
-	// 		const finalData = {
-	// 			...data,
-	// 			logo: logoFileName,
-	// 			banner: bannerFileName,
-	// 			vendorImage: vendorFileName,
-	// 		};
-
-	// 		if (finalData.password !== finalData.confirmPassword) {
-	// 			toast.error("Passwords do not match");
-	// 			return;
-	// 		}
-
-	// 		console.log(finalData); // Check the final data object
-
-	// 		const formData = new FormData();
-	// 		formData.append("email", finalData.email);
-	// 		formData.append("password", finalData.password);
-	// 		formData.append("phoneNumber", finalData.phoneNumber);
-	// 		formData.append("firstName", finalData.firstName);
-	// 		formData.append("lastName", finalData.lastName);
-	// 		formData.append("shopName", finalData.shopName);
-	// 		formData.append("address", finalData.address);
-	// 		formData.append("logo", finalData.logo);
-	// 		formData.append("banner", finalData.banner);
-	// 		formData.append("vendorImage", finalData.vendorImage);
-
-	// 		await vendorRegister(formData).unwrap();
-	// 		toast.success("Vendor registered successfully");
-	// 		navigate("/auth/vendor/login");
-	// 	} catch (err) {
-	// 		toast.error(err?.data?.error || err.error);
-	// 		console.error("Error: ", err);
-	// 	}
-	// };
 
 	return (
 		<div className="container mx-auto p-2">

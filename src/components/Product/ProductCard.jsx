@@ -3,7 +3,7 @@ import { FaEye } from "react-icons/fa";
 import ProductDialog from "./ProductDialog";
 import { Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
-import { API_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 const ProductCard = ({ data: product }) => {
 	const oldPrice = product?.price + product?.discount || null;
@@ -30,7 +30,7 @@ const ProductCard = ({ data: product }) => {
 						<div className="discount-badge">-${product?.discountAmount}</div>
 					)}
 					<img
-						src={product?.thumbnail ? `${product.thumbnail}` : DEFAULT_IMG}
+						src={product?.thumbnail ? `${product.thumbnail}` : keys.DEFAULT_IMG}
 						alt={product.name}
 						className="product__img"
 					/>

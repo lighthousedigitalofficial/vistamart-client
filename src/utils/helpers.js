@@ -1,13 +1,17 @@
 import axios from "axios";
-import { BASE_URL } from "../redux/constants";
+import keys from "../config/keys";
 
 // Function to get a pre-signed upload URL
-export const getUploadUrl = async (type) => {
+export const getUploadUrl = async (type, folder) => {
 	try {
-		const fileType = type.split("/")[1];
-		const response = await axios.get(
-			`${BASE_URL}/image/upload?fileType=${fileType}`
-		);
+		const query = {
+			fileType: type.split("/")[1],
+			folder,
+		};
+		const response = await axios.get(`${keys.BASE_URL}/image/upload`, {
+			params: query,
+		});
+
 		return response.data; // Contains the URL and the key for S3 storage
 	} catch (error) {
 		console.error("Error fetching upload URL: ", error);
@@ -24,16 +28,18 @@ export const uploadImageToS3 = async (uploadUrl, file) => {
 			},
 		});
 	} catch (error) {
-		console.error("Error uploading image to S3: ", error);
-		throw new Error("Failed to upload image to S3");
+		console.error("Error uploading image", error);
+		throw new Error("Failed to upload image");
 	}
 };
 
 export const deleteUploadedImages = async (keys) => {
 	try {
-		await axios.delete(`${BASE_URL}/image/delete-images`, { data: { keys } });
+		await axios.delete(`${keys.BASE_URL}/image/delete-images`, {
+			data: { keys },
+		});
 	} catch (error) {
-		console.error("Error deleting images from S3: ", error);
-		throw new Error("Failed to delete images from S3");
+		console.error("Error deleting images", error);
+		throw new Error("Failed to delete images");
 	}
 };

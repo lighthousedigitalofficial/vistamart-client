@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { AiFillStar, AiOutlineStar, AiFillMessage } from "react-icons/ai";
-import { BUCKET_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 const ShopBanner = ({ vendor }) => {
 	console.log(vendor);
@@ -8,7 +8,7 @@ const ShopBanner = ({ vendor }) => {
 		vendor && (
 			<div className="relative h-[50vh] mt-4 p-4 rounded-lg shadow-lg max-w-7xl mx-auto py-4 bg-pink-100">
 				<img
-					src={`${BUCKET_URL}${vendor.banner}` || DEFAULT_IMG}
+					src={`${keys.BUCKET_URL}${vendor.banner}` || keys.DEFAULT_IMG}
 					alt="Shop Banner"
 					className="absolute inset-0 w-full h-full object-cover rounded-lg"
 				/>
@@ -34,9 +34,9 @@ const ShopBanner = ({ vendor }) => {
 									<span>5 Reviews</span> | <span>63 Orders</span>
 								</div>
 							</div>
-							<button className="ml-auto bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
+							{/* <button className="ml-auto bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
 								<AiFillMessage className="mr-2" /> Chat
-							</button>
+							</button> */}
 						</div>
 					</div>
 				</div>
