@@ -43,6 +43,8 @@ import ReturnPolicy from './_root/pages/ReturnPolicyPage'
 import CancellationPolicy from './_root/pages/CancellationPolicyPage'
 import SearchResultPage from './_root/pages/SearchResulstPage'
 import OrderView from './components/Product/OrderView'
+import OtpVerification from './_auth/Forms/OtpVerification'
+import EmailVerification from './_auth/Forms/EmailVerification'
 
 const router = createBrowserRouter([
     {
@@ -197,6 +199,14 @@ const router = createBrowserRouter([
             {
                 path: '/search',
                 element: <SearchResultPage />,
+            },
+            {
+                path: '/otp',
+                element: <OtpVerification />,
+            },
+            {
+                path: '/emailverification',
+                element: <EmailVerification/>,
             },
 
             {

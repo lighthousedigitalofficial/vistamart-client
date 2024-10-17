@@ -48,7 +48,7 @@ const footerNews = [
                 <p className="text-left">Subscribe to our new channel to get the latest updates</p>
                 <form onSubmit={handleSubmit} className="flex justify-center w-full"> {/* Center the form */}
            
-                <div className="relative w-full max-w-md"> {/* Set a max width for the input */}
+                {/* <div className="relative w-full max-w-md"> 
     <input
         type="email"
         placeholder="Your Email Address"
@@ -60,12 +60,28 @@ const footerNews = [
     />
     <button
         type="submit" // Change button type to submit
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-primary-600 px-2 py-2 rounded-r text-white font-bold hover:bg-primary-700 text-sm -mr-2 sm:-mr-4 md:-mr-6 lg:-mr-8"
+        className="absolute  right-6  top-1/2 transform -translate-y-1/2 bg-primary-600 px-2 py-2 rounded-r text-white font-bold hover:bg-primary-700 text-sm -mr-2 sm:-mr-4 md:-mr-6 lg:-mr-8"
+    >
+        Subscribe
+    </button>
+</div> */}
+<div className="relative "> {/* Set a max width for the input */}
+    <input
+        type="email"
+        placeholder="Your Email Address"
+        className="pl-2 py-2 rounded text-black min-w-72 focus:outline-none focus:ring-2 focus:ring-primary-700 placeholder:text-xs placeholder:text-gray-400"
+        // style={{ minWidth: '275px' }} // Increased minimum width
+        value={email}
+        onChange={(e) => setEmail(e.target.value)} // Capture email input
+        required
+    />
+    <button
+        type="submit" // Change button type to submit
+        className="absolute right-0 top-0 bottom-0   bg-primary-600 p-2 m-1 rounded-r text-white font-bold hover:bg-primary-700 text-xs"
     >
         Subscribe
     </button>
 </div>
-
 
                 </form>
             </div>
