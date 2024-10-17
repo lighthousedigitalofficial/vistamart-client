@@ -46,6 +46,8 @@ import OrderView from './components/Product/OrderView'
 import CustomerReview from './components/Product/CustomerReview'
 import { productReviews } from './utils'
 import OrderDetail from './components/Profile/Order/OrderDetail'
+import OtpVerification from './_auth/Forms/OtpVerification'
+import EmailVerification from './_auth/Forms/EmailVerification'
 
 const router = createBrowserRouter([
     {
@@ -204,6 +206,14 @@ const router = createBrowserRouter([
             {
                 path: '/search',
                 element: <SearchResultPage />,
+            },
+            {
+                path: '/otp',
+                element: <OtpVerification />,
+            },
+            {
+                path: '/emailverification',
+                element: <EmailVerification/>,
             },
 
             {

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BUCKET_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 /* eslint-disable react/prop-types */
 const BrandItem = ({ brand }) => {
@@ -7,7 +7,7 @@ const BrandItem = ({ brand }) => {
 		<div className="border border-gray-300 h-24 w-24 rounded-full p-4 group cursor-pointer">
 			<Link to={`/products?brand=${brand._id}`} className="">
 				<img
-					src={`${BUCKET_URL}${brand.logo}` || DEFAULT_IMG}
+					src={`${keys.BUCKET_URL}${brand.logo}` || keys.DEFAULT_IMG}
 					alt={brand.name}
 					className=" object-contain transition-transform duration-300 group-hover:scale-110"
 				/>

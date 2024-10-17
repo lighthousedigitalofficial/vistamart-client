@@ -2,7 +2,7 @@
 import { useDispatch } from "react-redux";
 import { removeFromCart } from "../../../redux/slices/cartSlice";
 import { FaTrash } from "react-icons/fa";
-import { API_URL, DEFAULT_IMG } from "../../../utils/constants";
+import keys from "./../../../config/keys";
 
 const CartViewItem = ({ item }) => {
 	const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const CartViewItem = ({ item }) => {
 			className="flex items-center bg-gray-50 justify-around border-b p-2"
 		>
 			<img
-				src={item?.thumbnail ? `${item.thumbnail}` : DEFAULT_IMG}
+				src={item?.thumbnail ? `${item.thumbnail}` : keys.DEFAULT_IMG}
 				alt={item.name}
 				className="w-16 h-16 object-contain mr-4"
 			/>

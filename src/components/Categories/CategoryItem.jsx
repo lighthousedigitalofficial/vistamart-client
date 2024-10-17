@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { BUCKET_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 /* eslint-disable react/prop-types */
 const CategoryItem = ({ category }) => {
@@ -9,7 +9,7 @@ const CategoryItem = ({ category }) => {
 			className="flex-center flex-col gap-2 p-2 group cursor-pointer"
 		>
 			<img
-				src={`${BUCKET_URL}${category.logo}` || DEFAULT_IMG}
+				src={`${keys.BUCKET_URL}${category.logo}` || keys.DEFAULT_IMG}
 				alt={category.name}
 				className="w-24 h-24 object-contain rounded-full transition-transform duration-300 group-hover:scale-90"
 			/>
