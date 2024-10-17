@@ -7,6 +7,7 @@ import SellerRegForm1 from "./SellerRegForm1";
 import { useVendorRegisterMutation } from "../../redux/slices/vendorsApiSlice";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
 import {
 	deleteUploadedImages,
 	getUploadUrl,
@@ -43,10 +44,31 @@ const MultiStepForm = () => {
 	});
 
 	const navigate = useNavigate();
+  
+    const isPasswordStrong = (password) => {
+    const hasMinLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    return hasMinLength && hasUppercase && hasNumber && hasSpecialChar;
+  };
 
 	const handleNext = async () => {
+      // Check if password is strong
+    if (!isPasswordStrong(password)) {
+      return toast.error(
+        "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character."
+      );
+    }
+
+     // Check if passwords match
+    if (password !== confirmPassword) {
+      return toast.error("Passwords do not match");
+    }
+    
+    
 		const isValid = await methods.trigger([
-			"",
+			"email",
 			"password",
 			"confirmPassword",
 			"phoneNumber",
