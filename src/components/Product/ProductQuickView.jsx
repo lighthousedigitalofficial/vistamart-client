@@ -9,8 +9,8 @@ import { FaXmark } from "react-icons/fa6";
 import Loader from "../Loader";
 import { useGetProductDetailsQuery } from "../../redux/slices/productsApiSlice";
 import WishListIcon from "./subcomponent/WishListIcon";
-import { API_URL, DEFAULT_IMG } from "../../utils/constants";
 import toast from "react-hot-toast";
+import keys from "./../../config/keys";
 
 const ProductQuickView = ({ productId, onClose }) => {
 	const { data: product, isLoading } = useGetProductDetailsQuery(productId, {
@@ -85,7 +85,7 @@ const ProductQuickView = ({ productId, onClose }) => {
 				<div className="w-full lg:w-1/2">
 					<div className="w-full h-48 md:h-64 lg:h-80 overflow-hidden">
 						<img
-							src={mainImage ? `${mainImage}` : DEFAULT_IMG}
+							src={mainImage ? `${mainImage}` : keys.DEFAULT_IMG}
 							alt={product.doc.name}
 							className="w-full h-full object-contain"
 						/>
@@ -94,7 +94,7 @@ const ProductQuickView = ({ productId, onClose }) => {
 						{productImages?.map((src, index) => (
 							<img
 								key={index}
-								src={`${src}` || DEFAULT_IMG}
+								src={`${src}` || keys.DEFAULT_IMG}
 								alt={`Thumbnail ${index + 1}`}
 								className="w-16 h-16 object-cover mr-2 border rounded cursor-pointer"
 								onClick={() => setMainImage(src)}

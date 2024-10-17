@@ -5,7 +5,7 @@ import { removeFromCart } from "../../redux/slices/cartSlice";
 import { Typography } from "@material-tailwind/react";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { API_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 /* eslint-disable react/prop-types */
 const CartItem = ({ item }) => {
@@ -29,7 +29,7 @@ const CartItem = ({ item }) => {
 			<div className="flex gap-2">
 				<Link to={`/products/${item.slug}`} className="cursor-pointer">
 					<img
-						src={item?.thumbnail ? `${item.thumbnail}` : DEFAULT_IMG}
+						src={item?.thumbnail ? `${item.thumbnail}` : keys.DEFAULT_IMG}
 						alt={item.name}
 						className="h-20 object-cover rounded-md"
 					/>

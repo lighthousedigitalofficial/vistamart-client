@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import PropTypes from "prop-types"; // Import PropTypes for prop validation (optional)
 import { Link } from "react-router-dom";
-import { BUCKET_URL, DEFAULT_IMG } from "../../utils/constants";
+import keys from "./../../config/keys";
 
 const SellerCard = ({ data: seller }) => {
 	return (
@@ -9,14 +9,14 @@ const SellerCard = ({ data: seller }) => {
 			<div className="bg-white rounded-lg border border-primary-100 overflow-hidden flex flex-col w-75 mx-2 cursor-pointer">
 				<Link to={`/shop-view/${seller?._id}`}>
 					<img
-						src={`${BUCKET_URL}${seller.banner}` || DEFAULT_IMG}
+						src={`${keys.BUCKET_URL}${seller.banner}` || keys.DEFAULT_IMG}
 						alt={seller.firstName}
 						className="w-full h-24 object-cover transform transition duration-300 ease-in-out hover:scale-105"
 					/>
 					<div className="p-4 flex-col items-center">
 						<div className="flex flex-row gap-2">
 							<img
-								src={`${BUCKET_URL}${seller.logo}` || DEFAULT_IMG}
+								src={`${keys.BUCKET_URL}${seller.logo}` || keys.DEFAULT_IMG}
 								alt={seller.shopName}
 								className="w-16 h-16 bg-white rounded-full object-cover -mt-8 border-2 border-white shadow-md transform transition duration-300 ease-in-out hover:scale-105"
 							/>

@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { fetchBaseQuery, createApi } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "../constants";
+import keys from "../../config/keys";
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: BASE_URL,
+	baseUrl: keys.BASE_URL,
 	prepareHeaders: (headers, { getState }) => {
 		const userInfo = localStorage.getItem("userInfo");
 		const user = JSON.parse(userInfo);

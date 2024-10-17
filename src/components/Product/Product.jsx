@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Quantity from "./subcomponent/Quantity";
 import { useNavigate } from "react-router-dom";
 import WishListIcon from "./subcomponent/WishListIcon";
-import { API_URL, DEFAULT_IMG } from "../../utils/constants";
 import toast from "react-hot-toast";
+import keys from "./../../config/keys";
 
 const Product = ({ product }) => {
 	const [mainImage, setMainImage] = useState(product?.thumbnail);
@@ -52,7 +52,7 @@ const Product = ({ product }) => {
 				<div className="lg:w-1/2 w-full">
 					<div className="shadow-md overflow-hidden">
 						<img
-							src={`${mainImage}` || DEFAULT_IMG}
+							src={`${mainImage}` || keys.DEFAULT_IMG}
 							alt="Main product image"
 							className="w-[24rem] h-[24rem]  object-contain p-2 transition-transform duration-300 ease-out"
 						/>
@@ -61,7 +61,7 @@ const Product = ({ product }) => {
 						{productImages?.map((src, index) => (
 							<img
 								key={index}
-								src={`${src}` || DEFAULT_IMG}
+								src={`${src}` || keys.DEFAULT_IMG}
 								alt={`Thumbnail ${index + 1}`}
 								className="w-16 h-16 md:w-20 md:h-20 object-contain mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
 								onClick={() => setMainImage(src)}
