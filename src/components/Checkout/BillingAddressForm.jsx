@@ -6,7 +6,7 @@ import ShippingAddress from './ShippingAddress'
 import { useState } from 'react'
 import ShippingMethod from './ShippingMethod'
 
-const BillingAddressForm = ({onClick}) => {
+const BillingAddressForm = () => {
     const {
         register,
         formState: { errors },
@@ -130,11 +130,6 @@ const BillingAddressForm = ({onClick}) => {
             </div>
             {!isSameAddress && <ShippingAddress />}
             <ShippingMethod/>
-            <button
-                onClick={onClick}
-                className="btn primary-btn mt-4">
-                Continue
-            </button>
         </div>
         
             {/* <ShippingMethod /> */}
