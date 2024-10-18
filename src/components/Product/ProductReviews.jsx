@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
-import { Rating } from "@material-tailwind/react";
-import { timeAgo } from "../../utils";
-import keys from "./../../config/keys";
-import AddReview from "./AddReview";
+import { Rating } from '@material-tailwind/react'
+import { timeAgo } from '../../utils'
+import keys from './../../config/keys'
+import AddReview from './AddReview'
 
-let reviews = [];
+let reviews = []
 
 const calculateRatingPercentage = (rating, totalReviews) => {
-	if (totalReviews === 0) return 0;
-	const ratingCount = reviews.filter(
-		(review) => Math.round(review.rating) === rating
-	)?.length;
+    if (totalReviews === 0) return 0
+    const ratingCount = reviews.filter(
+        (review) => Math.round(review.rating) === rating
+    )?.length
 
     return (ratingCount / totalReviews) * 100
 }
@@ -19,26 +19,31 @@ const handleReviewSubmit = async (data) => {
     console.log('Review submitted:', data)
 }
 const ProductReviews = ({ product }) => {
-	console.log(product);
-	reviews = product?.reviews || [];
+    console.log(product)
+    reviews = product?.reviews || []
 
-	console.log(reviews);
+    console.log(reviews)
 
-	return (
-		<div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
-			<div className="text-center mb-4">
-				<h1 className="text-3xl font-bold">{product.rating || 0}</h1>
-				<Rating readonly value={Math.round(product.rating) || 0} />
-				<p className="text-gray-600">{product.numOfReviews || 0} Ratings</p>
-			</div>
-			<div className="mb-4 px-8">
-				{["Excellent", "Good", "Average", "Below Average", "Poor"].map(
-					(label, index) => {
-						const rating = 5 - index;
-						const percentage =
-							product.numOfReviews > 0
-								? calculateRatingPercentage(rating, product.numOfReviews)
-								: 0;
+    return (
+        <div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
+            <div className="text-center mb-4">
+                <h1 className="text-3xl font-bold">{product.rating || 0}</h1>
+                <Rating readonly value={Math.round(product.rating) || 0} />
+                <p className="text-gray-600">
+                    {product.numOfReviews || 0} Ratings
+                </p>
+            </div>
+            <div className="mb-4 px-8">
+                {['Excellent', 'Good', 'Average', 'Below Average', 'Poor'].map(
+                    (label, index) => {
+                        const rating = 5 - index
+                        const percentage =
+                            product.numOfReviews > 0
+                                ? calculateRatingPercentage(
+                                      rating,
+                                      product.numOfReviews
+                                  )
+                                : 0
 
                         console.log(product.numOfReviews)
                         return (
@@ -71,15 +76,17 @@ const ProductReviews = ({ product }) => {
                             <div className="flex items-center gap-4">
                                 <img
                                     src={
-                                        `${keys.BUCKET_URL}${review?.customer?.image}` ||
-										"https://shorturl.at/KREMs"
+                                        review?.customer?.image
+                                            ? `${keys.BUCKET_URL}${review.customer.image}`
+                                            : 'https://shorturl.at/KREMs'
                                     }
                                     alt={`${review.customer.firstName} avatar`}
                                     className="w-10 h-10 object-contain rounded-full"
                                 />
                                 <div>
                                     <h3 className="font-bold">
-                                        {review.customer.firstName}
+                                        {review.customer.firstName} {" "}
+                                        {review.customer.lastName}
                                     </h3>
                                     <Rating
                                         readonly
@@ -101,9 +108,9 @@ const ProductReviews = ({ product }) => {
                     </p>
                 )}
             </div>
-            <AddReview onSubmit={handleReviewSubmit}/>
+            
         </div>
     )
 }
 
-export default ProductReviews;
+export default ProductReviews

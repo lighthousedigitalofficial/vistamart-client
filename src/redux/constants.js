@@ -10,4 +10,5 @@ export const WISHLIST_URL = "/user/wishlists";
 export const ORDERS_URL = "/transcation/orders";
 
 export const PRODUCTS_URL = "/seller/products";
+export const PRODUCT_REVIEW_URL = "/user/reviews";
 export const VENDORS_URL = "/seller/vendors";

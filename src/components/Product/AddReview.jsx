@@ -5,34 +5,40 @@ import * as z from 'zod'
 import { toast } from 'react-hot-toast'
 import PropTypes from 'prop-types' // Import PropTypes
 import StarRating from '../shared/StarRating'
+import { useCreateReviewMutation } from '../../redux/slices/productsApiSlice'
 
 // Define the schema using Zod
 const reviewSchema = z.object({
-    rating: z.number().min(1, 'Please gives the rating').max(5, 'Rating must be between 1 and 5'),
+    rating: z.number().min(1, 'Please give a rating').max(5, 'Rating must be between 1 and 5'),
     comment: z.string().min(10, 'Review must be at least 10 characters long'),
 })
 
-const AddReview = ({ onSubmit }) => {
-    // const { user } = useContext(UserContext) // Get the user context
+const AddReview = ({ productId, refetch }) => {
     const methods = useForm({
         resolver: zodResolver(reviewSchema),
     })
     const [rating, setRating] = useState(0)
+    const [createReview, { isLoading }] = useCreateReviewMutation() // Use the mutation hook with loading state
 
     const handleSubmit = async (data) => {
         try {
-            await onSubmit({ ...data, rating })
+            const finalData = {
+                review: data.comment, 
+                rating, 
+                productId
+            }
+
+            console.log(finalData)
+
+            await createReview(finalData).unwrap()
+            refetch()
             toast.success('Review submitted successfully!')
             methods.reset()
             setRating(0)
         } catch (error) {
-            toast.error('Failed to submit review')
+            toast.error(error.data.message || 'Failed to submit review')
         }
     }
-
-    // if (!user) {
-    //     return <p className="text-red-500">You must be logged in to submit a review.</p>
-    // }
 
     return (
         <FormProvider {...methods}>
@@ -75,8 +81,9 @@ const AddReview = ({ onSubmit }) => {
                     <button
                         type="submit"
                         className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        disabled={isLoading} // Disable the button while loading
                     >
-                        Submit Review
+                        {isLoading ? 'Submitting...' : 'Submit Review'} 
                     </button>
                 </div>
             </form>
@@ -86,7 +93,7 @@ const AddReview = ({ onSubmit }) => {
 
 // Add prop types validation
 AddReview.propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    productId: PropTypes.string.isRequired,
 }
 
 export default AddReview
