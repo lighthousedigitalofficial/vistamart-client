@@ -8,7 +8,7 @@ const paymentMethods = [
     { value: 'easypaisa', label: 'EasyPaisa', imgSrc: 'https://easypaisa.com.pk/wp-content/uploads/2022/12/Group-129.png' },
 ]
 
-const PaymentMethod = ({onClick, disable}) => {
+const PaymentMethod = () => {
     const { setValue, formState: { errors } } = useFormContext()
     const [selectedMethod, setSelectedMethod] = useState('')
 
@@ -37,13 +37,6 @@ const PaymentMethod = ({onClick, disable}) => {
                     </p>
                 )}
             </div>
-            <button
-                    onClick={onClick}
-                    disabled={!selectedMethod || disable}
-                    className="btn btn-primary"
-                >
-                    Continue
-            </button>
         </div>
     )
 }

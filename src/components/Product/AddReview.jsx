@@ -94,6 +94,7 @@ const AddReview = ({ productId, refetch }) => {
 // Add prop types validation
 AddReview.propTypes = {
     productId: PropTypes.string.isRequired,
+    
 }
 
 export default AddReview
