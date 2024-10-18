@@ -13,12 +13,15 @@ import ProductCarousel from '../../components/shared/ProductCarousel'
 import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
+import AddReview from '../../components/Product/AddReview'
+// import { useState } from "react";
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
+    //   const [activeSection, setActiveSection] = useState("overview");
 
     // const { data: product, isLoading } = useGetProductDetailsQuery(slug)
-    const { data: product, isLoading } = useGetProductBySlugQuery(slug, {
+    const { data: product, isLoading, refetch } = useGetProductBySlugQuery(slug, {
         skip: !slug,
     })
 
@@ -39,11 +42,18 @@ const ProductDetailsPage = () => {
             <div className="flex flex-col lg:flex-row justify-between gap-4 w-full">
                 <div className="flex flex-col">
                     <Product product={product?.doc} />
-                    <Overview />
-                    <ProductReviews product={product?.doc} />
+                    <div className="flex flex-col-reverse lg:flex-row w-full gap-4">
+                        <div className="flex flex-col w-full lg:w-3/4">
+                            <Overview />
+                            <ProductReviews product={product?.doc} />
+                            <AddReview productId={product?.doc._id} refetch={refetch}/>
+                        </div>
+                        <div className="w-full lg:w-1/4 mt-8">
+                            <VendorRightBar vendorId={product?.userId} />
+                        </div>
+                    </div>
                 </div>
-
-                <VendorRightBar vendorId={product?.userId} />
+                {/*  */}
             </div>
 
             {isProductsLoading ? (

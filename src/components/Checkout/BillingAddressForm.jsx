@@ -2,14 +2,23 @@ import { useFormContext } from 'react-hook-form'
 import { PhoneInput } from 'react-international-phone'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
+import ShippingAddress from './ShippingAddress'
+import { useState } from 'react'
+import ShippingMethod from './ShippingMethod'
 
-const BillingAddressForm = () => {
+const BillingAddressForm = ({onClick}) => {
     const {
         register,
         formState: { errors },
     } = useFormContext()
+    const [isSameAddress, setIsSameAddress] = useState(false)
+
+    const handleCheckboxChange = () => {
+        setIsSameAddress(!isSameAddress)
+    }
 
     return (
+        <div className='flex flex-col w-full'>
         <div className="w-full">
             <h2 className="text-gray-900 font-bold text-xl mb-4">
                 Billing Address
@@ -109,6 +118,26 @@ const BillingAddressForm = () => {
                     )}
                 </div>
             </div>
+            <div className=" mt-4">
+                <input
+                    type="checkbox"
+                    id="sameAddress"
+                    checked={isSameAddress}
+                    onChange={handleCheckboxChange}
+                    className="mr-2"
+                />
+                <label htmlFor="sameAddress" className="text-gray-700">Shipping address is the same as billing address</label>
+            </div>
+            {!isSameAddress && <ShippingAddress />}
+            <ShippingMethod/>
+            <button
+                onClick={onClick}
+                className="btn primary-btn mt-4">
+                Continue
+            </button>
+        </div>
+        
+            {/* <ShippingMethod /> */}
         </div>
     )
 }

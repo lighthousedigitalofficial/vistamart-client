@@ -14,6 +14,10 @@ const calculateRatingPercentage = (rating, totalReviews) => {
     return (ratingCount / totalReviews) * 100
 }
 
+const handleReviewSubmit = async (data) => {
+    // Handle the review submission, e.g., send data to the server
+    console.log('Review submitted:', data)
+}
 const ProductReviews = ({ product }) => {
     reviews = product?.reviews || []
 
@@ -105,6 +109,7 @@ const ProductReviews = ({ product }) => {
                     </p>
                 )}
             </div>
+
         </div>
     )
 }

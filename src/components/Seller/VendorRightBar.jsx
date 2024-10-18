@@ -31,12 +31,12 @@ const VendorRightBar = ({ vendorId }) => {
 
     return isLoading ? (
         <Loader />
-    ) : (
-        <div className="w-1/2">
+    ) : 
+        <div className="flex flex-col gap-4">
             <FeatureCard features={features} />
-
             {vendorProducts && vendorProducts.length ? (
                 <div className="flex flex-col gap-6">
+                    
                     <VanderCard
                         vendorId={vendorId}
                         totalProducts={vendorProducts?.doc?.results}
@@ -48,7 +48,7 @@ const VendorRightBar = ({ vendorId }) => {
                 </div>
             ) : null}
         </div>
-    )
+    
 }
 
 export default VendorRightBar
