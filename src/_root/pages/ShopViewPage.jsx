@@ -1,37 +1,39 @@
 import ShopBanner from '../../components/Banners/ShopBanner'
 import Loader from '../../components/Loader'
-import { useGetVendorDetailsQuery } from '../../redux/slices/vendorsApiSlice'
+import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
 import { useParams } from 'react-router-dom'
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
-import ProductCard from '../../components/Product/ProductCard'
+// import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+// import ProductCard from '../../components/Product/ProductCard'
 import CategorySidebar from '../../components/Categories/CategorySideBar'
 import { BrandHeader } from '../../components/Brands/BrandHeader'
 
 const ShopViewPage = () => {
-    const { vendorId } = useParams()
+    const { slug } = useParams()
 
-    const { data: vendor, isLoading } = useGetVendorDetailsQuery(vendorId)
-    const { data: vendorProducts, isLoading: isVendorProductsLoading } =
-        useGetProductsQuery(
-            {
-                userId: vendorId,
-            },
-            { skip: !vendorId }
-        )
+    const { data: vendor, isLoading } = useGetVendorBySlugQuery(slug)
+
+    console.log(vendor)
+    // const { data: vendorProducts, isLoading: isVendorProductsLoading } =
+    //     useGetProductsQuery(
+    //         {
+    //             userId: vendorId,
+    //         },
+    //         { skip: !vendorId }
+    //     )
 
     // Extract product count and any filters you want to pass to BrandHeader
-    const productCount = vendorProducts?.doc?.length || 0
+    const productCount = vendor?.doc?.products?.length || 0
 
     return isLoading ? (
         <Loader />
-    ) : vendor ? (
+    ) : vendor && vendor?.doc ? (
         <div className="">
             <ShopBanner vendor={vendor?.doc} />
 
             {/* Space between banner and brand header */}
             <div className="mt-6 lg:mt-8">
                 <BrandHeader
-                    style={{ marginTop: '10px' }}  // Spacing between banner and header
+                    style={{ marginTop: '10px' }} // Spacing between banner and header
                     products={{ results: productCount }}
                     filters={{ brand: vendor?.doc?.name }}
                 />
@@ -42,7 +44,7 @@ const ShopViewPage = () => {
                 <div className="hidden lg:block lg:w-1/4 bg-white border border-gray-200 rounded-md shadow-lg p-4">
                     <CategorySidebar />
                 </div>
-                <div className="w-full lg:w-3/4 p-4">
+                {/* <div className="w-full lg:w-3/4 p-4">
                     {isVendorProductsLoading ? (
                         <Loader />
                     ) : vendorProducts && vendorProducts?.doc?.length ? (
@@ -56,7 +58,7 @@ const ShopViewPage = () => {
                             This vendor has no products.
                         </p>
                     )}
-                </div>
+                </div> */}
             </div>
         </div>
     ) : (

@@ -93,7 +93,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: 'order-view/:id',
-                        element: <OrderView/>,
+                        element: <OrderView />,
                     },
                     {
                         path: 'inbox',
@@ -118,8 +118,8 @@ const router = createBrowserRouter([
                     {
                         path: 'my-address',
                         element: <MyAddress />,
-                      },
-                      
+                    },
+
                     {
                         path: 'refer-earn',
                         element: <ReferEarn />,
@@ -135,7 +135,7 @@ const router = createBrowserRouter([
                 ],
             },
             {
-                path: 'shop-view/:vendorId',
+                path: 'shop-view/:slug',
                 element: <ShopViewPage />,
             },
             {
@@ -213,7 +213,7 @@ const router = createBrowserRouter([
             },
             {
                 path: '/emailverification',
-                element: <EmailVerification/>,
+                element: <EmailVerification />,
             },
 
             {

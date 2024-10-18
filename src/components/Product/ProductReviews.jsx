@@ -2,7 +2,6 @@
 import { Rating } from '@material-tailwind/react'
 import { timeAgo } from '../../utils'
 import keys from './../../config/keys'
-import AddReview from './AddReview'
 
 let reviews = []
 
@@ -14,12 +13,12 @@ const calculateRatingPercentage = (rating, totalReviews) => {
 
     return (ratingCount / totalReviews) * 100
 }
+
 const handleReviewSubmit = async (data) => {
     // Handle the review submission, e.g., send data to the server
     console.log('Review submitted:', data)
 }
 const ProductReviews = ({ product }) => {
-    console.log(product)
     reviews = product?.reviews || []
 
     console.log(reviews)
@@ -67,48 +66,50 @@ const ProductReviews = ({ product }) => {
                 <h2 className="text-xl font-semibold mb-4 text-center bg-gray-100 py-2 px-4">
                     Product Review
                 </h2>
-                {reviews.length > 0 ? (
-                    reviews.map((review) => (
-                        <div
-                            key={review._id}
-                            className="flex justify-between items-start mb-4 py-2 border-b"
-                        >
-                            <div className="flex items-center gap-4">
-                                <img
-                                    src={
-                                        review?.customer?.image
-                                            ? `${keys.BUCKET_URL}${review.customer.image}`
-                                            : 'https://shorturl.at/KREMs'
-                                    }
-                                    alt={`${review.customer.firstName} avatar`}
-                                    className="w-10 h-10 object-contain rounded-full"
-                                />
-                                <div>
-                                    <h3 className="font-bold">
-                                        {review.customer.firstName} {" "}
-                                        {review.customer.lastName}
-                                    </h3>
-                                    <Rating
-                                        readonly
-                                        value={Math.round(review.rating)}
+                {reviews.length ? (
+                    reviews.map((review) => {
+                        console.log(review)
+                        return (
+                            <div
+                                key={review._id}
+                                className="flex justify-between items-start mb-4 py-2 border-b"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <img
+                                        src={
+                                            review?.customer?.image
+                                                ? `${keys.BUCKET_URL}${review?.customer?.image}`
+                                                : 'https://shorturl.at/KREMs'
+                                        }
+                                        alt={`${review.customer.firstName} avatar`}
+                                        className="w-10 h-10 object-contain rounded-full"
                                     />
+                                    <div>
+                                        <h3 className="font-bold">
+                                            {`${review.customer.firstName} ${review.customer.lastName}`}
+                                        </h3>
+                                        <Rating
+                                            readonly
+                                            value={Math.round(review.rating)}
+                                        />
+                                    </div>
                                 </div>
+                                <div className="w-1/2 text-left">
+                                    <p>{review.review}</p>
+                                </div>
+                                <p className="text-gray-500 text-sm">
+                                    {timeAgo(review.updatedAt)}
+                                </p>
                             </div>
-                            <div className="w-1/2 text-left">
-                                <p>{review.review}</p>
-                            </div>
-                            <p className="text-gray-500 text-sm">
-                                {timeAgo(review.updatedAt)}
-                            </p>
-                        </div>
-                    ))
+                        )
+                    })
                 ) : (
                     <p className="text-lg text-center p-4">
                         No product reviews have been added yet.
                     </p>
                 )}
             </div>
-            
+
         </div>
     )
 }
