@@ -48,6 +48,11 @@ const ProductCard = ({ data: product }) => {
 						<p className="font-medium truncate mb-2 group-hover:text-primary-400 transition-all ease-in">
 							{product.name}
 						</p>
+							{/* add the star with number of reviews */}
+							<div className="flex items-center text-yellow-600 gap-1 ">
+								★
+								<p className="text-sm text-gray-500">({product?.numReviews || "0" })</p>
+						</div>
 						<div className="flex items-center justify-between">
 							{oldPrice > product.price && (
 								<p className="text-sm line-through text-gray-500">
