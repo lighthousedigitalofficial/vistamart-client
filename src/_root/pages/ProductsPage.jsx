@@ -45,7 +45,7 @@ export const ProductsPage = () => {
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
                     {products.doc && products.doc.length ? (
-                        <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
+                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
                             {products?.doc?.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
