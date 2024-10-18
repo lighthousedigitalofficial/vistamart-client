@@ -160,8 +160,8 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-5">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-sm p-6">
+    <div className="border border-primary-100 rounded-lg min-h-screen">
+      <div className="max-w-4xl mx-auto bg-white ">
         <h1 className="text-2xl font-semibold mb-5">My Order</h1>
 
         {/* Order List Header */}
