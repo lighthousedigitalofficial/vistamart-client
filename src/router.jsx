@@ -228,7 +228,7 @@ const router = createBrowserRouter([
     },
     {
         path: 'auth',
-        element: ((<AuthLayout />), (<ScrollToTop />)),
+        element: <AuthLayout />,
         children: [
             {
                 path: 'vendor/login',
