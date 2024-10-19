@@ -95,11 +95,11 @@ const Product = ({ product }) => {
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="text-xl font-bold text-primary-400">
-                            ${product.price.toFixed(2)}
+                            Rs.{product.price.toFixed(2)}
                         </p>
                         {oldPrice > product.price && (
                             <p className="text-sm font-semibold line-through text-gray-500">
-                                ${oldPrice.toFixed(2)}
+                                Rs.{oldPrice.toFixed(2)}
                             </p>
                         )}
                     </div>
@@ -131,7 +131,7 @@ const Product = ({ product }) => {
                             Total Price:
                         </h3>
                         <p className="text-xl font-bold text-primary-400 transition-all duration-100 ease-in">
-                            ${(product.price * qty).toFixed(2)}
+                            Rs.{(product.price * qty).toFixed(2)}
                         </p>
                         <span className="mx-2 px-1 text-xs">(Tax : incl.)</span>
                     </div>

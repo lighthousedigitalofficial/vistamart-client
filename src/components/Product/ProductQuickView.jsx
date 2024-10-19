@@ -132,11 +132,11 @@ const ProductQuickView = ({ productId, onClose }) => {
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="text-lg font-bold text-primary-400">
-                            ${product?.doc.price.toFixed(2)}
+                            Rs {product?.doc.price.toFixed(2)}
                         </p>
                         {oldPrice > product.doc.price && (
                             <p className="text-sm font-semibold line-through text-gray-500">
-                                ${oldPrice.toFixed(2)}
+                                Rs {oldPrice.toFixed(2)}
                             </p>
                         )}
                     </div>
@@ -164,9 +164,11 @@ const ProductQuickView = ({ productId, onClose }) => {
                             )}
                         </div>
                     )}
-                    <div className="flex items-center gap-2">
-                        <h3 className="font-bold">Total Price:</h3>
-                        <p>${(product.doc.price * qty).toFixed(2)}</p>
+                    <div className="flex items-center gap-2 font-bold">
+                        <h3 className="">Total Price:</h3>
+                        <p className="text-primary-400 ">
+                            Rs.{(product.doc.price * qty).toFixed(2)}
+                        </p>
                         <span className="text-xs">(Tax included)</span>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-3">
