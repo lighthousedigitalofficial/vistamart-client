@@ -59,7 +59,7 @@ const ProductCard = ({ data: product }) => {
 									${oldPrice?.toFixed(2)}
 								</p>
 							)}
-							<p className="text-sm font-bold">${product.price?.toFixed(2)}</p>
+							<p className="text-sm font-bold">Rs {product.price?.toFixed(2)}</p>
 						</div>
 					</Link>
 				</div>
