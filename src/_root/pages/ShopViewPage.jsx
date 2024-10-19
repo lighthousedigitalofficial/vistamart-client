@@ -3,6 +3,7 @@ import Loader from '../../components/Loader'
 import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
 import { useParams } from 'react-router-dom'
 // import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+
 // import ProductCard from '../../components/Product/ProductCard'
 import CategorySidebar from '../../components/Categories/CategorySideBar'
 import { BrandHeader } from '../../components/Brands/BrandHeader'

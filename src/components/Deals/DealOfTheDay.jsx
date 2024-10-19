@@ -12,7 +12,7 @@ export function DealOfTheDay({ image, title, price }) {
 	}, [oldPrice, price]);
 
 	return (
-		<div className="p-4 bg-primary-50 border min-h-48 border-primary-400 shadow-sm rounded-lg ">
+		<div className="p-4 bg-primary-50 border min-w-64 min-h-48 border-primary-400 shadow-sm rounded-lg ">
 			<h2 className="uppercase text-base font-bold text-center text-primary-500 py-4">
 				Deal of the day
 			</h2>
