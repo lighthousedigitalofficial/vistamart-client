@@ -21,7 +21,7 @@ const menuItems = [
     { icon: FaHeart, label: 'Wish List', to: '/profile/wish-list' },
     // { icon: FaWallet, label: "My Wallet", to: "/profile/my-wallet" },
     // { icon: FaStar, label: "My Loyalty Point", to: "/profile/my-loyalty-point" },
-    { icon: FaInbox, label: 'Inbox', to: '/profile/inbox', chip: 14 },
+    // { icon: FaInbox, label: 'Inbox', to: '/profile/inbox', chip: 14 },
     { icon: FaHome, label: 'My Address', to: '/profile/my-address' },
     {
         icon: FaTicketAlt,

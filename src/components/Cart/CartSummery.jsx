@@ -7,12 +7,12 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
     const btnDisable = cart?.totalQty === 0
 
     return (
-        <div className="lg:w-[600px] w-full">
+        <div className="lg:w-1/2 w-full">
             <div className="bg-white shadow-md rounded-lg p-2">
                 {cart?.totalDiscount && (
                     <h2 className="text-lg text-primary-400 border-b flex justify-center items-center gap-2 text-center font-semibold mb-2">
                         <MdOutlineCelebration className="w-6 h-6" />
-                        <span>You have Saved ${cart?.totalDiscount}!</span>
+                        <span>You have Saved Rs. {cart?.totalDiscount}!</span>
                     </h2>
                 )}
 

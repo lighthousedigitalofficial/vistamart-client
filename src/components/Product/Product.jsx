@@ -48,13 +48,13 @@ const Product = ({ product }) => {
 
 	return (
 		<div className="flex flex-col w-full p-4 bg-white rounded-lg">
-			<div className="flex flex-col md:flex-row gap-10">
-				<div className="lg:w-1/2 w-full">
-					<div className="shadow-md overflow-hidden">
+			<div className="flex flex-col md:flex-row h-[50%] gap-10">
+				<div className="lg:w-1/2 w-full ">
+					<div className="h-[60vh] overflow-hidden">
 						<img
 							src={`${mainImage}` || keys.DEFAULT_IMG}
 							alt="Main product image"
-							className="w-[24rem] h-[24rem]  object-contain p-2 transition-transform duration-300 ease-out"
+							className="w-full object-cover p-2 transition-transform duration-300 ease-out"
 						/>
 					</div>
 					<div className="flex justify-center mt-4 ">
@@ -63,13 +63,13 @@ const Product = ({ product }) => {
 								key={index}
 								src={`${src}` || keys.DEFAULT_IMG}
 								alt={`Thumbnail ${index + 1}`}
-								className="w-16 h-16 md:w-20 md:h-20 object-contain mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
+								className="w-16 h-16 md:w-20 md:h-20 object-cover mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
 								onClick={() => setMainImage(src)}
 							/>
 						))}
 					</div>
 				</div>
-				<div className="w-full flex-grow flex flex-col gap-4">
+				<div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
 					<h2 className="text-lg md:text-xl">{product.name}</h2>
 					<div className="flex items-center mb-2">
 						<span className="mx-2 text-gray-600 ">{product?.rating || 0}</span>
@@ -115,14 +115,14 @@ const Product = ({ product }) => {
 						</p>
 						<span className="mx-2 px-1 text-xs">(Tax : incl.)</span>
 					</div>
-					<div className="flex gap-3 w-full">
+					<div className="flex gap-6 w-full">
 						<button
 							onClick={buyNowHandler}
-							className="btn bg-orange-500 hover:bg-orange-600 focus: text-white"
+							className="btn bg-orange-500 hover:bg-orange-600 focus: text-white px-10"
 						>
 							Buy now
 						</button>
-						<button onClick={addToCartHandler} className="btn primary-btn">
+						<button onClick={addToCartHandler} className="btn primary-btn px-10">
 							{isProductAddToCart ? "Update Cart" : "Add to cart"}
 						</button>
 						<WishListIcon productId={product._id} />

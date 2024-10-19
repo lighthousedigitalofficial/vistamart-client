@@ -1,58 +1,41 @@
-/* eslint-disable react/prop-types */
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-
-import { FaHeart } from 'react-icons/fa'
-import toast from 'react-hot-toast'
-import {
-    useAddWishListMutation,
-    useGetWishListByIdQuery,
-} from '../../redux/slices/wishlistApiSlice'
-
-const WishListIcon = ({ productId, onClose }) => {
-    const { userInfo } = useSelector((state) => state.auth)
-
-    const { refetch } = useGetWishListByIdQuery(userInfo?.user?._id)
-
-    const navigate = useNavigate()
-
-    const [addWishList, { isLoading, error, isSuccess }] =
-        useAddWishListMutation()
-
-    useEffect(() => {
-        if (!isLoading && isSuccess) {
-            onClose && onClose()
-            toast.success('Product added to wishlist')
-        }
-    }, [isLoading, isSuccess, onClose])
-
-    const addToWishListHandler = async () => {
-        if (!userInfo || !userInfo?.user) {
-            toast.warning('You need to Sign in to view this feature.')
-            return navigate('/customer/auth/sign-in')
-        }
-
-        try {
-            const customerId = userInfo?.user?._id
-            await addWishList({ customerId, productId })
-            refetch()
-        } catch (err) {
-            toast.error(error?.data?.message)
-            console.log(err)
-        }
-    }
+import WishItem from './subcomponenets/WishItem'
+import img from '../../assets/empty_wishlist.png'
+const WishList = ({ customer, refetch }) => {
+    const wishlist = [
+        {
+            product: {
+                _id: '1',
+                name: 'Product 1',
+                price: 100,
+                discount: 10,
+                thumbnail: 'https://tmart-8.myshopify.com/cdn/shop/products/04_cd10a204-6265-416d-a026-5f9ef75f611d_grande.jpg?v=1517554070',
+            },
+        },
+    ]
 
     return (
-        <div>
-            <button
-                onClick={addToWishListHandler}
-                className="btn border border-gray-300 text-primary-500 py-2 px-4 rounded flex items-center justify-center"
-            >
-                <FaHeart className="mr-2" />
-            </button>
+        <div className="border border-primary-100 rounded-lg min-h-screen">
+            <div className="max-w-5xl mx-auto bg-white rounded-lg  p-6">
+                <h1 className="text-2xl font-semibold mb-5">My Wishlist</h1>
+                {wishlist.length > 0 ? (
+                    wishlist.map((item) => (
+                        <WishItem
+                            key={item.product._id}
+                            product={item.product}
+                            customer={customer}
+                            refetch={refetch}
+                        />
+                    ))
+                ) : (
+                    <div className="flex flex-col items-center justify-center">
+                        {/* <FaHeartBroken className="text-gray-400 text-6xl mb-4" /> */}
+                        {/* <p className="text-gray-500 text-lg">No wishlist items available</p> */}
+                        <img src={img} alt="empty_wishlist" />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
 
-export default WishListIcon
+export default WishList

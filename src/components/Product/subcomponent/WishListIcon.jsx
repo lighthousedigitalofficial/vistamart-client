@@ -45,9 +45,9 @@ const WishListIcon = ({ productId, onClose }) => {
         <div>
             <button
                 onClick={addToWishListHandler}
-                className="btn border border-gray-300 text-primary-500 py-2 px-4 rounded flex items-center justify-center"
+                className="btn border border-pink-300 text-pink-500 py-3 rounded flex items-center justify-center"
             >
-                <FaHeart className="mr-2" />
+                 <FaHeart /> 
             </button>
         </div>
     )

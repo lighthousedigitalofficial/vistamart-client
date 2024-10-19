@@ -43,13 +43,20 @@ import ReturnPolicy from './_root/pages/ReturnPolicyPage'
 import CancellationPolicy from './_root/pages/CancellationPolicyPage'
 import SearchResultPage from './_root/pages/SearchResulstPage'
 import OrderView from './components/Product/OrderView'
+import CustomerReview from './components/Product/CustomerReview'
+import { productReviews } from './utils'
+import OrderDetail from './components/Profile/Order/OrderDetail'
 import OtpVerification from './_auth/Forms/OtpVerification'
 import EmailVerification from './_auth/Forms/EmailVerification'
+import ScrollToTop from './components/ScrollToTop'
 
 const router = createBrowserRouter([
     {
         path: '',
-        element: <RootLayout />,
+        element: (<>
+            <RootLayout />,
+            <ScrollToTop />
+          </>),
         children: [
             {
                 path: '',
@@ -83,6 +90,10 @@ const router = createBrowserRouter([
                     {
                         path: 'my-orders',
                         element: <MyOrder />,
+                    },
+                    {
+                        path: 'order/:orderId',
+                        element: <OrderDetail />,
                     },
                     {
                         path: 'order-view/:id',
@@ -217,13 +228,21 @@ const router = createBrowserRouter([
     },
     {
         path: 'auth',
-        element: <AuthLayout />,
+        element: (
+            <AuthLayout />,
+            <ScrollToTop />
+        ),
         children: [
             {
                 path: 'vendor/login',
                 element: <VendorLoginForm />,
             },
         ],
+    },
+    {
+        path: 'reviews',
+        element: <CustomerReview  reviews={productReviews} />,
+
     },
     // {
     // 	path: "/customer/auth",

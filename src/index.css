@@ -76,7 +76,7 @@
     }
 
     .product__img {
-        @apply w-full h-48 p-4  object-contain rounded-lg transform transition-transform duration-300 group-hover:scale-110;
+        @apply w-full h-48 object-contain transform transition-transform duration-300 group-hover:scale-110;
     }
     .navbar-item {
         @apply text-white hover:text-primary-100 transition-colors cursor-pointer;
