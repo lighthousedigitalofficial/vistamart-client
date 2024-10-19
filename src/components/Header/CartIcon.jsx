@@ -45,7 +45,7 @@ const CartIcon = () => {
                     <button className="hidden md:block text-center w-24 border-none lg:flex flex-col text-sm items-center justify-center">
                         <span className="text-gray-600">My cart</span>
                         <div className="text-gray-900 flex-center gap-2 font-bold">
-                            <span>${totalPrice?.toLocaleString()}</span>
+                            <span>Rs. {totalPrice?.toLocaleString()}</span>
                             <MdArrowDropDown />
                         </div>
                     </button>
