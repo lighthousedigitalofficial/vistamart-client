@@ -1,4 +1,4 @@
-import { FLASHDEALS_URL, PRODUCTS_URL } from '../constants'
+import { FLASHDEALS_URL, PRODUCT_REVIEW_URL, PRODUCTS_URL } from '../constants'
 import { apiSlice } from './apiSlice'
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -54,7 +54,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         }),
         createReview: builder.mutation({
             query: (data) => ({
-                url: `${PRODUCTS_URL}/${data.productId}/reviews`,
+                url: PRODUCT_REVIEW_URL,
                 method: 'POST',
                 body: data,
             }),

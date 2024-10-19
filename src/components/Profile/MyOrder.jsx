@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Loader from '../Loader'
 import { IoEyeSharp } from 'react-icons/io5'
 import { Link } from 'react-router-dom'
+import img from '../../assets/empty-cart.webp'
 
 const MyOrders = () => {
     const { user } = useSelector((state) => state.auth.userInfo)
@@ -107,8 +108,59 @@ const MyOrders = () => {
             )}
         </div>
     ) : (
-        <p>Something went wrong.</p>
+        <div>
+            <p>No orders found!</p>
+            <img src={img} alt="" />
+        </div>
     )
 }
 
 export default MyOrders
+
+// OrderPage.jsx
+
+// import OrderCard from "./subcomponenets/OrderCard";
+ 
+// const OrderPage = () => {
+//   // Sample order data (this can come from an API)
+
+
+//   const handleViewOrder = (Id) => {
+//     // alert(`Viewing details for order ${orderId}`);
+//     navigator(`/profile/order/${Id}`);
+//   };
+
+//   const handleDownloadOrder = (Id) => {
+//     alert(`Downloading invoice for order ${Id}`);
+//   };
+
+//   return (
+//     <div className="border border-primary-100 rounded-lg min-h-screen">
+//       <div className="max-w-4xl mx-auto bg-white ">
+//         <h1 className="text-2xl font-semibold mb-5">My Order</h1>
+
+//         {/* Order List Header */}
+//         <div className="border-b-2 bg-green-50 p-2 pb-2 mb-5">
+//           <div className="grid grid-cols-5 text-center text-gray-600 font-semibold">
+//             <div className="col-span-2 text-left">Order List</div>
+//             <div>Status</div>
+//             <div>Total</div>
+//             <div>Action</div>
+//           </div>
+//         </div>
+
+//         {/* Order List */}
+//         {orders.map((order) => (
+//           <OrderCard
+//             key={order.id}
+//             data={order}
+//             onView={() => handleViewOrder(order.id)}
+//             onDownload={() => handleDownloadOrder(order.id)}
+//           />
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default OrderPage;

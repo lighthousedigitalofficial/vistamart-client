@@ -5,8 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import googleIcon from './../../assets/socials-icons/google-icon.png'
-import facebookIcon from './../../assets/socials-icons/fb-icon.png'
+// import googleIcon from './../../assets/socials-icons/google-icon.png'
+// import facebookIcon from './../../assets/socials-icons/fb-icon.png'
 import { setCredentials } from '../../redux/slices/authSlice'
 import { useCustomerLoginMutation } from '../../redux/slices/customersApiSlice'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
@@ -118,12 +118,12 @@ const SignInForm = () => {
                     </div>
                 </div>
                 <div>
-                    <button type="submit" className="w-full btn primary-btn">
+                    <button type="submit" className="w-full btn primary-btn bg-primary-400">
                         {isLoading ? 'Loading...' : 'Login'}
                     </button>
                 </div>
             </form>
-            <div className="mt-4">
+            {/* <div className="mt-4">
                 <p className="text-sm text-center text-gray-500">
                     Or continue with
                 </p>
@@ -143,13 +143,13 @@ const SignInForm = () => {
                         />
                     </button>
                 </div>
-            </div>
+            </div> */}
             <div>
                 <p className="text-center mt-4">
                     Enjoy New experience
                     <Link
                         to="/customer/auth/sign-up"
-                        className="text-blue-500 underline hover:no-underline ml-2"
+                        className="text-primary-400 underline hover:no-underline ml-2"
                     >
                         Sign up
                     </Link>

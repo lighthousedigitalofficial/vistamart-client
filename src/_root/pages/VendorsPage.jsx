@@ -19,7 +19,7 @@ const VendorsPage = () => {
         const keywords = e.target.value
         setKeywords(keywords)
 
-        const filteredItems = vendors.filter((seller) =>
+        const filteredItems = vendors?.doc?.filter((seller) =>
             seller.shopName.toLowerCase().includes(keywords.toLowerCase())
         )
 
@@ -46,20 +46,24 @@ const VendorsPage = () => {
                         value={keywords}
                         onChange={handleInputChange}
                     />
-                    {/* <button className="p-2 bg-primary-400 text-white rounded rounded-l-none outline-none border-none">
-						Serach
-					</button> */}
+                    <button className="p-2 bg-primary-400 text-white rounded rounded-l-none outline-none border-none">
+                        Serach
+                    </button>
                 </div>
             </div>
             {isLoading ? (
                 <Loader />
             ) : vendors && filteredVendors ? (
-                <div className="">
+                <div className="mb-4">
                     {filteredVendors?.length ? (
                         <StoreList sellers={filteredVendors} />
                     ) : (
                         keywords && (
-                            <p className="w-full bg-blue-50 text-lg p-8">{`This Store "${keywords}" not found!.. Please try another keywords`}</p>
+                            <p className="w-full bg-blue-50 text-lg p-8">
+                                This Store{' '}
+                                <span className="font-bold">{`"${keywords}"`}</span>{' '}
+                                not found!.. Please try another keywords`
+                            </p>
                         )
                     )}
                 </div>

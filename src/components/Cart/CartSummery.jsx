@@ -7,12 +7,12 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
     const btnDisable = cart?.totalQty === 0
 
     return (
-        <div className="lg:w-[600px] w-full">
+        <div className="lg:w-1/2 w-full">
             <div className="bg-white shadow-md rounded-lg p-2">
                 {cart?.totalDiscount && (
                     <h2 className="text-lg text-primary-400 border-b flex justify-center items-center gap-2 text-center font-semibold mb-2">
                         <MdOutlineCelebration className="w-6 h-6" />
-                        <span>You have Saved ${cart?.totalDiscount}!</span>
+                        <span>You have Saved Rs. {cart?.totalDiscount}!</span>
                     </h2>
                 )}
 
@@ -21,23 +21,23 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
                         <div className=" border-gray-200 py-2  text-gray-800 font-semibold">
                             <div className="flex justify-between py-1">
                                 <span>Sub total</span>
-                                <span>${cart?.subTotal || 0}</span>
+                                <span>Rs. {cart?.subTotal || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Tax</span>
-                                <span>${cart?.taxPrice || 0}</span>
+                                <span>Rs. {cart?.taxPrice || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Shipping</span>
-                                <span>${cart?.totalShippingPrice || 0}</span>
+                                <span>Rs. {cart?.totalShippingPrice || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Discount on product</span>
-                                <span>-${cart?.totalDiscount || 0}</span>
+                                <span>Rs. -{cart?.totalDiscount || 0}</span>
                             </div>
                             <div className="flex justify-between py-2 border-t border-gray-200">
                                 <span className="text-primary-600">Total</span>
-                                <span>${cart?.totalPrice || 0}</span>
+                                <span>Rs. {cart?.totalPrice || 0}</span>
                             </div>
                         </div>
                     </div>
