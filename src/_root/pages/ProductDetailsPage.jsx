@@ -14,13 +14,10 @@ import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
 import AddReview from '../../components/Product/AddReview'
-// import { useState } from "react";
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
-    //   const [activeSection, setActiveSection] = useState("overview");
 
-    // const { data: product, isLoading } = useGetProductDetailsQuery(slug)
     const {
         data: product,
         isLoading,
@@ -28,8 +25,6 @@ const ProductDetailsPage = () => {
     } = useGetProductBySlugQuery(slug, {
         skip: !slug,
     })
-
-    console.log(product)
 
     const { data: products, isLoading: isProductsLoading } =
         useGetProductsQuery(
@@ -56,7 +51,7 @@ const ProductDetailsPage = () => {
                             />
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            {/* <VendorRightBar vendorId={product?.userId} /> */}
+                            <VendorRightBar vendorId={product?.userId} />
                         </div>
                     </div>
                 </div>

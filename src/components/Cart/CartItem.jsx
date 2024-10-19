@@ -40,7 +40,7 @@ const CartItem = ({ item }) => {
                 </Link>
                 <div className="flex flex-col justify-between items-start">
                     <Link
-                        to={`/products/${item._id}`}
+                        to={`/products/${item.slug}`}
                         className="cursor-pointer hover:text-gray-600"
                     >
                         <Typography
