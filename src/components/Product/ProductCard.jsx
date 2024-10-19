@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaStar } from "react-icons/fa";
 import ProductDialog from "./ProductDialog";
 import { Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
@@ -24,7 +24,7 @@ const ProductCard = ({ data: product }) => {
 
 	return (
 		product && (
-			<div className="bg-white overflow-hidden shadow-sm shadow-primary-100 w-full">
+			<div className="bg-white overflow-hidden shadow-sm  w-full">
 				<div className="relative  overflow-hidden group cursor-pointer z-10">
 					{product?.discountAmount > 0 && (
 						<div className="discount-badge">-${product?.discountAmount}</div>
@@ -50,7 +50,7 @@ const ProductCard = ({ data: product }) => {
 						</p>
 							{/* add the star with number of reviews */}
 							<div className="flex items-center text-yellow-600 gap-1 ">
-								★
+								<FaStar/>
 								<p className="text-sm text-gray-500">({product?.numReviews || "0" })</p>
 						</div>
 						<div className="flex items-center justify-between">
@@ -59,7 +59,7 @@ const ProductCard = ({ data: product }) => {
 									${oldPrice?.toFixed(2)}
 								</p>
 							)}
-							<p className="text-sm font-bold">${product.price?.toFixed(2)}</p>
+							<p className="text-sm font-bold">Rs {product.price?.toFixed(2)}</p>
 						</div>
 					</Link>
 				</div>

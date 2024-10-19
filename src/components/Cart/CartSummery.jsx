@@ -21,23 +21,23 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
                         <div className=" border-gray-200 py-2  text-gray-800 font-semibold">
                             <div className="flex justify-between py-1">
                                 <span>Sub total</span>
-                                <span>${cart?.subTotal || 0}</span>
+                                <span>Rs. {cart?.subTotal || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Tax</span>
-                                <span>${cart?.taxPrice || 0}</span>
+                                <span>Rs. {cart?.taxPrice || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Shipping</span>
-                                <span>${cart?.totalShippingPrice || 0}</span>
+                                <span>Rs. {cart?.totalShippingPrice || 0}</span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Discount on product</span>
-                                <span>-${cart?.totalDiscount || 0}</span>
+                                <span>Rs. -{cart?.totalDiscount || 0}</span>
                             </div>
                             <div className="flex justify-between py-2 border-t border-gray-200">
                                 <span className="text-primary-600">Total</span>
-                                <span>${cart?.totalPrice || 0}</span>
+                                <span>Rs. {cart?.totalPrice || 0}</span>
                             </div>
                         </div>
                     </div>

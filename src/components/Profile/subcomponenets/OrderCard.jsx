@@ -5,16 +5,12 @@ import { Link } from 'react-router-dom';
 
 const OrderCard = ({data, onView, onDownload }) => {
 
-  const { img, orderId, items, date, status, total } = data;
+  const {  orderId, items, date, status, total } = data;
   return (
     <div className="flex items-center justify-between border bg-white my-2 rounded-md p-4  transition">
       {/* Order Details */}
       <div className="flex items-center">
-        <img
-          src={img}
-          alt="Shop Logo"
-          className="w-16 h-16 rounded-md border  mr-4"
-        />
+        
         <div>
           <p className="font-semibold">Order #{orderId}</p>
           <p className="text-sm text-gray-500">{items} Items</p>
