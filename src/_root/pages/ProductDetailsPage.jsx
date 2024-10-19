@@ -21,7 +21,11 @@ const ProductDetailsPage = () => {
     //   const [activeSection, setActiveSection] = useState("overview");
 
     // const { data: product, isLoading } = useGetProductDetailsQuery(slug)
-    const { data: product, isLoading, refetch } = useGetProductBySlugQuery(slug, {
+    const {
+        data: product,
+        isLoading,
+        refetch,
+    } = useGetProductBySlugQuery(slug, {
         skip: !slug,
     })
 
@@ -46,10 +50,13 @@ const ProductDetailsPage = () => {
                         <div className="flex flex-col w-full lg:w-3/4">
                             <Overview />
                             <ProductReviews product={product?.doc} />
-                            <AddReview productId={product?.doc._id} refetch={refetch}/>
+                            <AddReview
+                                productId={product?.doc._id}
+                                refetch={refetch}
+                            />
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            <VendorRightBar vendorId={product?.userId} />
+                            {/* <VendorRightBar vendorId={product?.userId} /> */}
                         </div>
                     </div>
                 </div>
