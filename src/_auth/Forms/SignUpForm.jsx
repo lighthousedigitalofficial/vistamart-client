@@ -15,12 +15,15 @@ const schema = z.object({
     lastName: z.string().min(1, 'Last name is required'),
     email: z.string().email('Invalid email address'),
     password: z
-    .string()
+        .string()
         .min(8, 'Password must be at least 8 characters long')
         .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
         .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
         .regex(/[0-9]/, 'Password must contain at least one number')
-        .regex(/[^a-zA-Z0-9]/, 'Password must contain at least one special character'),
+        .regex(
+            /[^a-zA-Z0-9]/,
+            'Password must contain at least one special character'
+        ),
     confirmPassword: z
         .string()
         .min(8, 'Password must be at least 8 characters'),
@@ -178,7 +181,11 @@ const SignUpForm = () => {
                         onClick={handleTogglePassword}
                         className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg"
                     >
-                        {showPassword ? <FaRegEyeSlash className='mt-6'/> : <FaRegEye className='mt-6' />}
+                        {showPassword ? (
+                            <FaRegEyeSlash className="mt-6" />
+                        ) : (
+                            <FaRegEye className="mt-6" />
+                        )}
                     </button>
                     {errors.password && (
                         <p className="text-red-500 text-xs italic">
@@ -202,11 +209,15 @@ const SignUpForm = () => {
                         onClick={handleToggleConfirmPassword}
                         className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg leading-5"
                     >
-                        {showConfirmPassword ? <FaRegEyeSlash className='mt-6'/> : <FaRegEye className='mt-6'/>}
+                        {showConfirmPassword ? (
+                            <FaRegEyeSlash className="mt-6" />
+                        ) : (
+                            <FaRegEye className="mt-6" />
+                        )}
                     </button>
-                    {errors.confirmPassword && (
+                    {errors.password && (
                         <p className="text-red-500 text-xs italic">
-                            {errors.confirmPassword.message}
+                            {errors.password.message}
                         </p>
                     )}
                 </div>
