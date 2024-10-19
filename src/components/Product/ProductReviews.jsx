@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { Rating } from '@material-tailwind/react'
 import { timeAgo } from '../../utils'
 import keys from './../../config/keys'
+import Rating from '@mui/material/Rating'
 
 let reviews = []
 
@@ -17,19 +17,23 @@ const calculateRatingPercentage = (rating, totalReviews) => {
 const ProductReviews = ({ product }) => {
     reviews = product?.reviews || []
 
-    console.log(reviews)
-
     return (
         <div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
             <div className="text-center mb-4">
                 <h1 className="text-3xl font-bold">{product.rating || 0}</h1>
-                <Rating readonly value={Math.round(product.rating) || 0} />
+                <Rating
+                    name="half-rating-read"
+                    defaultValue={0}
+                    value={product?.rating}
+                    precision={0.5}
+                    readOnly
+                />
                 <p className="text-gray-600">
                     {product.numOfReviews || 0} Ratings
                 </p>
             </div>
             <div className="mb-4 px-8">
-                {['Excellent', 'Good', 'Average', 'Below Average', 'Poor'].map(
+                {['Excellent', 'Good', 'Average', 'Below Average', 'Poor']?.map(
                     (label, index) => {
                         const rating = 5 - index
                         const percentage =
@@ -40,7 +44,6 @@ const ProductReviews = ({ product }) => {
                                   )
                                 : 0
 
-                        console.log(product.numOfReviews)
                         return (
                             <div
                                 key={index}
@@ -49,10 +52,11 @@ const ProductReviews = ({ product }) => {
                                 <p className="w-36">{label}</p>
                                 <div className="flex-1 bg-gray-200 h-1 rounded-lg overflow-hidden">
                                     <div
-                                        className="bg-primary-500 h-full"
+                                        className="bg-primary-300 h-full"
                                         style={{ width: `${percentage}%` }}
                                     ></div>
                                 </div>
+                                {/* <p>{`${percentage}%`}</p> */}
                             </div>
                         )
                     }
@@ -62,7 +66,7 @@ const ProductReviews = ({ product }) => {
                 <h2 className="text-xl font-semibold mb-4 text-center bg-gray-100 py-2 px-4">
                     Product Review
                 </h2>
-                {reviews && !reviews.includes(null) ? (
+                {reviews && reviews.length ? (
                     reviews.map((review) => {
                         console.log(review)
                         return (
@@ -85,8 +89,11 @@ const ProductReviews = ({ product }) => {
                                             {`${review.customer.firstName} ${review.customer.lastName}`}
                                         </h3>
                                         <Rating
-                                            readonly
-                                            value={Math.round(review.rating)}
+                                            name="half-rating-read"
+                                            defaultValue={0}
+                                            value={product?.rating}
+                                            precision={0.5}
+                                            readOnly
                                         />
                                     </div>
                                 </div>

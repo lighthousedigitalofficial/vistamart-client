@@ -4,13 +4,16 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { toast } from 'react-hot-toast'
 import PropTypes from 'prop-types' // Import PropTypes
-import StarRating from '../shared/StarRating'
 import { useCreateReviewMutation } from '../../redux/slices/productsApiSlice'
+import Rating from '@mui/material/Rating'
 
 // Define the schema using Zod
 const reviewSchema = z.object({
-    rating: z.number().min(1, 'Please give a rating').max(5, 'Rating must be between 1 and 5'),
-    comment: z.string().min(10, 'Review must be at least 10 characters long'),
+    rating: z
+        .number()
+        .min(1, 'Please give a rating')
+        .max(5, 'Rating must be between 1 and 5'),
+    comment: z.string().min(4, 'Review must be at least 4 characters long'),
 })
 
 const AddReview = ({ productId, refetch }) => {
@@ -20,12 +23,12 @@ const AddReview = ({ productId, refetch }) => {
     const [rating, setRating] = useState(0)
     const [createReview, { isLoading }] = useCreateReviewMutation() // Use the mutation hook with loading state
 
-    const handleSubmit = async (data) => {
+    const onSubmit = async (data) => {
         try {
             const finalData = {
-                review: data.comment, 
-                rating, 
-                productId
+                review: data.comment,
+                rating,
+                productId,
             }
 
             console.log(finalData)
@@ -42,19 +45,27 @@ const AddReview = ({ productId, refetch }) => {
 
     return (
         <FormProvider {...methods}>
-            <form onSubmit={methods.handleSubmit(handleSubmit)} className="space-y-4 border rounded-lg p-4">
+            <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                className="space-y-4 border rounded-lg p-4"
+            >
                 <div>
                     <label className="input-label">Rate this Product</label>
                     <Controller
                         name="rating"
                         control={methods.control}
+                        rules={{ required: 'Rating is required' }} // Validation rule
                         render={({ field }) => (
-                            <StarRating
-                                rating={rating}
-                                onRatingChange={(newRating) => {
-                                    setRating(newRating)
-                                    field.onChange(newRating)
+                            <Rating
+                                name="half-rating"
+                                value={rating}
+                                precision={0.5}
+                                onChange={(event, newValue) => {
+                                    setRating(newValue)
+                                    field.onChange(newValue) // Update react-hook-form value
                                 }}
+                                onBlur={field.onBlur} // Call onBlur to trigger validation
+                                className="mt-1" // Margin for spacing
                             />
                         )}
                     />
@@ -67,7 +78,9 @@ const AddReview = ({ productId, refetch }) => {
                 <div>
                     <label className="input-label">Reviews</label>
                     <textarea
-                        {...methods.register('comment')}
+                        {...methods.register('comment', {
+                            required: 'Comment is required',
+                        })} // Add validation
                         className="input"
                         rows="4"
                     />
@@ -83,7 +96,7 @@ const AddReview = ({ productId, refetch }) => {
                         className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         disabled={isLoading} // Disable the button while loading
                     >
-                        {isLoading ? 'Submitting...' : 'Submit Review'} 
+                        {isLoading ? 'Submitting...' : 'Submit Review'}
                     </button>
                 </div>
             </form>
@@ -94,7 +107,7 @@ const AddReview = ({ productId, refetch }) => {
 // Add prop types validation
 AddReview.propTypes = {
     productId: PropTypes.string.isRequired,
-    
+    refetch: PropTypes.func.isRequired,
 }
 
 export default AddReview

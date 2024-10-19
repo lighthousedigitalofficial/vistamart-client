@@ -1,21 +1,45 @@
 import { Suspense, useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Header from '../components/Header'
 import StickyIcons from '../components/shared/StcikyIcons'
 import Contacts from '../components/shared/Contacts'
 import Footer from '../components/Footer'
 import Loader from '../components/Loader'
 
+import { validateSession } from '../_auth/api'
+import { useSelector } from 'react-redux'
+import SessionExpiredModal from './../components/shared/SessionExpiredModal'
+
 const RootLayout = () => {
     const [isLoading, setIsLoading] = useState(true)
+    const { userInfo } = useSelector((state) => state.auth)
+
+    const navigate = useNavigate()
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false)
-        }, 1000) // 1.5 seconds delay
+        const checkSession = async () => {
+            const token = userInfo?.accessToken
 
-        return () => clearTimeout(timer) // Clear the timer if the component unmounts
-    }, [])
+            if (token) {
+                try {
+                    await validateSession(token, setIsModalOpen)
+                } catch (error) {
+                    setIsModalOpen(true)
+                }
+            }
+
+            setIsLoading(false)
+        }
+
+        checkSession()
+    }, [userInfo?.accessToken])
+
+    const closeModal = () => {
+        setIsModalOpen(false)
+        navigate('/customer/auth/sign-in') // Redirect after closing the modal
+    }
 
     return isLoading ? (
         <Loader />
@@ -36,6 +60,7 @@ const RootLayout = () => {
             <StickyIcons />
             <Contacts />
             <Footer />
+            {isModalOpen && <SessionExpiredModal onClose={closeModal} />}
         </div>
     )
 }
