@@ -5,7 +5,7 @@ import keys from './../../config/keys'
 const CategoryItem = ({ category }) => {
     return (
         <Link
-            to={`/products?category=${category._id}`}
+            to={`/products/category/${category.slug}`}
             className="flex-center flex-col gap-2 p-2 group cursor-pointer"
         >
             <img

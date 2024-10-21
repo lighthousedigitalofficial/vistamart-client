@@ -19,7 +19,7 @@ const BrandDropDownItem = () => {
                             className=" py-2 border-b outline-none hover:text-primary-400 cursor-pointer"
                         >
                             <Link
-                                to={`/products?brand=${brand._id}`}
+                                to={`/products/brand/${brand.slug}`}
                                 className="flex justify-between items-center"
                             >
                                 <span>{capitalizeFirstLetter(brand.name)}</span>
