@@ -16,7 +16,7 @@ const WishItem = ({ product, customer, refetch }) => {
             await deleteWishlistProduct(data)
             refetch()
         } catch (error) {
-            console.log(error)
+            // console.log(error)
         }
     }
     return (

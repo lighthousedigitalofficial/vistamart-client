@@ -11,7 +11,7 @@ const FlashDealsPage = () => {
         {}
     )
 
-    console.log(deal)
+    // console.log(deal)
 
     const endDate =
         deal?.endDate ||

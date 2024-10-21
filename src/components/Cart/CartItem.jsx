@@ -10,7 +10,7 @@ import { formatPrice } from '../../utils/helpers'
 
 /* eslint-disable react/prop-types */
 const CartItem = ({ item }) => {
-    console.log(item)
+    // console.log(item)
     const [qty, setQty] = useState(0)
     const dispatch = useDispatch()
 
@@ -22,7 +22,7 @@ const CartItem = ({ item }) => {
 
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
-        console.log('ID: ', id)
+        // console.log('ID: ', id)
     }
 
     return item && qty > 0 ? (

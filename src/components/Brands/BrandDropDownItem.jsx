@@ -6,7 +6,7 @@ import { capitalizeFirstLetter } from '../../utils'
 const BrandDropDownItem = () => {
     const { data: brands, isLoading } = useGetBrandsQuery({})
 
-    console.log(brands?.doc)
+    // console.log(brands?.doc)
     return isLoading ? (
         <Loader />
     ) : brands && brands.doc ? (

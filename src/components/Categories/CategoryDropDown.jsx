@@ -24,7 +24,7 @@ const CategoryDropDown = () => {
 		setHoveredSubCategory(null);
 	};
 
-	console.log(categories);
+	// console.log(categories);
 
 	return isLoading ? (
 		<Loader />

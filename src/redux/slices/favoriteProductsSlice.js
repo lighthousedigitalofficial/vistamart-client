@@ -24,7 +24,7 @@ const favoriteProductsSlice = createSlice({
 		removeFromFavorites: (state, action) => {
 			const productId = action.payload;
 			state.products = state.products.filter((p) => p._id !== productId);
-			console.log("remove");
+			// console.log("remove");
 			// Update localStorage
 			localStorage.setItem("favoriteProducts", JSON.stringify(state.products));
 		},

@@ -30,7 +30,7 @@ export const CategoryProductsPage = () => {
     // Fetch products based on query parameters
     const { data: category, isLoading } = useGetCategoryBySlugQuery(slug)
 
-    console.log(category)
+    // console.log(category)
 
     return isLoading ? (
         <Loader />

@@ -12,7 +12,7 @@ const ShopViewPage = () => {
 
     const { data: vendor, isLoading } = useGetVendorBySlugQuery(slug)
 
-    console.log(vendor)
+    // console.log(vendor)
 
     // Extract product count and any filters you want to pass to BrandHeader
     const productCount = vendor?.doc?.totalProducts?.length || 0

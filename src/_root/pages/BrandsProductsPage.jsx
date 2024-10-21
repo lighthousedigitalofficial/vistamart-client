@@ -30,7 +30,7 @@ export const BrandsProductsPage = () => {
     // Fetch products based on query parameters
     const { data: brand, isLoading } = useGetBrandBySlugQuery(slug)
 
-    console.log(brand)
+    // console.log(brand)
 
     return isLoading ? (
         <Loader />
