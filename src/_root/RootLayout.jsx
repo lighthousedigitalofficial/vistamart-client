@@ -45,7 +45,7 @@ const RootLayout = () => {
         }
 
         checkSession()
-    }, [userInfo?.accessToken])
+    }, [userInfo, userInfo?.accessToken])
 
     const closeModal = () => {
         setIsModalOpen(false)

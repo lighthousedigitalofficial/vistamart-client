@@ -10,9 +10,9 @@ export default defineConfig({
     define: {
         'process.env': JSON.stringify(process.env),
     },
-    server: {
-        port: 80,
-    },
+    // server: {
+    //     port: 80,
+    // },
     plugins: [react()],
     build: {
         chunkSizeWarningLimit: 1000,
