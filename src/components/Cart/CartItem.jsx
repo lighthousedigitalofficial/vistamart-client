@@ -6,6 +6,7 @@ import { Typography } from '@material-tailwind/react'
 import { FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
+import { formatPrice } from '../../utils/helpers'
 
 /* eslint-disable react/prop-types */
 const CartItem = ({ item }) => {
@@ -57,7 +58,7 @@ const CartItem = ({ item }) => {
                         variant="paragraph"
                         className="text-sm text-gray-600"
                     >
-                        Price: Rs.{item.price}
+                        Price: Rs.{formatPrice(item.price)}
                     </Typography>
                 </div>
             </div>
@@ -76,7 +77,7 @@ const CartItem = ({ item }) => {
                     className="font-bold align-middle text-base"
                 >
                     Total: Rs.
-                    {(item.qty * item.price).toFixed(2).toLocaleString()}
+                    {formatPrice(item.qty * item.price)}
                 </Typography>
             </div>
         </div>
