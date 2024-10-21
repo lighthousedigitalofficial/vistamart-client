@@ -14,7 +14,7 @@ const Categories = () => {
         <div className="bg-white shadow-md shadow-gray-100 p-4">
             <div className="flex justify-between items-center p-4">
                 <h2 className="text-xl font-bold mb-4 text-gray-900">
-                    Categories
+                    All Categories
                 </h2>
                 <Link to="/categories" className="view-box">
                     View All

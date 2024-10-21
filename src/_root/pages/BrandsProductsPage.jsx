@@ -1,15 +1,15 @@
-import { BrandHeader } from '../../components/Brands/BrandHeader'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
-import { useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useGetBrandBySlugQuery } from '../../redux/slices/brandsApiSlice'
+import { capitalizeFirstLetter } from '../../utils'
 import img from '../../assets/no-product-found.png'
 
-export const ProductsPage = () => {
+export const BrandsProductsPage = () => {
     const [searchParams] = useSearchParams()
-    const [loading, setLoading] = useState(false)
+
+    const { slug } = useParams()
     // Extract query parameters from URL
 
     let filters = {}
@@ -29,38 +29,44 @@ export const ProductsPage = () => {
     }
 
     // Fetch products based on query parameters
-    const { data: products, isLoading } = useGetProductsQuery(filters, {
-        skip: !filters,
-    })
+    const { data: brand, isLoading } = useGetBrandBySlugQuery(slug)
 
-    useEffect(() => {
-        isLoading ? setLoading(true) : setLoading(false)
-    }, [products, isLoading])
+    // console.log(brand)
 
-    return loading ? (
+    return isLoading ? (
         <Loader />
-    ) : products ? (
+    ) : brand && brand?.doc ? (
         <>
             <div className="mt-4 w-full mx-auto py-4">
-                <BrandHeader filters={filters} products={products} />
+            <div className="bg-primary-50 p-6 rounded-lg shadow-sm">
+                    <h1 className="text-2xl font-bold text-gray-800 mb-2 uppercase">
+                        {capitalizeFirstLetter(brand?.doc?.name)}
+                    </h1>
+                    <h1 className="text-lg text-gray-600">
+                        {brand?.doc?.totalProducts} items found
+                    </h1>
+                </div>
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
-                    {products.doc && products.doc.length ? (
+                    {brand?.doc &&
+                     brand?.doc?.products &&
+                     brand?.doc?.products?.length ? (
                         <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
-                            {products?.doc?.map((product, index) => (
+                            {brand?.doc?.products?.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
                         </div>
                     ) : (
-                        <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
-                            <img src={img} alt="NO Product Found" className='w-[60%] mx-auto'/>
+                        <div className="text-lg flex mt-20 justify-center items-center  w-full text-center">
+                            <img src={img} alt="No Product Found" className='w-[60%] mx-auto'/>
                         </div>
                     )}
                 </div>
             </div>
         </>
     ) : (
-        <p className="text-center p-12">Products not found!</p>
+        <p className="text-center p-12">Brand not found!</p>
     )
 }
-export default ProductsPage
+
+export default BrandsProductsPage

@@ -2,6 +2,7 @@
 import { FaTruck, FaShieldAlt, FaUndo, FaCheckCircle } from 'react-icons/fa'
 import { MdOutlineCelebration } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import { formatPrice } from '../../utils/helpers'
 
 const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
     const btnDisable = cart?.totalQty === 0
@@ -12,7 +13,10 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
                 {cart?.totalDiscount && (
                     <h2 className="text-lg text-primary-400 border-b flex justify-center items-center gap-2 text-center font-semibold mb-2">
                         <MdOutlineCelebration className="w-6 h-6" />
-                        <span>You have Saved Rs. {cart?.totalDiscount}!</span>
+                        <span>
+                            You have Saved Rs.{' '}
+                            {formatPrice(cart?.totalDiscount)}!
+                        </span>
                     </h2>
                 )}
 
@@ -21,23 +25,34 @@ const CartSummary = ({ cart, handleNext, isLoading = false, step = 0 }) => {
                         <div className=" border-gray-200 py-2  text-gray-800 font-semibold">
                             <div className="flex justify-between py-1">
                                 <span>Sub total</span>
-                                <span>Rs. {cart?.subTotal || 0}</span>
+                                <span>
+                                    Rs.{formatPrice(cart?.subTotal || 0)}
+                                </span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Tax</span>
-                                <span>Rs. {cart?.taxPrice || 0}</span>
+                                <span>
+                                    Rs.{formatPrice(cart?.taxPrice || 0)}
+                                </span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Shipping</span>
-                                <span>Rs. {cart?.totalShippingPrice || 0}</span>
+                                <span>
+                                    Rs.
+                                    {formatPrice(cart?.totalShippingPrice || 0)}
+                                </span>
                             </div>
                             <div className="flex justify-between py-1">
                                 <span>Discount on product</span>
-                                <span>Rs. -{cart?.totalDiscount || 0}</span>
+                                <span>
+                                    Rs. -{formatPrice(cart?.totalDiscount || 0)}
+                                </span>
                             </div>
                             <div className="flex justify-between py-2 border-t border-gray-200">
                                 <span className="text-primary-600">Total</span>
-                                <span>Rs. {cart?.totalPrice || 0}</span>
+                                <span>
+                                    Rs.{formatPrice(cart?.totalPrice || 0)}
+                                </span>
                             </div>
                         </div>
                     </div>

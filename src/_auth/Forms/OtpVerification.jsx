@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const OtpVerification = () => {
   const [otp, setOtp] = useState("");
@@ -10,7 +10,7 @@ const OtpVerification = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle OTP verification logic here (call backend API)
-    console.log("OTP entered:", otp);
+    // console.log("OTP entered:", otp);
   };
 
   return (

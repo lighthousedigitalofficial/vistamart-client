@@ -1,15 +1,15 @@
-import { BrandHeader } from '../../components/Brands/BrandHeader'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
-import { useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useParams, useSearchParams } from 'react-router-dom'
+import { useGetCategoryBySlugQuery } from '../../redux/slices/categoriesApiSlice'
+import { capitalizeFirstLetter } from '../../utils'
 import img from '../../assets/no-product-found.png'
 
-export const ProductsPage = () => {
+export const CategoryProductsPage = () => {
     const [searchParams] = useSearchParams()
-    const [loading, setLoading] = useState(false)
+
+    const { slug } = useParams()
     // Extract query parameters from URL
 
     let filters = {}
@@ -29,25 +29,30 @@ export const ProductsPage = () => {
     }
 
     // Fetch products based on query parameters
-    const { data: products, isLoading } = useGetProductsQuery(filters, {
-        skip: !filters,
-    })
+    const { data: category, isLoading } = useGetCategoryBySlugQuery(slug)
 
-    useEffect(() => {
-        isLoading ? setLoading(true) : setLoading(false)
-    }, [products, isLoading])
+    // console.log(category)
 
-    return loading ? (
+    return isLoading ? (
         <Loader />
-    ) : products ? (
+    ) : category && category?.doc ? (
         <>
             <div className="mt-4 w-full mx-auto py-4">
-                <BrandHeader filters={filters} products={products} />
+                <div className="bg-primary-50 p-6 rounded-lg shadow-sm">
+                    <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                    {capitalizeFirstLetter(category?.doc?.name)}
+                    </h1>
+                    <h1 className="text-lg text-gray-600">
+                        {category?.doc?.totalProducts} Items found
+                    </h1>
+                </div>
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
-                    {products.doc && products.doc.length ? (
+                    {category?.doc &&
+                    category?.doc?.products &&
+                    category?.doc?.products?.length ? (
                         <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
-                            {products?.doc?.map((product, index) => (
+                            {category?.doc?.products?.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
                         </div>
@@ -60,7 +65,8 @@ export const ProductsPage = () => {
             </div>
         </>
     ) : (
-        <p className="text-center p-12">Products not found!</p>
+        <p className="text-center p-12">Category not found!</p>
     )
 }
-export default ProductsPage
+
+export default CategoryProductsPage

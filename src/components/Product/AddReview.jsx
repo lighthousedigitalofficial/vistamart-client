@@ -31,7 +31,7 @@ const AddReview = ({ productId, refetch }) => {
                 productId,
             }
 
-            console.log(finalData)
+            // console.log(finalData)
 
             await createReview(finalData).unwrap()
             refetch()

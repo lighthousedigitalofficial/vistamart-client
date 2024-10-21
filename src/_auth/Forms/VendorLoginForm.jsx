@@ -55,6 +55,8 @@ const VendorLoginForm = () => {
         }
     }
 
+    // console.log('VEndor login')
+
     const handleTogglePassword = () => {
         setShowPassword(!showPassword)
     }

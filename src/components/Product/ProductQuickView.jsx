@@ -11,6 +11,7 @@ import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
 import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
+import { formatPrice } from '../../utils/helpers'
 
 const ProductQuickView = ({ productId, onClose }) => {
     const { data: product, isLoading } = useGetProductDetailsQuery(productId, {
@@ -22,15 +23,13 @@ const ProductQuickView = ({ productId, onClose }) => {
     const [minimumOrderError, setMinimumOrderError] = useState(false)
 
     const productImages = product?.doc ? [mainImage, ...product.doc.images] : []
-    const oldPrice = product?.doc?.price + product?.doc?.discount
+    const oldPrice = product?.doc?.price + product?.doc?.discountAmount || 0
 
     useEffect(() => {
         if (product && product?.doc?.thumbnail) {
             setMainImage(product?.doc?.thumbnail)
         }
     }, [product])
-
-    console.log(product)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -132,11 +131,11 @@ const ProductQuickView = ({ productId, onClose }) => {
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="text-lg font-bold text-primary-400">
-                            Rs {product?.doc.price.toFixed(2)}
+                            Rs.{formatPrice(product?.doc?.price)}
                         </p>
                         {oldPrice > product.doc.price && (
                             <p className="text-sm font-semibold line-through text-gray-500">
-                                Rs {oldPrice.toFixed(2)}
+                                Rs.{formatPrice(oldPrice)}
                             </p>
                         )}
                     </div>
@@ -167,7 +166,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                     <div className="flex items-center gap-2 font-bold">
                         <h3 className="">Total Price:</h3>
                         <p className="text-primary-400 ">
-                            Rs.{(product.doc.price * qty).toFixed(2)}
+                            Rs.{formatPrice(product?.doc?.price * qty)}
                         </p>
                         <span className="text-xs">(Tax included)</span>
                     </div>

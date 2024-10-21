@@ -10,6 +10,7 @@ uploads/
 uploads
 
 
+
 /.pnp
 .pnp.js
 
@@ -18,6 +19,9 @@ uploads
 
 # Production
 /build
+dist 
+/dist 
+
 
 # Misc
 .DS_Store

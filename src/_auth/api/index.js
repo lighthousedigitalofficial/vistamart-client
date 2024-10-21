@@ -3,9 +3,12 @@ import keys from '../../config/keys'
 
 export const validateSession = async (token, setModalOpen) => {
     try {
-        const { data } = await axios.post(`${keys.BASE_URL}/validate-session`, {
-            token,
-        })
+        const { data } = await axios.post(
+            `${keys.BASE_URL}/api/v1/validate-session`,
+            {
+                token,
+            }
+        )
 
         if (data.status === 'expired') {
             setModalOpen(true) // Open modal for expired session

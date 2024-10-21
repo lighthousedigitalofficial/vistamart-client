@@ -47,6 +47,9 @@ import OrderDetail from './components/Profile/Order/OrderDetail'
 import OtpVerification from './_auth/Forms/OtpVerification'
 import EmailVerification from './_auth/Forms/EmailVerification'
 import ScrollToTop from './components/ScrollToTop'
+import ServerErrorPage from './_root/pages/ServerErrorPage'
+import BrandsProductsPage from './_root/pages/BrandsProductsPage'
+import CategoryProductsPage from './_root/pages/CategoryProductsPage'
 
 const router = createBrowserRouter([
     {
@@ -72,8 +75,16 @@ const router = createBrowserRouter([
                 element: <BrandsPage />,
             },
             {
+                path: 'products/brand/:slug',
+                element: <BrandsProductsPage />,
+            },
+            {
                 path: 'categories',
                 element: <CategoriesPage />,
+            },
+            {
+                path: 'products/category/:slug',
+                element: <CategoryProductsPage />,
             },
             {
                 path: 'vendors',
@@ -219,22 +230,25 @@ const router = createBrowserRouter([
                 path: '/emailverification',
                 element: <EmailVerification />,
             },
-
-            {
-                path: '*',
-                element: <NotFoundPage />,
-            },
         ],
     },
     {
         path: 'auth',
-        element: ((<AuthLayout />), (<ScrollToTop />)),
+        element: <AuthLayout />,
         children: [
             {
                 path: 'vendor/login',
                 element: <VendorLoginForm />,
             },
         ],
+    },
+    {
+        path: '/server-error',
+        element: <ServerErrorPage />,
+    },
+    {
+        path: '*',
+        element: <NotFoundPage />,
     },
 
     // {

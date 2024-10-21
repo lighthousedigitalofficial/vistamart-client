@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { removeFromCart } from '../../../redux/slices/cartSlice'
 import { FaTrash } from 'react-icons/fa'
 import keys from './../../../config/keys'
+import { formatPrice } from '../../../utils/helpers'
 
 const CartViewItem = ({ item }) => {
     const dispatch = useDispatch()
@@ -24,7 +25,7 @@ const CartViewItem = ({ item }) => {
             <div className="flex-grow">
                 <div className="font-semibold truncate">{item.name}</div>
                 <div className="text-gray-700">
-                    Rs.{item?.price?.toFixed(2)}
+                    Rs.{formatPrice(item?.price)}
                 </div>
             </div>
             <div className="flex flex-col justify-between gap-4 py-2">
