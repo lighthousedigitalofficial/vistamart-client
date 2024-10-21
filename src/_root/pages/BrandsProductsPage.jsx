@@ -4,6 +4,7 @@ import ProductCard from '../../components/Product/ProductCard'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useGetBrandBySlugQuery } from '../../redux/slices/brandsApiSlice'
 import { capitalizeFirstLetter } from '../../utils'
+import img from '../../assets/no-product-found.png'
 
 export const BrandsProductsPage = () => {
     const [searchParams] = useSearchParams()
@@ -56,8 +57,8 @@ export const BrandsProductsPage = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-lg flex mt-20 justify-center items-center bg-red-100 text-red-500 py-4 px-8 w-full text-center">
-                            <h2>Brand products not found!</h2>
+                        <div className="text-lg flex mt-20 justify-center items-center  w-full text-center">
+                            <img src={img} alt="No Product Found" className='w-[60%] mx-auto'/>
                         </div>
                     )}
                 </div>

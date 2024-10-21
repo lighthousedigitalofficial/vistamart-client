@@ -2,10 +2,10 @@ import ShopBanner from '../../components/Banners/ShopBanner'
 import Loader from '../../components/Loader'
 import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
 import { useParams } from 'react-router-dom'
-
 import ProductCard from '../../components/Product/ProductCard'
 import CategorySidebar from '../../components/Categories/CategorySideBar'
 import { BrandHeader } from '../../components/Brands/BrandHeader'
+import img from '../../assets/no-product-found.png'
 
 const ShopViewPage = () => {
     const { slug } = useParams()
@@ -47,9 +47,9 @@ const ShopViewPage = () => {
                             )}
                         </div>
                     ) : (
-                        <p className="text-lg bg-blue-50 text-blue-500 py-4 px-8 mx-auto">
-                            This vendor has no products.
-                        </p>
+                        <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
+                            <img src={img} alt="NO Product Found" className='w-[60%] mx-auto'/>
+                        </div>
                     )}
                 </div>
             </div>

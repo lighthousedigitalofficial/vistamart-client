@@ -14,7 +14,7 @@ if (typeof localStorage !== "undefined") {
 				billingAddress: {},
 				paymentMethod: "",
 				vendors: [],
-		  };
+		};
 }
 
 const cartSlice = createSlice({

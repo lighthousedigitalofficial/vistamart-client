@@ -21,7 +21,7 @@ const ForgotPasswordPage = () => {
 
     const onSubmit = (data) => {
         setSuccessMessage(
-            'Please check your email inbox for a link to complete the reset.'
+            'Please check your email inbox for a link to complete the reset.', 
         )
         // Handle email submission logic here
         // console.log('Email submitted:', data.email)
