@@ -8,9 +8,12 @@ export const getUploadUrl = async (type, folder) => {
             fileType: type.split('/')[1],
             folder,
         }
-        const response = await axios.get(`${keys.BASE_URL}/image/upload`, {
-            params: query,
-        })
+        const response = await axios.get(
+            `${keys.BASE_URL}/api/v1/image/upload`,
+            {
+                params: query,
+            }
+        )
 
         return response.data // Contains the URL and the key for S3 storage
     } catch (error) {
@@ -35,7 +38,7 @@ export const uploadImageToS3 = async (uploadUrl, file) => {
 
 export const deleteUploadedImages = async (keys) => {
     try {
-        await axios.delete(`${keys.BASE_URL}/image/delete-images`, {
+        await axios.delete(`${keys.BASE_URL}/api/v1/image/delete-images`, {
             data: { keys },
         })
     } catch (error) {
