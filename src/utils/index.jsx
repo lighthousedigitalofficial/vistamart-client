@@ -346,42 +346,41 @@ export const steps = [
     },
 ]
 
-
 export const productReviews = [
     {
-      id: 1,
-      name: "J",
-      date: "September 20, 2023",
-      color: "Lavender",
-      verified: true,
-      rating: 5,
-      title: "Great product!",
-      description:
-        "Works great! Very chic, easily fits in pocket, purse, bag, etc. Nice to be able to charge more than 1 device at a time, especially since it has a fast charge port!",
-      helpfulCount: 0,
+        id: 1,
+        name: 'J',
+        date: 'September 20, 2023',
+        color: 'Lavender',
+        verified: true,
+        rating: 5,
+        title: 'Great product!',
+        description:
+            'Works great! Very chic, easily fits in pocket, purse, bag, etc. Nice to be able to charge more than 1 device at a time, especially since it has a fast charge port!',
+        helpfulCount: 0,
     },
     {
-      id: 2,
-      name: "John D.",
-      date: "October 5, 2023",
-      color: "Blue",
-      verified: true,
-      rating: 3,
-      title: "Good charger, but could be better.",
-      description:
-        "The charger works well, but the cable is a bit too short for my liking. Still a solid purchase though!",
-      helpfulCount: 5,
+        id: 2,
+        name: 'John D.',
+        date: 'October 5, 2023',
+        color: 'Blue',
+        verified: true,
+        rating: 3,
+        title: 'Good charger, but could be better.',
+        description:
+            'The charger works well, but the cable is a bit too short for my liking. Still a solid purchase though!',
+        helpfulCount: 5,
     },
     {
-      id: 3,
-      name: "Samantha P.",
-      date: "October 11, 2023",
-      color: "Red",
-      verified: true,
-      rating: 5,
-      title: "Perfect for travel!",
-      description:
-        "I travel a lot and this charger has been amazing. It's compact and charges my devices super fast.",
-      helpfulCount: 8,
+        id: 3,
+        name: 'Samantha P.',
+        date: 'October 11, 2023',
+        color: 'Red',
+        verified: true,
+        rating: 5,
+        title: 'Perfect for travel!',
+        description:
+            "I travel a lot and this charger has been amazing. It's compact and charges my devices super fast.",
+        helpfulCount: 8,
     },
-  ];
+]

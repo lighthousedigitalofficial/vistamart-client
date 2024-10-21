@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 
 import CartViewItem from './CartViewItem'
 import { IoIosArrowForward } from 'react-icons/io'
+import { formatPrice } from '../../../utils/helpers'
 
 const CartView = () => {
     const cart = useSelector((state) => state.cart)
@@ -31,7 +32,8 @@ const CartView = () => {
                             <h2 className="text-base text-primary-400 flex justify-center items-center gap-2 text-center font-semibold mb-2">
                                 <MdOutlineCelebration className="w-6 h-6" />
                                 <span>
-                                    You have Saved Rs.{cart?.totalDiscount}!
+                                    You have Saved Rs.
+                                    {formatPrice(cart?.totalDiscount)}!
                                 </span>
                             </h2>
                             <div
@@ -56,7 +58,7 @@ const CartView = () => {
                                         Subtotal:
                                     </span>
                                     <span className="font-semibold text-lg text-primary-400">
-                                        Rs.{cart?.totalPrice}
+                                        Rs.{formatPrice(cart?.totalPrice)}
                                     </span>
                                 </div>
                                 <Link

@@ -4,11 +4,14 @@ import ProductDialog from './ProductDialog'
 import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
 import keys from './../../config/keys'
+import { formatPrice } from '../../utils/helpers'
 
 const ProductCard = ({ data: product }) => {
-    const oldPrice = product?.price + product?.discount || null
+    const oldPrice = product?.price + product?.discountAmount || 0
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
+
+    console.log(oldPrice)
 
     const handleProductClick = (product) => {
         setSelectedProduct(product)
@@ -28,7 +31,7 @@ const ProductCard = ({ data: product }) => {
                 <div className="relative  overflow-hidden group cursor-pointer z-10">
                     {product?.discountAmount > 0 && (
                         <div className="discount-badge">
-                            -Rs.{product?.discountAmount}
+                            - Rs.{formatPrice(product?.discountAmount)}
                         </div>
                     )}
                     <img
@@ -64,11 +67,11 @@ const ProductCard = ({ data: product }) => {
                         <div className="flex items-center justify-between">
                             {oldPrice > product.price && (
                                 <p className="text-sm line-through text-gray-500">
-                                    Rs.{oldPrice?.toFixed(2)}
+                                    Rs.{formatPrice(oldPrice)}
                                 </p>
                             )}
                             <p className="text-sm font-bold text-primary-400">
-                                Rs.{product.price?.toFixed(2)}
+                                Rs.{formatPrice(product?.price)}
                             </p>
                         </div>
                     </Link>

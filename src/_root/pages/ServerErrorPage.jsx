@@ -1,25 +1,24 @@
-// import NotFoundImage from '../../assets/not-found.gif'
-import NotFoundImage from '../../assets/404-not-found.jpg'
-import { Link } from 'react-router-dom' // Ensure you're using React Router or similar for navigation
-import { FaArrowLeft } from 'react-icons/fa' // Importing the arrow icon
+import { Link } from 'react-router-dom'
+import ServerErrorImage from '../../assets/server-error.png'
+import { FaArrowLeft } from 'react-icons/fa'
 
-const NotFoundPage = () => {
+const ServerErrorPage = () => {
     return (
         <div className="flex flex-col justify-center items-center w-full h-screen bg-white p-8 text-center">
-            {/* Not Found Image */}
+            {/* Error Image */}
             <img
-                src={NotFoundImage}
-                alt="Not Found"
+                src={ServerErrorImage}
+                alt="Server Error"
                 className="w-full max-w-md h-auto mb-6 object-contain"
             />
 
             {/* Error Message */}
-            <h1 className="text-4xl font-extrabold text-gray-800 mb-2">
-                404 - Page Not Found
+            <h1 className="text-4xl font-extrabold text-red-600 mb-4">
+                500 - Server Error
             </h1>
-            <p className="text-lg text-gray-600 mb-6">
-                Sorry, the page you are looking for does not exist or has been
-                moved.
+            <p className="text-lg text-gray-700 mb-6">
+                We’re sorry, but something went wrong on our end. Our team has
+                been notified.
             </p>
 
             {/* Navigation Options */}
@@ -44,4 +43,4 @@ const NotFoundPage = () => {
     )
 }
 
-export default NotFoundPage
+export default ServerErrorPage

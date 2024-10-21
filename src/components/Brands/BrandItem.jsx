@@ -7,7 +7,7 @@ import keys from './../../config/keys'
 const BrandItem = ({ brand }) => {
     return (
         <div className="border border-gray-300 h-24 w-24 rounded-full group cursor-pointer">
-            <Link to={`/products?brand=${brand._id}`} className="">
+            <Link to={`/products/brand/${brand.slug}`} className="">
                 <img
                     src={`${brand.logo}` || keys.DEFAULT_IMG}
                     alt={brand.name}

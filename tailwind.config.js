@@ -15,14 +15,27 @@ const { colors: defaultColors } = require('tailwindcss/defaultTheme')
 const colors = {
     ...defaultColors,
     ...{
+        // primary: {
+        //     700: '#10430D', // Darker shade of #1D6713
+        //     600: '#165310', // Slightly darker shade
+        //     500: '#1D6713', // Main color
+        //     400: '#25851B', // Lighter shade
+        //     300: '#36A92C', // Even lighter
+        //     200: '#8DDA87', // Lighter, softer tone
+        //     100: '#C2EEC3', // Lightest shade
+        // },
+
         primary: {
-            700: '#10430D', // Darker shade of #1D6713
-            600: '#165310', // Slightly darker shade
-            500: '#1D6713', // Main color
-            400: '#25851B', // Lighter shade
-            300: '#36A92C', // Even lighter
-            200: '#8DDA87', // Lighter, softer tone
-            100: '#C2EEC3', // Lightest shade
+            50: '#e6f7ed',
+            100: '#ccefdc',
+            200: '#99dfb9',
+            300: '#66cf97',
+            400: '#009444', // main color
+            500: '#00843e',
+            600: '#007338',
+            700: '#006332',
+            800: '#00532c',
+            900: '#004326',
         },
     },
 }
