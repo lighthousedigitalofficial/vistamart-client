@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import ServerErrorImage from '../../assets/server-error.png'
+import { FaArrowLeft } from 'react-icons/fa'
 
 const ServerErrorPage = () => {
     return (
@@ -18,6 +20,17 @@ const ServerErrorPage = () => {
                 We’re sorry, but something went wrong on our end. Our team has
                 been notified.
             </p>
+
+            {/* Navigation Options */}
+            <div className="flex flex-col space-y-4">
+                <Link
+                    to="/"
+                    className="flex justify-center items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded shadow-md hover:bg-primary-600 transition duration-300"
+                >
+                    <FaArrowLeft />
+                    <span>Go To Home</span>
+                </Link>
+            </div>
 
             {/* Optional Footer */}
             <footer className="mt-12 text-sm text-gray-500">

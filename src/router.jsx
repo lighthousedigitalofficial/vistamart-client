@@ -48,6 +48,7 @@ import OtpVerification from './_auth/Forms/OtpVerification'
 import EmailVerification from './_auth/Forms/EmailVerification'
 import ScrollToTop from './components/ScrollToTop'
 import ServerErrorPage from './_root/pages/ServerErrorPage'
+import BrandsProductsPage from './_root/pages/BrandsProductsPage'
 
 const router = createBrowserRouter([
     {
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
             {
                 path: 'brands',
                 element: <BrandsPage />,
+            },
+            {
+                path: 'products/brand/:slug',
+                element: <BrandsProductsPage />,
             },
             {
                 path: 'categories',

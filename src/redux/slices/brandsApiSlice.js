@@ -15,6 +15,12 @@ export const brandsApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        getBrandBySlug: builder.query({
+            query: (slug) => ({
+                url: `${BRANDS_URL}/slug/${slug}`,
+            }),
+            keepUnusedDataFor: 5,
+        }),
         createBrand: builder.mutation({
             query: () => ({
                 url: `${BRANDS_URL}`,
@@ -46,4 +52,5 @@ export const {
     useCreateBrandMutation,
     useUpdateBrandMutation,
     useDeleteBrandMutation,
+    useGetBrandBySlugQuery,
 } = brandsApiSlice
