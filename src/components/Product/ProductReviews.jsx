@@ -68,7 +68,7 @@ const ProductReviews = ({ product }) => {
                 </h2>
                 {reviews && reviews.length ? (
                     reviews.map((review) => {
-                        console.log(review)
+                        // console.log(review)
                         return (
                             <div
                                 key={review._id}

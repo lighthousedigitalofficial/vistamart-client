@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,7 +27,7 @@ const ResetPassword = () => {
         } else {
             setError('')
             // Handle password reset logic here
-            console.log('Password reset successfully')
+            // console.log('Password reset successfully')
         }
     }
 

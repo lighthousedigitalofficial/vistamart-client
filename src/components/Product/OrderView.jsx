@@ -13,7 +13,7 @@ const OrderView = () => {
     // Log the loading state
     useEffect(() => {
         if (isLoading) {
-            console.log('Loading order details...')
+            // console.log('Loading order details...')
         }
     }, [isLoading])
 
@@ -26,7 +26,7 @@ const OrderView = () => {
         )
     }
 
-    console.log(orderDetails)
+    // console.log(orderDetails)
 
     return isLoading ? (
         <Loader />

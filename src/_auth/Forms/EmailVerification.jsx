@@ -1,6 +1,6 @@
 
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const EmailVerification = () => {
   const [otp, setOtp] = useState(new Array(4).fill(""));
@@ -18,7 +18,7 @@ const EmailVerification = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Entered OTP: ", otp.join(""));
+    // console.log("Entered OTP: ", otp.join(""));
   };
 
   return (
@@ -32,7 +32,7 @@ const EmailVerification = () => {
           
           <h2 className="text-2xl font-semibold mb-4">Please check your email</h2>
           <p className="text-gray-500 mb-6">
-            We've sent a code to <strong>contact@curfcode.com</strong>
+            We have sent a code to <strong>contact@curfcode.com</strong>
           </p>
         </div>
 
@@ -51,7 +51,7 @@ const EmailVerification = () => {
           </div>
 
           <div className="text-center text-sm mt-4">
-            Didn't get the code? <a href="#" className="text-green-500 font-semibold">Click to resend.</a>
+            Did not get the code? <a href="#" className="text-green-500 font-semibold">Click to resend.</a>
           </div>
 
           <div className="flex justify-between mt-6">

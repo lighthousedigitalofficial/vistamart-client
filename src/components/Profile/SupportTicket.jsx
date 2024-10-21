@@ -76,7 +76,7 @@ const SupportTicket = () => {
 	]);
 
 	const handleView = (id) => {
-		console.log(`View ticket with id: ${id}`);
+		// console.log(`View ticket with id: `);
 	};
 
 	const handleDelete = (id) => {

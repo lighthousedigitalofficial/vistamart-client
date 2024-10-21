@@ -24,7 +24,7 @@ const CategoryDropDown = () => {
 		setHoveredSubCategory(null);
 	};
 
-	console.log(categories);
+	// console.log(categories);
 
 	return isLoading ? (
 		<Loader />
@@ -42,7 +42,7 @@ const CategoryDropDown = () => {
 								onMouseEnter={() => handleMouseEnterCategory(category._id)}
 							>
 								<Link
-									to={`/products?category=${category._id}`}
+									to={`/products/category/${category.slug}`}
 									className={`flex items-center group gap-4 px-2 py-[1.4vh]
                                     cursor-pointer w-full hover:bg-gray-100`}
 								>

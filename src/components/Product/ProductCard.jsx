@@ -11,7 +11,7 @@ const ProductCard = ({ data: product }) => {
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
-    console.log(oldPrice)
+    // console.log(oldPrice)
 
     const handleProductClick = (product) => {
         setSelectedProduct(product)
@@ -23,7 +23,7 @@ const ProductCard = ({ data: product }) => {
         setSelectedProduct(null)
     }
 
-    console.log(product)
+    // console.log(product)
 
     return (
         product && (

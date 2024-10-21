@@ -97,7 +97,7 @@ const FooterMainSection = () => {
         e.preventDefault() // Prevent default form submission
         try {
             const result = await customerSubscribe({ email }).unwrap() // Call the mutation with email
-            console.log('Subscription successful:', result) // Handle success
+            // console.log('Subscription successful:', result) // Handle success
             setEmail('') // Clear email input on success
             toast.success('Subscription successful! Thank you for subscribing.') // Show success toast
         } catch (error) {

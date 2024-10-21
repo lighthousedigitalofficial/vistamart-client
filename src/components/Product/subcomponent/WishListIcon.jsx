@@ -37,7 +37,7 @@ const WishListIcon = ({ productId, onClose }) => {
             refetch()
         } catch (err) {
             toast.error(error?.data?.message)
-            console.log(err)
+            // console.log(err)
         }
     }
 

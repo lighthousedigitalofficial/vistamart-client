@@ -23,7 +23,7 @@ export const BrandHeader = ({ products, filters }) => {
         setSearchParams(searchParams)
     }
 
-    console.log(filters)
+    // console.log(filters)
 
     const getTitle = () => {
         if (filters.brand) {
