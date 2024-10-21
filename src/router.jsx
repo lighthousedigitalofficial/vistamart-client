@@ -49,6 +49,7 @@ import EmailVerification from './_auth/Forms/EmailVerification'
 import ScrollToTop from './components/ScrollToTop'
 import ServerErrorPage from './_root/pages/ServerErrorPage'
 import BrandsProductsPage from './_root/pages/BrandsProductsPage'
+import CategoryProductsPage from './_root/pages/CategoryProductsPage'
 
 const router = createBrowserRouter([
     {
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
             {
                 path: 'categories',
                 element: <CategoriesPage />,
+            },
+            {
+                path: 'products/category/:slug',
+                element: <CategoryProductsPage />,
             },
             {
                 path: 'vendors',

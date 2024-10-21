@@ -70,7 +70,7 @@ const SignUpForm = () => {
             navigate('/customer/auth/sign-in')
         } catch (err) {
             toast.error(err?.data?.message || err.error)
-            console.log(err)
+            // console.log(err)
         }
     }
 

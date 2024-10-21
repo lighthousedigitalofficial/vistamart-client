@@ -108,8 +108,8 @@ const MyAddress = () => {
                         <div key={index} className="p-2 w-full mb-4">
                             <AddressCard
                                 address={address}
-                                onEdit={() => console.log('Edit', address)}
-                                onDelete={() => console.log('Delete', address)}
+                                onEdit={() => console.log('Edit')}
+                                onDelete={() => console.log('Delete')}
                             />
                         </div>
                     ))

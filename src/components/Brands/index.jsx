@@ -8,7 +8,7 @@ import { useGetBrandsQuery } from '../../redux/slices/brandsApiSlice'
 const Brands = () => {
     const { data: brands, isLoading, error } = useGetBrandsQuery({})
 
-    console.log(brands)
+    // console.log(brands)
     return isLoading ? (
         <Loader />
     ) : brands && brands?.doc ? (

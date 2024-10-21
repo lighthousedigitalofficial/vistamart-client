@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import { AiFillStar, AiOutlineStar, AiFillMessage } from 'react-icons/ai'
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import keys from './../../config/keys'
 
 const ShopBanner = ({ vendor }) => {
-    console.log(vendor)
+    // console.log(vendor)
     return (
         vendor && (
             <div className="relative h-[50vh] mt-4 p-4 rounded-lg shadow-lg max-w-7xl mx-auto py-4 bg-pink-100">

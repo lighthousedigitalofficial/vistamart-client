@@ -26,7 +26,7 @@ const BankPaymentForm = ({ open, setOpen, handleOpen }) => {
 	});
 
 	const onSubmit = (data) => {
-		console.log(data);
+		// console.log(data);
 		setOpen(false);
 	};
 
