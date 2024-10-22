@@ -37,7 +37,7 @@ export const BrandHeader = ({ products, filters }) => {
                 return 'Discount Products'
             }
         }
-        return 'Vendor Products'
+        return 'Products'
     }
 
     const title = getTitle()

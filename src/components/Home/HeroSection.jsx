@@ -1,5 +1,8 @@
 // import { Carousel } from '@material-tailwind/react'
 
+import { LazyLoadImage } from 'react-lazy-load-image-component'
+import 'react-lazy-load-image-component/src/effects/blur.css' // optional blur effect
+
 import Banner1 from '../../assets/slideshow-img/slide-5.jpg'
 import Banner2 from '../../assets/slideshow-img/slide-6.png'
 import Banner3 from '../../assets/slideshow-img/slide-7.jpg'
@@ -15,13 +18,34 @@ const AutoplaySlider = withAutoplay(AwesomeSlider)
 const HeroSection = () => (
     <AutoplaySlider
         play={true}
-        cancelOnInteraction={false} // should stop playing on user interaction
+        cancelOnInteraction={false}
         interval={6000}
         className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[35vh]`}
     >
-        <div data-src={Banner3} className="object-contain" />
-        <div data-src={Banner2} className="object-contain" />
-        <div data-src={Banner1} className="object-contain" />
+        <div>
+            <LazyLoadImage
+                src={Banner3} // Path to your image
+                alt="Banner 3"
+                effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                className="object-contain"
+            />
+        </div>
+        <div>
+            <LazyLoadImage
+                src={Banner2}
+                alt="Banner 2"
+                effect="blur"
+                className="object-contain"
+            />
+        </div>
+        <div>
+            <LazyLoadImage
+                src={Banner1}
+                alt="Banner 1"
+                effect="blur"
+                className="object-contain"
+            />
+        </div>
     </AutoplaySlider>
 )
 

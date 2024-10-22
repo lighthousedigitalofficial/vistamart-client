@@ -45,10 +45,21 @@ const NavList = () => {
                 color="blue-gray"
                 className="p-1 font-medium text-base"
             >
+                <Link to="/products" className="navbar-item">
+                    Products
+                </Link>
+            </Typography>
+            <Typography
+                as="li"
+                variant="paragraph"
+                color="blue-gray"
+                className="p-1 font-medium text-base"
+            >
                 <Link to="/products?discount" className="navbar-item">
                     Discounted Products
                 </Link>
             </Typography>
+
             <Typography
                 as="li"
                 variant="paragraph"
