@@ -7,21 +7,25 @@ import Footer from '../components/Footer'
 import Loader from '../components/Loader'
 
 import { validateSession } from '../_auth/api'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import SessionExpiredModal from './../components/shared/SessionExpiredModal'
 import toast from 'react-hot-toast'
 import { useCheckHealthQuery } from '../redux/slices/apiHealthSlice'
 import { Helmet } from 'react-helmet-async'
+import { logout } from '../redux/slices/authSlice'
+import { useCustomerLogoutMutation } from '../redux/slices/customersApiSlice'
 
 const RootLayout = () => {
     const [isLoading, setIsLoading] = useState(true)
-    const { userInfo } = useSelector((state) => state.auth)
-
-    const navigate = useNavigate()
-
     const [isModalOpen, setIsModalOpen] = useState(false)
 
+    const { userInfo } = useSelector((state) => state.auth)
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
     const { error, isLoading: checkApiHealthLoading } = useCheckHealthQuery()
+    const [customerLogout] = useCustomerLogoutMutation()
 
     useEffect(() => {
         if (error) {
@@ -35,11 +39,7 @@ const RootLayout = () => {
             const token = userInfo?.accessToken
 
             if (token) {
-                try {
-                    await validateSession(token, setIsModalOpen)
-                } catch (error) {
-                    setIsModalOpen(true)
-                }
+                await validateSession(token, setIsModalOpen)
             }
 
             setIsLoading(false)
@@ -48,9 +48,21 @@ const RootLayout = () => {
         checkSession()
     }, [userInfo, userInfo?.accessToken])
 
+    const logoutUser = async () => {
+        // Get accessToken from localStorage
+        const userInfo = localStorage.getItem('userInfo')
+        const user = JSON.parse(userInfo)
+
+        dispatch(logout())
+        await customerLogout(user?.accessToken)
+
+        window.location.reload()
+    }
+
     const closeModal = () => {
         setIsModalOpen(false)
-        navigate('/customer/auth/sign-in') // Redirect after closing the modal
+        logoutUser()
+        navigate('/customer/auth/sign-in')
     }
 
     return isLoading || checkApiHealthLoading ? (

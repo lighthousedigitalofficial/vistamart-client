@@ -15,7 +15,7 @@ const ShopViewPage = () => {
     // console.log(vendor)
 
     // Extract product count and any filters you want to pass to BrandHeader
-    const productCount = vendor?.doc?.totalProducts?.length || 0
+    const productCount = vendor?.doc?.totalProducts || 0
 
     return isLoading ? (
         <Loader />
@@ -38,17 +38,19 @@ const ShopViewPage = () => {
                     <CategorySidebar />
                 </div>
                 <div className="w-full lg:w-3/4 p-4">
-                    {vendor && vendor?.doc?.totalProducts?.length ? (
+                    {vendor && vendor?.doc?.totalProducts > 0 ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                            {vendor?.doc?.totalProducts?.map(
-                                (product, index) => (
-                                    <ProductCard key={index} data={product} />
-                                )
-                            )}
+                            {vendor?.doc?.products?.map((product, index) => (
+                                <ProductCard key={index} data={product} />
+                            ))}
                         </div>
                     ) : (
                         <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
-                            <img src={img} alt="NO Product Found" className='w-[60%] mx-auto'/>
+                            <img
+                                src={img}
+                                alt="NO Product Found"
+                                className="w-[60%] mx-auto"
+                            />
                         </div>
                     )}
                 </div>

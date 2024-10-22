@@ -42,8 +42,13 @@ const ShopBanner = ({ vendor }) => {
                                     </span>
                                 </div>
                                 <div className="text-green-600">
-                                    <span>5 Reviews</span> |{' '}
-                                    <span>63 Orders</span>
+                                    <span>
+                                        {vendor?.reviews?.length || 0} Reviews
+                                    </span>{' '}
+                                    |{' '}
+                                    <span>
+                                        {vendor?.totalOrders || 0} Orders
+                                    </span>
                                 </div>
                             </div>
                             {/* <button className="ml-auto bg-green-500 text-white py-2 px-4 rounded-lg flex items-center">
