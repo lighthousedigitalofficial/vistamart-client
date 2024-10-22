@@ -9,8 +9,6 @@ const Quantity = ({ product, qty, setQty }) => {
     const location = useLocation()
     const dispatch = useDispatch()
 
-    console.log(product)
-
     useEffect(() => {
         if (location.pathname === '/cart') {
             dispatch(addToCart({ ...product, qty }))
@@ -20,18 +18,22 @@ const Quantity = ({ product, qty, setQty }) => {
 
     const increaseQty = () => {
         if (qty < product.stock) {
-            console.log('qty', qty)
             setQty(qty + 1)
         }
     }
 
     const decreaseQty = () => {
-        if (qty > product.minimumOrderQty) {
+        if (window.location.pathname === '/cart') {
+            if (qty > product.minimumOrderQty) {
+                setQty(qty - 1)
+            } else {
+                toast.error(
+                    `Min. order for this item is ${product.minimumOrderQty} piece.`
+                )
+            }
+        } else {
             setQty(qty - 1)
-        } else
-            toast.error(
-                `Min. order for this item is ${product.minimumOrderQty} piece.`
-            )
+        }
     }
 
     return (

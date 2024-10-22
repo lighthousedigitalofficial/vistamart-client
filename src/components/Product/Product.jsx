@@ -14,7 +14,7 @@ const Product = ({ product }) => {
     const [qty, setQty] = useState(1)
 
     const productImages = product ? [...product.images, product?.thumbnail] : []
-    const oldPrice = product?.price + product?.discount
+    const oldPrice = product?.price + product?.discountAmount || 0
 
     const { cartItems } = useSelector((state) => state.cart)
 

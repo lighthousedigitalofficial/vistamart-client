@@ -9,6 +9,8 @@ import Loader from '../components/Loader'
 import { validateSession } from '../_auth/api'
 import { useSelector } from 'react-redux'
 import SessionExpiredModal from './../components/shared/SessionExpiredModal'
+import toast from 'react-hot-toast'
+import { useCheckHealthQuery } from '../redux/slices/apiHealthSlice'
 
 const RootLayout = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -17,6 +19,15 @@ const RootLayout = () => {
     const navigate = useNavigate()
 
     const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const { error, isLoading: checkApiHealthLoading } = useCheckHealthQuery()
+
+    useEffect(() => {
+        if (error) {
+            toast.error('Server is not responding!')
+            navigate('/server-error')
+        }
+    }, [error, navigate])
 
     useEffect(() => {
         const checkSession = async () => {
@@ -34,34 +45,36 @@ const RootLayout = () => {
         }
 
         checkSession()
-    }, [userInfo?.accessToken])
+    }, [userInfo, userInfo?.accessToken])
 
     const closeModal = () => {
         setIsModalOpen(false)
         navigate('/customer/auth/sign-in') // Redirect after closing the modal
     }
 
-    return isLoading ? (
+    return isLoading || checkApiHealthLoading ? (
         <Loader />
     ) : (
-        <div>
-            <Header />
-            <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4">
-                <Suspense
-                    fallback={
-                        <div>
-                            <Loader />
-                        </div>
-                    }
-                >
-                    <Outlet />
-                </Suspense>
+        !error && (
+            <div>
+                <Header />
+                <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4">
+                    <Suspense
+                        fallback={
+                            <div>
+                                <Loader />
+                            </div>
+                        }
+                    >
+                        <Outlet />
+                    </Suspense>
+                </div>
+                <StickyIcons />
+                <Contacts />
+                <Footer />
+                {isModalOpen && <SessionExpiredModal onClose={closeModal} />}
             </div>
-            <StickyIcons />
-            <Contacts />
-            <Footer />
-            {isModalOpen && <SessionExpiredModal onClose={closeModal} />}
-        </div>
+        )
     )
 }
 

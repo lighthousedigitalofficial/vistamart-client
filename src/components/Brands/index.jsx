@@ -8,13 +8,15 @@ import { useGetBrandsQuery } from '../../redux/slices/brandsApiSlice'
 const Brands = () => {
     const { data: brands, isLoading, error } = useGetBrandsQuery({})
 
-    console.log(brands)
+    // console.log(brands)
     return isLoading ? (
         <Loader />
     ) : brands && brands?.doc ? (
         <div className="bg-white shadow-md shadow-gray-100 p-4">
             <div className="flex justify-between items-center p-4">
-                <h2 className="text-xl font-bold mb-4 text-gray-900">Brands</h2>
+                <h2 className="text-xl font-bold mb-4 text-gray-900">
+                    All Brands
+                </h2>
                 <Link to="/brands" className="view-box">
                     View All
                     <span>

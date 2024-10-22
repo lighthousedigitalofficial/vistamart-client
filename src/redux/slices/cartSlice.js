@@ -14,7 +14,7 @@ if (typeof localStorage !== "undefined") {
 				billingAddress: {},
 				paymentMethod: "",
 				vendors: [],
-		  };
+		};
 }
 
 const cartSlice = createSlice({
@@ -25,7 +25,7 @@ const cartSlice = createSlice({
 			const { ...item } = action.payload;
 			const vendor = item.userId;
 
-			console.log({ vendor });
+			// console.log({ vendor });
 
 			// Check if the item already exists in the cart
 			const existItem = state.cartItems.find((x) => x._id === item._id);

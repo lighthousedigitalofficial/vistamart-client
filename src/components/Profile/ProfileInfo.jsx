@@ -69,7 +69,7 @@ const ProfileInfo = () => {
     const navigate = useNavigate()
 
     const onSubmit = async (data) => {
-        console.log('Form Data:', data)
+        // console.log('Form Data:', data)
         const formData = new FormData()
         formData.append('customerId', userInfo?.user?._id)
         formData.append('firstName', formData.firstName)
@@ -83,7 +83,7 @@ const ProfileInfo = () => {
             toast.success('Customer Update successfully')
             navigate('/profile/profile-info')
         } catch (error) {
-            console.log(error)
+            // console.log(error)
             toast.error(error.data.message)
         }
     }
