@@ -9,6 +9,7 @@ const ServerErrorPage = () => {
             <img
                 src={ServerErrorImage}
                 alt="Server Error"
+                loading="lazy"
                 className="w-full max-w-md h-auto mb-6 object-contain"
             />
 

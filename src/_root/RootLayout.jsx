@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import SessionExpiredModal from './../components/shared/SessionExpiredModal'
 import toast from 'react-hot-toast'
 import { useCheckHealthQuery } from '../redux/slices/apiHealthSlice'
+import { Helmet } from 'react-helmet-async'
 
 const RootLayout = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -56,24 +57,42 @@ const RootLayout = () => {
         <Loader />
     ) : (
         !error && (
-            <div>
-                <Header />
-                <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4">
-                    <Suspense
-                        fallback={
-                            <div>
-                                <Loader />
-                            </div>
-                        }
-                    >
-                        <Outlet />
-                    </Suspense>
+            <>
+                {/* Global Helmet for the entire app */}
+                <Helmet>
+                    <title>Vista Mart - Best Online Shopping Experience</title>
+                    <meta
+                        name="description"
+                        content="Shop at Vista Mart for a wide range of products with the best deals!"
+                    />
+                    <meta
+                        name="keywords"
+                        content="shopping, ecommerce, online store, best deals"
+                    />
+                    <meta name="author" content="Vista Mart" />
+                    <link rel="canonical" href="https://vistamart.biz/" />
+                </Helmet>
+                <div>
+                    <Header />
+                    <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4">
+                        <Suspense
+                            fallback={
+                                <div>
+                                    <Loader />
+                                </div>
+                            }
+                        >
+                            <Outlet />
+                        </Suspense>
+                    </div>
+                    <StickyIcons />
+                    <Contacts />
+                    <Footer />
+                    {isModalOpen && (
+                        <SessionExpiredModal onClose={closeModal} />
+                    )}
                 </div>
-                <StickyIcons />
-                <Contacts />
-                <Footer />
-                {isModalOpen && <SessionExpiredModal onClose={closeModal} />}
-            </div>
+            </>
         )
     )
 }

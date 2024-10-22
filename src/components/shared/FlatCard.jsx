@@ -19,6 +19,7 @@ const FlatCard = (product) => {
                             keys.DEFAULT_IMG
                         }
                         alt={product.name}
+                        loading="lazy"
                         className="product__img h-32"
                     />
                 </Link>

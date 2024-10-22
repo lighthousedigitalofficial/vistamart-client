@@ -12,6 +12,7 @@ const ShopBanner = ({ vendor }) => {
                         `${keys.BUCKET_URL}${vendor.banner}` || keys.DEFAULT_IMG
                     }
                     alt="Shop Banner"
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover rounded-lg"
                 />
                 <div className="relative flex items-center h-full">
@@ -23,6 +24,7 @@ const ShopBanner = ({ vendor }) => {
                                     `${keys.BUCKET_URL}${vendor.logo}` ||
                                     keys.DEFAULT_IMG
                                 }
+                                loading="lazy"
                                 alt="shop logo"
                                 className="w-16 h-16 object-cover rounded"
                             />

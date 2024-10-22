@@ -64,6 +64,7 @@ const HomePage = () => {
                     src={PromoSaleImage}
                     alt="promo sale banner"
                     className="rounded-lg"
+                    loading="lazy"
                 />
             </section>
 
@@ -77,6 +78,7 @@ const HomePage = () => {
                         keys.DEFAULT_IMG
                     }
                     title={'Laptop'}
+                    loading="lazy"
                     price={150.0}
                 />
                 <LatestProducts />
@@ -89,11 +91,13 @@ const HomePage = () => {
                         src={MegaSaleBanner1}
                         alt="mega sale"
                         className="lg:w-1/2 w-full rounded-lg"
+                        loading="lazy"
                     />
                     <img
                         src={MegaSaleBanner2}
                         alt="mega sale"
                         className="lg:w-1/2 w-full rounded-lg"
+                        loading="lazy"
                     />
                 </div>
             </section>

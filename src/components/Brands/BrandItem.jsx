@@ -11,6 +11,7 @@ const BrandItem = ({ brand }) => {
                 <img
                     src={`${brand.logo}` || keys.DEFAULT_IMG}
                     alt={brand.name}
+                    loading="lazy"
                     className="w-full h-full rounded-full overflow-hidden object-cover transition-transform duration-300 group-hover:scale-110"
                 />
             </Link>

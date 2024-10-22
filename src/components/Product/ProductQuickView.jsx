@@ -89,6 +89,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                         <img
                             src={mainImage ? `${mainImage}` : keys.DEFAULT_IMG}
                             alt={product.doc.name}
+                            loading="lazy"
                             className="w-full h-full object-contain"
                         />
                     </div>
@@ -98,6 +99,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                                 key={index}
                                 src={`${src}` || keys.DEFAULT_IMG}
                                 alt={`Thumbnail ${index + 1}`}
+                                loading="lazy"
                                 className="w-16 h-16 object-cover mr-2 border rounded cursor-pointer"
                                 onClick={() => setMainImage(src)}
                             />

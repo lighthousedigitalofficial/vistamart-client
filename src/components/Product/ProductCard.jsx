@@ -41,6 +41,7 @@ const ProductCard = ({ data: product }) => {
                                 : keys.DEFAULT_IMG
                         }
                         alt={product.name}
+                        loading="lazy"
                         className="product__img object-cover"
                     />
                     <div className="product__quick-view z-20">

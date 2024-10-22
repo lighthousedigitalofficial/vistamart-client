@@ -36,6 +36,7 @@ const CartItem = ({ item }) => {
                                 : keys.DEFAULT_IMG
                         }
                         alt={item.name}
+                        loading="lazy"
                         className="h-20 object-cover rounded-md"
                     />
                 </Link>

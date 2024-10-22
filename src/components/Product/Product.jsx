@@ -54,6 +54,7 @@ const Product = ({ product }) => {
                         <img
                             src={`${mainImage}` || keys.DEFAULT_IMG}
                             alt="Main product image"
+                            loading="lazy"
                             className="w-full object-cover p-2 transition-transform duration-300 ease-out"
                         />
                     </div>
@@ -65,6 +66,7 @@ const Product = ({ product }) => {
                                 alt={`Thumbnail ${index + 1}`}
                                 className="w-16 h-16 md:w-20 md:h-20 object-cover mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
                                 onClick={() => setMainImage(src)}
+                                loading="lazy"
                             />
                         ))}
                     </div>
