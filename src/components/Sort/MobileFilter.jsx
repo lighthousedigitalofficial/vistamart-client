@@ -126,7 +126,7 @@ const MobileFilter = () => {
                                             return (
                                                 <li key={brand._id}>
                                                     <Link
-                                                        to={`/products?brand=${brand._id}`}
+                                                        to={`/products/brand/${brand.slug}`}
                                                         className="flex justify-between items-center hover:text-primary-700"
                                                     >
                                                         <span>
@@ -161,7 +161,7 @@ const MobileFilter = () => {
                                         return (
                                             <li key={category._id}>
                                                 <Link
-                                                    to={`/products?category=${category._id}`}
+                                                    to={`/products/category/${category.slug}`}
                                                     className="flex justify-between items-center hover:text-primary-700"
                                                 >
                                                     <span>
