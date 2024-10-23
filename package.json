@@ -5,8 +5,8 @@
     "type": "module",
     "proxy": "https://lionfish-app-tdhk5.ondigitalocean.app",
     "scripts": {
-        "dev": "vite --host",
-        "build": "vite build",
+        "dev": "vite",
+        "build": "vite build --minify false",
         "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview"
     },
