@@ -125,7 +125,7 @@ const FilterSidebar = ({ filters }) => {
                         <Loader />
                     ) : filterBrands ? (
                         filterBrands.map((brand) => {
-                            if (brand.productCount > 0)
+                            if (brand.totalProducts > 0)
                                 return (
                                     <li key={brand._id}>
                                         <Link
@@ -138,7 +138,7 @@ const FilterSidebar = ({ filters }) => {
                                                 )}
                                             </span>
                                             <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
-                                                {brand.productCount}
+                                                {brand.totalProducts}
                                             </span>
                                         </Link>
                                     </li>
@@ -157,7 +157,7 @@ const FilterSidebar = ({ filters }) => {
                     <h3 className="text-lg font-bold my-2">Categories</h3>
                     <ul className="mt-4 space-y-2">
                         {categories?.doc?.map((category) => {
-                            if (category?.productCount > 0)
+                            if (category?.totalProducts > 0)
                                 return (
                                     <li key={category._id}>
                                         <Link
@@ -170,7 +170,7 @@ const FilterSidebar = ({ filters }) => {
                                                 )}
                                             </span>
                                             <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
-                                                {category.productCount}
+                                                {category.totalProducts}
                                             </span>
                                         </Link>
                                     </li>

@@ -40,7 +40,7 @@ export const CategoryProductsPage = () => {
             <div className="mt-4 w-full mx-auto py-4">
                 <div className="bg-primary-50 p-6 rounded-lg shadow-sm">
                     <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                    {capitalizeFirstLetter(category?.doc?.name)}
+                        {capitalizeFirstLetter(category?.doc?.name)}
                     </h1>
                     <h1 className="text-lg text-gray-600">
                         {category?.doc?.totalProducts} Items found
@@ -58,7 +58,11 @@ export const CategoryProductsPage = () => {
                         </div>
                     ) : (
                         <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
-                            <img src={img} alt="NO Product Found" className='w-[60%] mx-auto'/>
+                            <img
+                                src={img}
+                                alt="NO Product Found"
+                                className="w-[60%] mx-auto"
+                            />
                         </div>
                     )}
                 </div>
