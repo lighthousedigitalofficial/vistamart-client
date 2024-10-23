@@ -24,7 +24,7 @@ const BrandDropDownItem = () => {
                             >
                                 <span>{capitalizeFirstLetter(brand.name)}</span>
                                 <span className="text-gray-500">
-                                    ({brand.productCount || 0})
+                                    ({brand.totalProducts || 0})
                                 </span>
                             </Link>
                         </li>
