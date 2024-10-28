@@ -133,9 +133,9 @@ const MultiStepForm = () => {
             // Step 1: Get upload URLs for the three images
             const [logoUploadConfig, bannerUploadConfig, vendorUploadConfig] =
                 await Promise.all([
-                    getUploadUrl(logoFile.type),
-                    getUploadUrl(bannerFile.type),
-                    getUploadUrl(vendorFile.type),
+                    getUploadUrl(logoFile.type, 'vendors'),
+                    getUploadUrl(bannerFile.type, 'vendors'),
+                    getUploadUrl(vendorFile.type, 'vendors'),
                 ])
 
             // Step 2: Upload images to S3 using the uploadImage helper function

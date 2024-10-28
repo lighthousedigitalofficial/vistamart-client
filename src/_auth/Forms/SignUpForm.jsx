@@ -65,12 +65,12 @@ const SignUpForm = () => {
         data.confirmPassword = undefined
 
         try {
-            await customerRegister(data).unwrap()
-            toast.success('Registration successfully')
-            navigate('/customer/auth/sign-in')
+            const res = await customerRegister(data).unwrap()
+            toast.success(res.message || 'OTP send successfully to your email')
+            navigate(`/auth/email/verification?email=${data.email}`)
         } catch (err) {
             toast.error(err?.data?.message || err.error)
-            // console.log(err)
+            console.log(err)
         }
     }
 

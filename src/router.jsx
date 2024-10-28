@@ -222,14 +222,6 @@ const router = createBrowserRouter([
                 path: '/search',
                 element: <SearchResultPage />,
             },
-            {
-                path: '/otp',
-                element: <OtpVerification />,
-            },
-            {
-                path: '/emailverification',
-                element: <EmailVerification />,
-            },
         ],
     },
     {
@@ -239,6 +231,14 @@ const router = createBrowserRouter([
             {
                 path: 'vendor/login',
                 element: <VendorLoginForm />,
+            },
+            {
+                path: 'otp',
+                element: <OtpVerification />,
+            },
+            {
+                path: 'email/verification',
+                element: <EmailVerification />,
             },
         ],
     },

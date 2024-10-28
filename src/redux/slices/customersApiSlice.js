@@ -17,15 +17,18 @@ export const customerApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
-
+        customerOTPVerification: builder.mutation({
+            query: (data) => ({
+                url: `${CUSTOMERS_URL}/otp/verify`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
         customerSubscribe: builder.mutation({
             query: (data) => ({
-                url: `https://lionfish-app-tdhk5.ondigitalocean.app/api/subscribers`,
+                url: `/api/subscribers`,
                 method: 'POST',
                 body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             }),
         }),
         customerForgetPassword: builder.mutation({
@@ -90,6 +93,7 @@ export const {
     useCustomerLogoutMutation,
     useCustomerRegisterMutation,
     useCustomerProfileMutation,
+    useCustomerOTPVerificationMutation,
     useGetCustomersQuery,
     useDeleteCustomerMutation,
     useUpdateCustomerMutation,
