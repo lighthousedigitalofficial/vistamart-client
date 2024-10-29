@@ -26,15 +26,15 @@ const EmailVerification = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        console.log('Entered OTP: ', otp.join(''))
         try {
             const token = otp.join('')
 
-            const response = await customerOTPVerification({
+            const res = await customerOTPVerification({
                 token,
                 email,
             }).unwrap()
-            toast.success(response?.message || 'OTP is correct.')
+
+            toast.success(res?.message || 'OTP is correct.')
             navigate('/customer/auth/sign-in')
         } catch (error) {
             console.log(error)

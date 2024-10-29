@@ -40,7 +40,8 @@ export const CategoryProductsPage = () => {
             <div className="mt-4 w-full mx-auto py-4">
                 <div className="bg-primary-50 p-6 rounded-lg shadow-sm">
                     <h1 className="text-2xl font-bold text-gray-800 mb-2">
-                        {capitalizeFirstLetter(category?.doc?.name)}
+                        Category Products (
+                        {capitalizeFirstLetter(category?.doc?.name)})
                     </h1>
                     <h1 className="text-lg text-gray-600">
                         {category?.doc?.totalProducts} Items found

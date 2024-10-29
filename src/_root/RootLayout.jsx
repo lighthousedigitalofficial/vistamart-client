@@ -84,9 +84,9 @@ const RootLayout = () => {
                     <meta name="author" content="Vista Mart" />
                     <link rel="canonical" href="https://vistamart.biz/" />
                 </Helmet>
-                <div>
+                <div className="bg-[#f3f5f9]">
                     <Header />
-                    <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4">
+                    <div className="lg:w-[90%] w-full mx-auto md:px-8 px-4 ">
                         <Suspense
                             fallback={
                                 <div>

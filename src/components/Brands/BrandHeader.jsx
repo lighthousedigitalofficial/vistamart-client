@@ -1,18 +1,20 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
-import { TbSortAscending2 } from 'react-icons/tb'
 import { useSearchParams } from 'react-router-dom'
 import MobileFilter from '../Sort/MobileFilter'
+// import SortFilter from '../Sort/SortFilter'
+import { TbSortAscending2 } from 'react-icons/tb'
 
 export const BrandHeader = ({ products, filters }) => {
+    // console.log(filters)
+
     const [searchParams, setSearchParams] = useSearchParams()
     // Determine the title based on query parameters
 
-    const [showFilter, setShowFilter] = useState(false)
+    //   const [showFilter, setShowFilter] = useState(false)
 
-    const toggleFilter = () => {
-        setShowFilter(!showFilter)
-    }
+    //   const toggleFilter = () => {
+    //       setShowFilter(!showFilter)
+    //   }
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target
@@ -22,8 +24,6 @@ export const BrandHeader = ({ products, filters }) => {
         }
         setSearchParams(searchParams)
     }
-
-    // console.log(filters)
 
     const getTitle = () => {
         if (filters.brand) {
@@ -47,6 +47,7 @@ export const BrandHeader = ({ products, filters }) => {
                 <h2 className="text-xl font-semibold">{title}</h2>
                 <p className="text-gray-500">{products?.results} Items found</p>
             </div>
+            {/* <SortFilter filters={filters} /> */}
             <div className="lg:block hidden">
                 <div className="flex items-center space-x-2 border-2 border-gray-200  px-2 rounded-lg hover:shadow-lg">
                     <TbSortAscending2 className="text-gray-600" />

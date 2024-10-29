@@ -4,7 +4,6 @@ import 'react-multi-carousel/lib/styles.css'
 import BrandItem from './BrandItem'
 
 const BrandList = ({ brands }) => {
-    console.log(brands)
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1024 },

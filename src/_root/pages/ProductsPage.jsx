@@ -25,8 +25,12 @@ export const ProductsPage = () => {
         }
     }
 
+    console.log(filters)
+
     // Fetch all products without pagination (modify the query to fetch all)
-    const { data: products, isLoading } = useGetProductsQuery() // Fetching all products
+    const { data: products, isLoading } = useGetProductsQuery({
+        sort: 'discount',
+    }) // Fetching all products
 
     useEffect(() => {
         setLoading(isLoading)
@@ -60,7 +64,7 @@ export const ProductsPage = () => {
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
                     {currentProducts.length ? (
-                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
+                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all ease-in duration-300">
                             {currentProducts.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
