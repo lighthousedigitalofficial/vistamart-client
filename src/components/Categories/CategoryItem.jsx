@@ -11,7 +11,7 @@ const CategoryItem = ({ category }) => {
             <img
                 src={`${keys.BUCKET_URL}${category.logo}` || keys.DEFAULT_IMG}
                 alt={category.name}
-                className="w-28 h-28 object-contain rounded-full transition-transform duration-300 group-hover:scale-90"
+                className="w-28 h-28 object-cover rounded-full transition-transform duration-300 group-hover:scale-90"
             />
             <p className="text-base w-28 font-semibold truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
                 {category.name}

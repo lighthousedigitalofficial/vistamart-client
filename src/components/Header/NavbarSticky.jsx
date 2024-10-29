@@ -59,8 +59,8 @@ const NavbarSticky = () => {
 
     return (
         <div
-            className={`w-full z-40 transition-all duration-500 ease-in-out py-4 ${
-                isSticky ? 'fixed top-0 shadow-lg bg-white' : 'relative'
+            className={`w-full z-40 transition-all bg-white duration-500 ease-in-out py-4 ${
+                isSticky ? 'fixed top-0 shadow-lg ' : 'relative'
             }`}
             style={{
                 transform: isSticky ? 'translateY(0)' : 'translateY(-10%)',

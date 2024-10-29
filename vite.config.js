@@ -6,21 +6,27 @@ export default defineConfig({
     server: {
         port: 80,
     },
-    base: './',
     plugins: [react()],
-    build: {
-        chunkSizeWarningLimit: 1000,
-        rollupOptions: {
-            output: {
-                manualChunks(id) {
-                    if (id.includes('node_modules')) {
-                        const packageName = id
-                            .split('node_modules/')[1]
-                            .split('/')[0]
-                        return packageName
-                    }
-                },
-            },
-        },
-    },
 })
+// export default defineConfig({
+//     server: {
+//         port: 80,
+//     },
+//     base: './',
+//     plugins: [react()],
+//     build: {
+//         chunkSizeWarningLimit: 1000,
+//         rollupOptions: {
+//             output: {
+//                 manualChunks(id) {
+//                     if (id.includes('node_modules')) {
+//                         const packageName = id
+//                             .split('node_modules/')[1]
+//                             .split('/')[0]
+//                         return packageName
+//                     }
+//                 },
+//             },
+//         },
+//     },
+// })
