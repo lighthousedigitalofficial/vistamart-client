@@ -20,8 +20,8 @@ const CartItem = ({ item }) => {
         }
     }, [item.qty])
 
-    const removeFromCartHandler = (id) => {
-        dispatch(removeFromCart(id))
+    const removeFromCartHandler = (item) => {
+        dispatch(removeFromCart(item))
         // console.log('ID: ', id)
     }
 
@@ -31,8 +31,10 @@ const CartItem = ({ item }) => {
                 <Link to={`/products/${item.slug}`} className="cursor-pointer">
                     <img
                         src={
-                            item?.thumbnail
-                                ? `${item.thumbnail}`
+                            item?.thumbnail?.startsWith('products')
+                                ? `${keys.BUCKET_URL}${item.thumbnail}`
+                                : item?.thumbnail
+                                ? item.thumbnail
                                 : keys.DEFAULT_IMG
                         }
                         alt={item.name}
@@ -66,7 +68,7 @@ const CartItem = ({ item }) => {
 
             <div className="flex flex-col gap-4 items-end">
                 <button
-                    onClick={() => removeFromCartHandler(item._id)}
+                    onClick={() => removeFromCartHandler(item)}
                     className="text-inherit cursor-pointer"
                 >
                     <FaTrash className="text-sm text-red-300 hover:text-red-400" />

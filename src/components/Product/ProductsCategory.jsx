@@ -28,13 +28,14 @@ const ProductsCategory = () => {
 
             {categories?.doc &&
                 categories?.doc?.map((category) => {
-                    return (
-                        <CategoryCarousel
-                            key={category._id}
-                            category={category}
-                            component={ProductCard}
-                        />
-                    )
+                    if (category.priority === 1 || category.priority === 2)
+                        return (
+                            <CategoryCarousel
+                                key={category._id}
+                                category={category}
+                                component={ProductCard}
+                            />
+                        )
                 })}
         </div>
     ) : (

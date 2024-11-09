@@ -3,13 +3,19 @@ import keys from './../../config/keys'
 
 /* eslint-disable react/prop-types */
 const CategoryItem = ({ category }) => {
+    const categoryLogo = category?.logo?.startsWith('category')
+        ? `${keys.BUCKET_URL}${category.logo}`
+        : category?.logo
+        ? category?.logo
+        : keys.DEFAULT_IMG
+
     return (
         <Link
             to={`/products/category/${category.slug}`}
             className="flex-center  flex-col gap-2 p-2 group cursor-pointer"
         >
             <img
-                src={`${keys.BUCKET_URL}${category.logo}` || keys.DEFAULT_IMG}
+                src={categoryLogo}
                 alt={category.name}
                 className="w-28 h-28 object-cover rounded-full transition-transform duration-300 group-hover:scale-90"
             />

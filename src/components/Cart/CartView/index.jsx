@@ -70,7 +70,7 @@ const CartView = () => {
                                 </Link>
                             </div>
                             <button className="w-full text-center btn primary-btn ">
-                                <Link to="/checkout-details">
+                                <Link to="/checkout/shipping-address">
                                     Proceed To Checkout
                                 </Link>
                             </button>

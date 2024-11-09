@@ -12,6 +12,10 @@ const MyOrders = () => {
         skip: !user._id,
     })
 
+    console.log(user._id)
+
+    console.log(orders)
+
     const formatDate = (dateString) => {
         const options = {
             year: 'numeric',
@@ -27,7 +31,7 @@ const MyOrders = () => {
     return isLoading ? (
         <Loader />
     ) : orders ? (
-        <div className="rounded-lg p-4 md:p-8 bg-white">
+        <div className="rounded-lg p-4 md:p-6 bg-white">
             <h1 className="text-sm md:text-lg lg:text-xl font-bold mb-4">
                 My Orders
             </h1>
@@ -48,9 +52,9 @@ const MyOrders = () => {
                                 <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 text-center text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wider">
                                     Total
                                 </th>
-                                <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 rounded-tr-lg">
+                                {/* <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 rounded-tr-lg">
                                     Action
-                                </th>
+                                </th> */}
                             </tr>
                         </thead>
                         <tbody>
@@ -78,33 +82,33 @@ const MyOrders = () => {
                                     <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200">
                                         <span className="relative inline-block font-semibold text-green-900 leading-tight text-xs md:text-sm">
                                             <span className="relative">
-                                                {order.orderStatus}
+                                                {order.status}
                                             </span>
                                         </span>
                                     </td>
                                     <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200">
                                         <p className="text-gray-900 whitespace-no-wrap text-xs md:text-sm">
-                                            $
+                                            Rs.
                                             {order.totalAmount
                                                 ? order.totalAmount.toFixed(2)
                                                 : '0.00'}
                                         </p>
                                     </td>
-                                    <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm flex justify-center items-center">
+                                    {/* <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm flex justify-center items-center">
                                         <Link
                                             to={`/profile/order-view/${order._id}`}
                                             className="text-blue-600 hover:text-blue-900 border-none cursor-pointer"
                                         >
                                             <IoEyeSharp />
                                         </Link>
-                                    </td>
+                                    </td> */}
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
             ) : (
-                <p>No orders found!</p>
+                <p className="text-center text-gray-700">No orders found!</p>
             )}
         </div>
     ) : (
@@ -120,10 +124,9 @@ export default MyOrders
 // OrderPage.jsx
 
 // import OrderCard from "./subcomponenets/OrderCard";
- 
+
 // const OrderPage = () => {
 //   // Sample order data (this can come from an API)
-
 
 //   const handleViewOrder = (Id) => {
 //     // alert(`Viewing details for order ${orderId}`);

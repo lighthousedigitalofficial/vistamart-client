@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
+
 import FeatureProducts from '../../components/Product/FeatureProducts'
 import Categories from '../../components/Categories'
 import FeaturedDeal from '../../components/Deals/FeaturedDeal'

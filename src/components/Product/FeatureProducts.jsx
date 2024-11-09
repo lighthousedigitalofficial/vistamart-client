@@ -12,6 +12,8 @@ const FeatureProducts = () => {
         isFeatured: true,
     })
 
+    console.log(products)
+
     return isLoading ? (
         <Loader />
     ) : products && products?.doc && products?.doc?.length ? (
@@ -19,7 +21,7 @@ const FeatureProducts = () => {
             <h2 className="text-2xl font-bold mb-4 text-center text-primary-500">
                 Featured Products
             </h2>
-            <Link to="/products?featured" className="view-box">
+            <Link to="/products/featured" className="view-box">
                 View All
                 <span>
                     <FaAngleRight className="text-lg" />

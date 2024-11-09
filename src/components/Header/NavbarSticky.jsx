@@ -12,20 +12,22 @@ import logo from '../../assets/app-logo/vista-app-logo.png'
 import SearchBar from './SerachBar'
 import { Link } from 'react-router-dom'
 import ProfileMenu from '../Profile/ProfileMenu'
-import { useSelector } from 'react-redux'
 import CartIcon from './CartIcon'
 import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 import MobileSidebar from './MobileSidebar'
+import useAuth from './../../hooks/useAuth'
 
 const NavbarSticky = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const [isSticky, setIsSticky] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
-    const { userInfo } = useSelector((state) => state.auth)
-    const { data: wishList } = useGetWishListByIdQuery(userInfo?.user?._id, {
-        skip: !userInfo?.user?._id,
+    const user = useAuth()
+
+    const { data: wishList } = useGetWishListByIdQuery(user?._id, {
+        skip: !user?._id,
     })
-    const totalWishListItems = wishList?.products?.length.toString() || '0'
+
+    const totalWishListItems = wishList?.doc?.products?.length.toString() || '0'
 
     const handleScroll = () => {
         const scrollPosition = window.scrollY
@@ -106,8 +108,8 @@ const NavbarSticky = () => {
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
-                            {userInfo && userInfo?.user ? (
-                                <ProfileMenu user={userInfo.user} />
+                            {user ? (
+                                <ProfileMenu user={user} />
                             ) : (
                                 <Menu open={openMenu} handler={setOpenMenu}>
                                     <MenuHandler>

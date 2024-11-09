@@ -12,42 +12,70 @@ import withAutoplay from 'react-awesome-slider/dist/autoplay'
 import 'react-awesome-slider/dist/styles.css'
 
 import styles from './Hero.module.css'
+import { useGetBannersQuery } from '../../redux/slices/bannersSlice'
+import keys from '../../config/keys'
+import Loader from '../Loader'
 
 const AutoplaySlider = withAutoplay(AwesomeSlider)
 
-const HeroSection = () => (
-    <AutoplaySlider
-        play={true}
-        cancelOnInteraction={false}
-        interval={6000}
-        className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[35vh]`}
-    >
-        <div>
-            <LazyLoadImage
-                src={Banner3} // Path to your image
-                alt="Banner 3"
-                effect="blur" // You can use "blur" or "opacity" as lazy load effect
-                className="object-contain"
-            />
-        </div>
-        <div>
-            <LazyLoadImage
-                src={Banner2}
-                alt="Banner 2"
-                effect="blur"
-                className="object-contain"
-            />
-        </div>
-        <div>
-            <LazyLoadImage
-                src={Banner1}
-                alt="Banner 1"
-                effect="blur"
-                className="object-contain"
-            />
-        </div>
-    </AutoplaySlider>
-)
+const HeroSection = () => {
+    const { data: banners, isLoading } = useGetBannersQuery({
+        // bannerType: 'main',
+    })
+
+    console.log(banners)
+
+    return isLoading ? (
+        <Loader />
+    ) : (
+        <AutoplaySlider
+            play={true}
+            cancelOnInteraction={false}
+            interval={6000}
+            className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[35vh]`}
+        >
+            {banners && banners?.doc?.length ? (
+                banners.doc.map((banner) => (
+                    <div key={banner._id}>
+                        <LazyLoadImage
+                            src={`${keys.BUCKET_URL}${banner.bannerImage}`} // Path to your image
+                            alt="Banner 3"
+                            effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                            className="object-contain"
+                        />
+                    </div>
+                ))
+            ) : (
+                <>
+                    <div>
+                        <LazyLoadImage
+                            src={Banner3} // Path to your image
+                            alt="Banner 3"
+                            effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                            className="object-contain"
+                        />
+                    </div>
+                    <div>
+                        <LazyLoadImage
+                            src={Banner2}
+                            alt="Banner 2"
+                            effect="blur"
+                            className="object-contain"
+                        />
+                    </div>
+                    <div>
+                        <LazyLoadImage
+                            src={Banner1}
+                            alt="Banner 1"
+                            effect="blur"
+                            className="object-contain"
+                        />
+                    </div>
+                </>
+            )}
+        </AutoplaySlider>
+    )
+}
 
 export default HeroSection
 

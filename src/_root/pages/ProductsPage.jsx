@@ -10,31 +10,34 @@ import { TablePagination } from '@mui/material'
 
 export const ProductsPage = () => {
     const [searchParams] = useSearchParams()
+    const [currentPage, setCurrentPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(12)
+
     const [loading, setLoading] = useState(false)
-    const [currentPage, setCurrentPage] = useState(0) // MUI uses 0-based indexing
-    const [rowsPerPage, setRowsPerPage] = useState(10) // Adjust based on your needs
 
-    let filters = {}
-    for (let [param, value] of searchParams.entries()) {
-        filters[param] = value
-        if (param === 'discount') {
-            filters = { sort: 'discount' }
-        }
-        if (param === 'featured') {
-            filters = { isFeatured: true }
-        }
-    }
-
-    console.log(filters)
+    // Construct filters from search parameters
+    const filters = Array.from(searchParams.entries()).reduce(
+        (acc, [param, value]) => {
+            if (param === 'discount') {
+                acc.sort = 'discount'
+            } else if (param === 'featured') {
+                acc.isFeatured = true
+            } else {
+                acc[param] = value
+            }
+            return acc
+        },
+        {}
+    )
 
     // Fetch all products without pagination (modify the query to fetch all)
-    const { data: products, isLoading } = useGetProductsQuery({
-        sort: 'discount',
-    }) // Fetching all products
+    const { data: products, isLoading } = useGetProductsQuery(filters)
 
     useEffect(() => {
-        setLoading(isLoading)
-    }, [products, isLoading])
+        if (isLoading) {
+            setLoading(true)
+        } else setLoading(false)
+    }, [products, isLoading, searchParams])
 
     // Calculate total products and pagination
     const totalProducts = products?.results || 0 // Get total number of products from the fetched data
@@ -55,7 +58,9 @@ export const ProductsPage = () => {
         setCurrentPage(0) // Reset to the first page when changing rows per page
     }
 
-    return loading ? (
+    console.log(currentProducts)
+
+    return loading || isLoading ? (
         <Loader />
     ) : products ? (
         <>
@@ -63,8 +68,8 @@ export const ProductsPage = () => {
                 <BrandHeader filters={filters} products={products} />
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
-                    {currentProducts.length ? (
-                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all ease-in duration-300">
+                    {currentProducts?.length ? (
+                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all py-2 ease-in duration-300">
                             {currentProducts.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}

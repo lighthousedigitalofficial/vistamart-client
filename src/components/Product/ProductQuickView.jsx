@@ -26,9 +26,12 @@ const ProductQuickView = ({ productId, onClose }) => {
     const oldPrice = product?.doc?.price + product?.doc?.discountAmount || 0
 
     useEffect(() => {
-        if (product && product?.doc?.thumbnail) {
-            setMainImage(product?.doc?.thumbnail)
-        }
+        const productImage = product?.doc?.thumbnail?.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.doc.thumbnail}`
+            : product?.doc?.thumbnail
+            ? product?.doc?.thumbnail
+            : keys.DEFAULT_IMG
+        setMainImage(productImage)
     }, [product])
 
     const dispatch = useDispatch()
@@ -58,7 +61,7 @@ const ProductQuickView = ({ productId, onClose }) => {
         if (qty >= product.doc.minimumOrderQty) {
             dispatch(addToCart({ ...product, qty }))
             onClose()
-            navigate('/checkout-details')
+            navigate('/checkout/shipping-address')
         } else setMinimumOrderError(true)
     }
 

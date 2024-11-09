@@ -4,12 +4,24 @@ import { PhoneInput } from 'react-international-phone'
 import { Link } from 'react-router-dom'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
+import { useState } from 'react'
 
 const SellerRegForm1 = ({ errors }) => {
     const { register } = useFormContext()
 
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+    const handleTogglePassword = () => {
+        setShowPassword(!showPassword)
+    }
+    const handleToggleConfirmPassword = () => {
+        setShowConfirmPassword(!showConfirmPassword)
+    }
+
     return (
-        <div className="flex flex-col lg:flex-row justify-between items-center gap-6 bg-primary-100 py-10 px-4 lg:px-8">
+        <div className="flex flex-col p-8 gap-6">
             <div className="flex flex-col justify-center items-center mb-6 lg:mb-0">
                 <h2 className="text-2xl lg:text-3xl text-center lg:text-left">
                     Vendor Registration
@@ -33,7 +45,7 @@ const SellerRegForm1 = ({ errors }) => {
                 <h2 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-center lg:text-left">
                     Account Information
                 </h2>
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+                <div className=" w-full grid md:grid-cols-2 grid-cols-1 gap-4">
                     <div className="mb-4">
                         <label className="input-label">Email</label>
                         <input
@@ -50,33 +62,55 @@ const SellerRegForm1 = ({ errors }) => {
                             </p>
                         )}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 relative">
                         <label className="input-label">Password</label>
                         <input
                             {...register('password')}
-                            type="password"
+                            type={showPassword ? 'text' : 'password'}
                             className={`input ${
                                 errors.password ? 'border-red-500' : ''
                             }`}
-                            placeholder="Enter password"
+                            placeholder="Minimum 8 characters long"
                         />
+                        <button
+                            type="button"
+                            onClick={handleTogglePassword}
+                            className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg"
+                        >
+                            {showPassword ? (
+                                <FaRegEyeSlash className="mt-6" />
+                            ) : (
+                                <FaRegEye className="mt-6" />
+                            )}
+                        </button>
                         {errors.password && (
                             <p className="text-red-500 text-xs italic">
                                 {errors.password.message}
                             </p>
                         )}
                     </div>
-                    <div className="mb-4">
+                    <div className="mb-4 relative">
                         <label className="input-label">Confirm Password</label>
                         <input
                             {...register('confirmPassword')}
-                            type="password"
+                            type={showConfirmPassword ? 'text' : 'password'}
                             className={`input ${
                                 errors.confirmPassword ? 'border-red-500' : ''
                             }`}
-                            placeholder="Confirm password"
+                            placeholder="Minimum 8 characters long"
                         />
-                        {errors.confirmPassword && (
+                        <button
+                            type="button"
+                            onClick={handleToggleConfirmPassword}
+                            className="absolute inset-y-0 right-0 flex items-center pr-4 text-lg leading-5"
+                        >
+                            {showConfirmPassword ? (
+                                <FaRegEyeSlash className="mt-6" />
+                            ) : (
+                                <FaRegEye className="mt-6" />
+                            )}
+                        </button>
+                        {errors.password && (
                             <p className="text-red-500 text-xs italic">
                                 {errors.password.message}
                             </p>

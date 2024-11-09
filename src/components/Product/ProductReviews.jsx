@@ -17,6 +17,8 @@ const calculateRatingPercentage = (rating, totalReviews) => {
 const ProductReviews = ({ product }) => {
     reviews = product?.reviews || []
 
+    console.log({ reviews })
+
     return (
         <div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
             <div className="text-center mb-4">
@@ -68,7 +70,6 @@ const ProductReviews = ({ product }) => {
                 </h2>
                 {reviews && reviews.length ? (
                     reviews.map((review) => {
-                        // console.log(review)
                         return (
                             <div
                                 key={review._id}
@@ -81,12 +82,14 @@ const ProductReviews = ({ product }) => {
                                                 ? `${keys.BUCKET_URL}${review?.customer?.image}`
                                                 : 'https://shorturl.at/KREMs'
                                         }
-                                        alt={`${review.customer.firstName} avatar`}
+                                        alt={`avatar`}
                                         className="w-10 h-10 object-contain rounded-full"
                                     />
                                     <div>
                                         <h3 className="font-bold">
-                                            {`${review.customer.firstName} ${review.customer.lastName}`}
+                                            {review?.customer
+                                                ? review?.customer?.firstName
+                                                : 'Unkown'}
                                         </h3>
                                         <Rating
                                             name="half-rating-read"

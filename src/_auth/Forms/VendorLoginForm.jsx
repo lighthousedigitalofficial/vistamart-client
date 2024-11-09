@@ -62,7 +62,7 @@ const VendorLoginForm = () => {
     }
 
     return (
-        <div className="w-full p-8 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-out">
+        <div className="w-2/5 mx-auto p-8 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-out">
             <div className="text-center text-blue-gray-800 mb-8">
                 <h2 className="text-2xl font-bold mb-4">Sign in</h2>
                 <h3 className="text-xl font-bold mb-4">

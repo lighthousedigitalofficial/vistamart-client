@@ -1,5 +1,5 @@
 import { apiSlice } from './apiSlice'
-import { CUSTOMERS_URL } from '../constants'
+import { CUSTOMERS_URL, OTP_URL } from '../constants'
 
 export const customerApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -17,6 +17,13 @@ export const customerApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        resendEmailOTP: builder.mutation({
+            query: (data) => ({
+                url: `${OTP_URL}/send-email`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
         customerOTPVerification: builder.mutation({
             query: (data) => ({
                 url: `${CUSTOMERS_URL}/otp/verify`,
@@ -25,10 +32,10 @@ export const customerApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         customerSubscribe: builder.mutation({
-            query: (data) => ({
-                url: `/api/subscribers`,
+            query: (email) => ({
+                url: `/user/subscribers`,
                 method: 'POST',
-                body: JSON.stringify(data),
+                body: email,
             }),
         }),
         customerForgetPassword: builder.mutation({
@@ -75,12 +82,10 @@ export const customerApiSlice = apiSlice.injectEndpoints({
         }),
         updateCustomer: builder.mutation({
             query: (data) => {
-                // console.log(data)
                 return {
                     url: `${CUSTOMERS_URL}/${data.customerId}`,
                     method: 'PUT',
                     body: data,
-                    formData: true,
                 }
             },
             invalidatesTags: ['Customer'],
@@ -94,6 +99,7 @@ export const {
     useCustomerRegisterMutation,
     useCustomerProfileMutation,
     useCustomerOTPVerificationMutation,
+    useResendEmailOTPMutation,
     useGetCustomersQuery,
     useDeleteCustomerMutation,
     useUpdateCustomerMutation,

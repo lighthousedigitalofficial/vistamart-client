@@ -22,12 +22,12 @@ const menuItems = [
     // { icon: FaWallet, label: "My Wallet", to: "/profile/my-wallet" },
     // { icon: FaStar, label: "My Loyalty Point", to: "/profile/my-loyalty-point" },
     // { icon: FaInbox, label: 'Inbox', to: '/profile/inbox', chip: 14 },
-    { icon: FaHome, label: 'My Address', to: '/profile/my-address' },
-    {
-        icon: FaTicketAlt,
-        label: 'Support Ticket',
-        to: '/profile/support-ticket',
-    },
+    // { icon: FaHome, label: 'My Address', to: '/profile/my-address' },
+    // {
+    //     icon: FaTicketAlt,
+    //     label: 'Support Ticket',
+    //     to: '/profile/support-ticket',
+    // },
     // { icon: FaGift, label: "Refer & Earn", to: "/profile/refer-earn" },
     { icon: FaTag, label: 'Coupons', to: '/profile/coupons' },
     { icon: FaShippingFast, label: 'Track Order', to: '/profile/track-order' },

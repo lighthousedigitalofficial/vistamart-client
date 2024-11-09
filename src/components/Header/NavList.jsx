@@ -89,7 +89,7 @@ const NavList = () => {
                         className="p-1 font-medium border-0 outline-none"
                     >
                         <Link
-                            to="/vendor/auth/registration"
+                            to="/auth/vendor/registration"
                             className="flex items-center text-black border-b hover:text-primary-400 transition-colors"
                         >
                             Become a vendor

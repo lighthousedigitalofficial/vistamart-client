@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { addToCart } from '../../redux/slices/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Quantity from './subcomponent/Quantity'
@@ -10,8 +10,17 @@ import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
 
 const Product = ({ product }) => {
-    const [mainImage, setMainImage] = useState(product?.thumbnail)
+    const [mainImage, setMainImage] = useState('')
     const [qty, setQty] = useState(1)
+
+    useEffect(() => {
+        const productImage = product?.thumbnail?.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.thumbnail}`
+            : product?.thumbnail
+            ? product.thumbnail
+            : keys.DEFAULT_IMG
+        setMainImage(productImage)
+    }, [product])
 
     const productImages = product ? [...product.images, product?.thumbnail] : []
     const oldPrice = product?.price + product?.discountAmount || 0
@@ -38,7 +47,7 @@ const Product = ({ product }) => {
     const buyNowHandler = () => {
         if (qty >= product.minimumOrderQty) {
             dispatch(addToCart({ ...product, qty }))
-            navigate('/checkout-details')
+            navigate('/checkout/shipping-address')
             toast.success('Item added successfully')
         } else
             toast.error(

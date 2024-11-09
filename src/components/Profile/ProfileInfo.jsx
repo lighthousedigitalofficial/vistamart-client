@@ -8,29 +8,30 @@ import {
     useGetCustomerDetailsQuery,
     useUpdateCustomerMutation,
 } from '../../redux/slices/customersApiSlice'
-import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import keys from '../../config/keys'
 import Loader from '../Loader'
+import { getUploadUrl, uploadImageToS3 } from '../../utils/helpers'
 
 // Zod schema for form validation
 const profileSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
     email: z.string().email('Invalid email address'),
-    phoneNumber: z
-        .string()
-        .min(10, 'Phone number must be at least 10 characters'),
+    phoneNumber: z.string().optional(),
     image: z.any().optional(),
 })
 
 const ProfileInfo = () => {
     const { userInfo } = useSelector((state) => state.auth)
 
-    const { data: user, isLoading: customerLoading } =
-        useGetCustomerDetailsQuery(userInfo.user._id, {
-            skip: !userInfo?.user?._id,
-        })
+    const {
+        data: user,
+        isLoading: customerLoading,
+        refetch,
+    } = useGetCustomerDetailsQuery(userInfo.user._id, {
+        skip: !userInfo?.user?._id,
+    })
 
     const [selectedImage, setSelectedImage] = useState(null)
 
@@ -43,6 +44,8 @@ const ProfileInfo = () => {
         }
     }, [setSelectedImage, user, userInfo])
 
+    console.log(user)
+
     const {
         register,
         handleSubmit,
@@ -51,10 +54,10 @@ const ProfileInfo = () => {
     } = useForm({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            firstName: userInfo?.user?.firstName || '',
-            lastName: userInfo?.user?.lastName || '',
-            email: userInfo?.user?.email || '',
-            phoneNumber: userInfo?.user?.phoneNumber || '',
+            firstName: user?.doc?.firstName || '',
+            lastName: user?.doc?.lastName || '',
+            email: user?.doc?.email || '',
+            phoneNumber: user?.doc?.phoneNumber || '',
         },
     })
 
@@ -66,25 +69,40 @@ const ProfileInfo = () => {
         }
     }
 
-    const navigate = useNavigate()
+    async function uploadImage(uploadConfig, file) {
+        try {
+            await uploadImageToS3(uploadConfig.url, file)
+            return uploadConfig.key // Return the key if successful
+        } catch (error) {
+            console.error(`Failed to upload ${file.name}:`, error)
+            return null // Return null on failure
+        }
+    }
 
     const onSubmit = async (data) => {
-        // console.log('Form Data:', data)
-        const formData = new FormData()
-        formData.append('customerId', userInfo?.user?._id)
-        formData.append('firstName', formData.firstName)
-        formData.append('lastName', formData.lastName)
-        formData.append('email', formData.email)
-        formData.append('phoneNumber', formData.phoneNumber)
-        formData.append('image', formData.image)
-
         try {
-            await updateCustomer(formData).unwrap()
+            let imageConfig
+            if (data.image[0]) {
+                console.log('first')
+                imageConfig = await getUploadUrl(data?.image.type, 'customers')
+
+                await uploadImage(imageConfig, data.image)
+            }
+
+            const userData = {
+                customerId: userInfo?.user?._id,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                image: imageConfig?.key || user?.doc?.image,
+                phoneNumber: data.phoneNumber,
+            }
+
+            await updateCustomer(userData).unwrap()
             toast.success('Customer Update successfully')
-            navigate('/profile/profile-info')
+            refetch()
         } catch (error) {
-            // console.log(error)
-            toast.error(error.data.message)
+            console.log(error)
+            toast.error(error?.data?.message || 'Customer not updated!')
         }
     }
 

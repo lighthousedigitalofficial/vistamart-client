@@ -185,7 +185,7 @@ const MultiStepForm = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     {step === 0 && (
-                        <>
+                        <div className="bg-primary-100 py-10 px-4 lg:px-8">
                             <SellerRegForm1 errors={methods.formState.errors} />
                             <div className="flex justify-end mt-4">
                                 <button
@@ -196,7 +196,7 @@ const MultiStepForm = () => {
                                     Next
                                 </button>
                             </div>
-                        </>
+                        </div>
                     )}
                     {step === 1 && (
                         <>

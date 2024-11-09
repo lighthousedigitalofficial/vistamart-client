@@ -36,8 +36,10 @@ const ProductCard = ({ data: product }) => {
                     )}
                     <img
                         src={
-                            product?.thumbnail
-                                ? `${product.thumbnail}`
+                            product?.thumbnail?.startsWith('products')
+                                ? `${keys.BUCKET_URL}${product.thumbnail}`
+                                : product?.thumbnail
+                                ? product.thumbnail
                                 : keys.DEFAULT_IMG
                         }
                         alt={product.name}
