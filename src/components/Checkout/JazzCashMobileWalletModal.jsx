@@ -158,7 +158,10 @@ const JazzCashMobileWalletModal = ({ isOpen, handleClose }) => {
                         >
                             Close
                         </button>
-                        <button type="submit" className="btn primary-btn">
+                        <button
+                            onClick={handleSubmitForm}
+                            className="btn primary-btn"
+                        >
                             {isLoading ? 'is Loading...' : 'Pay Now'}
                         </button>
                     </div>

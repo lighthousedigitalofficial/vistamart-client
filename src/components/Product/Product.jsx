@@ -8,10 +8,12 @@ import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
 import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
+import { formatPrice } from '../../utils/helpers'
 
 const Product = ({ product }) => {
     const [mainImage, setMainImage] = useState('')
     const [qty, setQty] = useState(1)
+    const [totalPrice, setTotalPrice] = useState(product.price || 0)
 
     useEffect(() => {
         const productImage = product?.thumbnail?.startsWith('products')
@@ -21,6 +23,12 @@ const Product = ({ product }) => {
             : keys.DEFAULT_IMG
         setMainImage(productImage)
     }, [product])
+
+    useEffect(() => {
+        if (!product?.taxIncluded) {
+            setTotalPrice((product?.price + product.taxAmount) * qty)
+        } else setTotalPrice(product.price * qty)
+    }, [product, qty])
 
     const productImages = product ? [...product.images, product?.thumbnail] : []
     const oldPrice = product?.price + product?.discountAmount || 0
@@ -67,18 +75,25 @@ const Product = ({ product }) => {
                             className="w-full object-cover p-2 transition-transform duration-300 ease-out"
                         />
                     </div>
-                    <div className="flex justify-center mt-4 ">
-                        {productImages?.map((src, index) => (
-                            <img
-                                key={index}
-                                src={`${src}` || keys.DEFAULT_IMG}
-                                alt={`Thumbnail ${index + 1}`}
-                                className="w-16 h-16 md:w-20 md:h-20 object-cover mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
-                                onClick={() => setMainImage(src)}
-                                loading="lazy"
-                            />
-                        ))}
-                    </div>
+                    {/* <div className="flex justify-center mt-4 ">
+                        {productImages?.map((src, index) => {
+                            const productImage = src?.startsWith('products')
+                                ? `${keys.BUCKET_URL}${src}`
+                                : src
+                                ? src
+                                : keys.DEFAULT_IMG
+                            return (
+                                <img
+                                    key={index}
+                                    src={productImage}
+                                    alt={`Thumbnail ${index + 1}`}
+                                    className="w-16 h-16 md:w-20 md:h-20 object-cover mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
+                                    onClick={() => setMainImage(src)}
+                                    loading="lazy"
+                                />
+                            )
+                        })}
+                    </div> */}
                 </div>
                 <div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
                     <h2 className="text-lg md:text-xl">{product.name}</h2>
@@ -106,11 +121,11 @@ const Product = ({ product }) => {
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="text-xl font-bold text-primary-400">
-                            Rs.{product.price.toFixed(2)}
+                            Rs.{formatPrice(product.price)}
                         </p>
                         {oldPrice > product.price && (
                             <p className="text-sm font-semibold line-through text-gray-500">
-                                Rs.{oldPrice.toFixed(2)}
+                                Rs.{formatPrice(oldPrice)}
                             </p>
                         )}
                     </div>
@@ -142,9 +157,13 @@ const Product = ({ product }) => {
                             Total Price:
                         </h3>
                         <p className="text-xl font-bold text-primary-400 transition-all duration-100 ease-in">
-                            Rs.{(product.price * qty).toFixed(2)}
+                            Rs.{formatPrice(totalPrice)}
                         </p>
-                        <span className="mx-2 px-1 text-xs">(Tax : incl.)</span>
+                        <span className="mx-2 px-1 text-xs">
+                            {product.taxIncluded
+                                ? '(Tax: incl.)'
+                                : `(Tax: Rs. ${product.taxAmount})`}
+                        </span>
                     </div>
                     <div className="flex gap-6 w-full">
                         <button

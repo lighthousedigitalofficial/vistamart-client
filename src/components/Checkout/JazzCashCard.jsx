@@ -1,78 +1,124 @@
-import { useState } from 'react'
-import keys from '../../config/keys'
+/* eslint-disable react/prop-types */
 import axios from 'axios'
+import { useEffect, useState } from 'react'
+import keys from '../../config/keys'
 
-const JazzCashCard = () => {
-    const [formData, setFormData] = useState({
-        pp_Version: '1.1',
-        pp_TxnType: 'MPAY',
-        pp_MerchantID: 'MC133533',
-        pp_Password: '8a03t83etu',
-        pp_Amount: '10000',
-        pp_Language: 'EN',
-        pp_TxnRefNo: 'T20241106115800',
-        pp_TxnDateTime: '20241106115809',
-        pp_TxnExpiryDateTime: '20241107115809',
-        pp_BillReference: 'billRef',
-        pp_Description: 'Description of transaction',
-        pp_ReturnURL:
-            'https://www.api2.vistamart.biz/api/v1/transaction/payment/jazzcash/return',
-        pp_TxnCurrency: 'PKR',
-        pp_SecureHash: '',
-        salt: '94ub3u9a2y',
-    })
+import jazzCashLogo from './../../assets/payment-gateway/jazzcash.png'
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        setFormData({
-            ...formData,
-            [name]: value,
-        })
-    }
+const JazzCashCard = ({ totalPrice }) => {
+    const [params, setParams] = useState(null)
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            const { data } = await axios.post(
-                `${keys.BASE_URL}/api/v1/transaction/payment/generate-hash`,
-                formData
-            )
+    const handleSubmit = async () => {
+        // Fetch transaction data from backend
+        const { data } = await axios.post(
+            `${keys.BASE_URL}/api/v1/transaction/payment/initiate/card`,
+            { amount: totalPrice }
+        )
 
-            if (data.hash) {
-                setFormData({ ...formData, pp_SecureHash: data.hash })
-                console.log(
-                    `https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/?` +
-                        formData
-                )
-                document.forms['jazzcashForm'].submit()
-            }
-        } catch (error) {
-            console.error('Error generating hash:', error)
+        // Set the params to trigger form submission in useEffect
+        if (data.params) {
+            setParams(data.params)
         }
     }
 
+    // Handle the form submission automatically once params are set
+    useEffect(() => {
+        if (params) {
+            document.jsform.submit()
+        }
+    }, [params])
+
     return (
-        <form
-            name="jazzcashForm"
-            method="post"
-            action="https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/"
-        >
-            {Object.keys(formData).map((key) => (
-                <div key={key}>
-                    <label>{key}:</label>
+        <>
+            {params && (
+                <form
+                    className="hidden"
+                    name="jsform"
+                    method="post"
+                    action="https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform"
+                >
                     <input
-                        type="text"
-                        name={key}
-                        value={formData[key]}
-                        onChange={handleChange}
-                        readOnly={key === 'pp_SecureHash' || key === 'salt'}
+                        type="hidden"
+                        name="pp_MerchantID"
+                        value={params.pp_MerchantID}
                     />
-                </div>
-            ))}
-            <button type="button" onClick={handleSubmit}>
-                Submit
+                    <input
+                        type="hidden"
+                        name="pp_Password"
+                        value={params.pp_Password}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_TxnRefNo"
+                        value={params.pp_TxnRefNo}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_Amount"
+                        value={params.pp_Amount}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_TxnDateTime"
+                        value={params.pp_TxnDateTime}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_TxnExpiryDateTime"
+                        value={params.pp_TxnExpiryDateTime}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_ReturnURL"
+                        value={params.pp_ReturnURL}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_Language"
+                        value={params.pp_Language}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_TxnCurrency"
+                        value={params.pp_TxnCurrency}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_Version"
+                        value={params.pp_Version}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_SecureHash"
+                        value={params.pp_SecureHash}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_BillReference"
+                        value={params.pp_BillReference}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_Description"
+                        value={params.pp_Description}
+                    />
+                    <input
+                        type="hidden"
+                        name="pp_TxnType"
+                        value={params.pp_TxnType}
+                    />
+                </form>
+            )}
+
+            <button
+                type="button"
+                onClick={handleSubmit}
+                className="flex items-center gap-2 bg-primary-50 py-3 px-6"
+            >
+                <img src={jazzCashLogo} alt="Jazz Cash" className="h-4" />
+                Cardit Card
             </button>
-        </form>
+        </>
     )
 }
 

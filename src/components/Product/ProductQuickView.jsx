@@ -96,7 +96,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                             className="w-full h-full object-contain"
                         />
                     </div>
-                    <div className="flex justify-center mt-4">
+                    {/* <div className="flex justify-center mt-4">
                         {productImages?.map((src, index) => (
                             <img
                                 key={index}
@@ -107,7 +107,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                                 onClick={() => setMainImage(src)}
                             />
                         ))}
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Product Details Section */}

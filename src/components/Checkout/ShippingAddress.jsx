@@ -27,15 +27,17 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
 
     // Update default values when address data changes
     useEffect(() => {
-        reset({
-            name: address.name || '',
-            phoneNumber: address.phoneNumber || '',
-            country: address.country || '',
-            city: address.city || '',
-            state: address.state || '',
-            zipCode: address.zipCode || '',
-            address: address.address || '',
-        })
+        if (address) {
+            reset({
+                name: address.name || '',
+                phoneNumber: address.phoneNumber || '',
+                country: address.country || '',
+                city: address.city || '',
+                state: address.state || '',
+                zipCode: address.zipCode || '',
+                address: address.address || '',
+            })
+        }
     }, [address, reset])
 
     return (

@@ -6,7 +6,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         getProducts: builder.query({
             query: (query) => {
                 return {
-                    url: PRODUCTS_URL,
+                    url: `${PRODUCTS_URL}?status=approved`,
                     params: query,
                 }
             },

@@ -8,6 +8,7 @@ import OrderConfirmationPage from '../_root/pages/OrderConfirmationPage'
 import OrderSummaryPage from '../_root/pages/OrderSummaryPage'
 import ResetPassword from '../_root/pages/ResetPassword'
 import ShippingAddressPage from '../_root/pages/ShippingAddressPage'
+import CardPaymentStatus from '../components/Checkout/CaridCardPaymentStatus'
 import JazzCashCard from '../components/Checkout/JazzCashCard'
 
 const customerRoutes = [
@@ -55,6 +56,10 @@ const customerRoutes = [
     {
         path: 'jazzcash/card',
         element: <JazzCashCard />,
+    },
+    {
+        path: 'checkout/card',
+        element: <CardPaymentStatus />,
     },
 ]
 

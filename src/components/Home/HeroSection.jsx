@@ -32,7 +32,7 @@ const HeroSection = () => {
             play={true}
             cancelOnInteraction={false}
             interval={6000}
-            className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[35vh]`}
+            className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[30vh]`}
         >
             {banners && banners?.doc?.length ? (
                 banners.doc.map((banner) => (
