@@ -102,7 +102,7 @@ const NavList = () => {
                         className="p-1 font-medium border-0 outline-none"
                     >
                         <Link
-                            to="/auth/vendor/login"
+                            to="http://seller.vistamart.biz"
                             className="flex items-center text-black border-b hover:text-primary-400 transition-colors"
                         >
                             Vendor login
