@@ -13,18 +13,18 @@ import { useCustomerSubscribeMutation } from '../../redux/slices/customersApiSli
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
-const footerSpecial = [
-    {
-        title: 'SPECIAL',
-        links: [
-            { name: 'Flash Deal', url: '/flash-deals' },
-            { name: 'Featured Products', url: '/featured-products' },
-            { name: 'Latest Products', url: '/latest-products' },
-            { name: 'Best Selling Products', url: '/best-selling-products' },
-            { name: 'Top Rated Products', url: '/top-rated-products' },
-        ],
-    },
-]
+// const footerSpecial = [
+//     {
+//         title: 'SPECIAL',
+//         links: [
+//             { name: 'Flash Deal', url: '/flash-deals' },
+//             { name: 'Featured Products', url: '/featured-products' },
+//             { name: 'Latest Products', url: '/latest-products' },
+//             { name: 'Best Selling Products', url: '/best-selling-products' },
+//             { name: 'Top Rated Products', url: '/top-rated-products' },
+//         ],
+//     },
+// ]
 
 const footerInfo = [
     {
@@ -119,7 +119,7 @@ const FooterMainSection = () => {
                 </div>
                 <div className="flex flex-col lg:w-[75%] w-[90%] justify-around">
                     <div className="flex lg:flex-row flex-col-reverse w-full gap-4">
-                        <div className="lg:w-[30%]">
+                        {/* <div className="lg:w-[30%]">
                             {footerSpecial.map((section, index) => (
                                 <FooterItems
                                     key={index}
@@ -127,7 +127,7 @@ const FooterMainSection = () => {
                                     links={section.links}
                                 />
                             ))}
-                        </div>
+                        </div> */}
                         <div className="lg:w-[40%]">
                             {footerInfo.map((section, index) => (
                                 <FooterItems
@@ -162,16 +162,16 @@ const FooterMainSection = () => {
                             <div className="flex flex-wrap justify-around">
                                 <div className="flex items-center">
                                     <FaEnvelope className="mr-2" />
-                                    <span>contact@example.com</span>
+                                    <span>info@vistamart.pk</span>
                                 </div>
                                 <div className="flex items-center">
                                     <FaPhone className="mr-2" />
-                                    <span>+123 456 7890</span>
+                                    <span>info@vistamart.biz</span>
                                 </div>
-                                <div className="flex items-center">
+                                {/* <div className="flex items-center">
                                     <FaTicketAlt className="mr-2" />
                                     <span>Support Ticket</span>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="lg:w-[30%] mt-4">
@@ -183,7 +183,7 @@ const FooterMainSection = () => {
                             </div>
                             <div className="flex items-center">
                                 <FaMapMarkerAlt className="mr-2" />
-                                <span>1234 Random St, City, Country</span>
+                                <span>DHA Phase 1</span>
                             </div>
                         </div>
                     </div>

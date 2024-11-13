@@ -22,6 +22,8 @@ import authRoutes from './routes/authRoutes'
 import ScrollToTop from './components/ScrollToTop'
 import ServerErrorPage from './_root/pages/ServerErrorPage'
 import NotFoundPage from './_root/pages/NotFoundPage'
+import PrivacyPolicyPage from './_root/pages/Web/PrivacyPolicyPage'
+import TermsPage from './_root/pages/Web/TermsPage'
 
 // import ErrorBoundary from './components/ErrorBoundary'
 
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
             {
                 path: '',
                 element: <HomePage />,
+            },
+            {
+                path: 'privacy-policy',
+                element: <PrivacyPolicyPage />,
+            },
+            {
+                path: 'terms',
+                element: <TermsPage />,
             },
 
             {

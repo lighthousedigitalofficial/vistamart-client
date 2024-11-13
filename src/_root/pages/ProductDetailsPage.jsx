@@ -29,21 +29,21 @@ const ProductDetailsPage = () => {
     const { data: products, isLoading: isProductsLoading } =
         useGetProductsQuery(
             {
-                category: product?.category?._id,
+                brand: product?.brand?._id,
             },
-            { skip: !product?.category?._id }
+            { skip: !product?.brand?._id }
         )
 
     return isLoading ? (
         <Loader />
     ) : product && product.doc ? (
-        <div className="container mx-auto flex flex-col space-y-4 sm:space-y-0">
-            <div className="flex flex-col lg:flex-row justify-between gap-4 w-full">
-                <div className="flex flex-col">
+        <div className="container w-full flex flex-col space-y-4 sm:space-y-0">
+            <div className="flex flex-col lg:flex-row gap-4 w-full">
+                <div className="flex flex-col w-full">
                     <Product product={product?.doc} />
                     <div className="flex flex-col-reverse lg:flex-row w-full gap-4">
                         <div className="flex flex-col w-full lg:w-3/4">
-                            <Overview />
+                            <Overview product={product?.doc} />
                             <ProductReviews product={product?.doc} />
                             <AddReview
                                 productId={product?.doc._id}
@@ -55,7 +55,6 @@ const ProductDetailsPage = () => {
                         </div>
                     </div>
                 </div>
-                {/*  */}
             </div>
 
             {isProductsLoading ? (

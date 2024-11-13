@@ -56,7 +56,7 @@ const Product = ({ product }) => {
     }
 
     return (
-        <div className="flex flex-col w-full p-4 bg-white rounded-lg">
+        <div className="flex flex-col w-full p-4 rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
                 <div className="lg:w-1/2 w-full ">
                     <ProductSlider images={images} />

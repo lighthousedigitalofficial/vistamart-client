@@ -46,7 +46,7 @@ const FooterSocial = () => {
         <div className="flex lg:flex-row flex-col items-center lg:items-start lg:justify-around  p-2 bg-primary-800">
             <div>
                 <h2 className="text-sm text-white">
-                    Copyright LightHouse@2021
+                    CopyRight Light House Development@2024
                 </h2>
             </div>
             <div className="flex space-x-4 my-4 md:my-0">
@@ -61,9 +61,9 @@ const FooterSocial = () => {
                     </div>
                 ))}
             </div>
-            <div className="text-white">
-                <Link to="">Terms & Conditions</Link>
-                <Link to="">Privacy Policy</Link>
+            <div className="text-white flex gap-4">
+                <Link to="terms">Terms & Conditions</Link>
+                <Link to="privacy-policy">Privacy Policy</Link>
             </div>
         </div>
     )
