@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 /* eslint-disable react/prop-types */
 const CategoryItem = ({ category }) => {
-    const categoryLogo = category?.logo?.startsWith('category')
-        ? `${keys.BUCKET_URL}${category.logo}`
-        : category?.logo
-        ? category?.logo
+    const categoryLogo = category?.logo
+        ? category.logo.startsWith('category')
+            ? `${keys.BUCKET_URL}${category.logo}`
+            : category.logo
         : keys.DEFAULT_IMG
 
     return (
@@ -14,11 +15,13 @@ const CategoryItem = ({ category }) => {
             to={`/products/category/${category.slug}`}
             className="flex-center  flex-col gap-2 p-2 group cursor-pointer"
         >
-            <img
+            <LazyLoadImage
                 src={categoryLogo}
+                effect="blur" // You can use "blur" or "opacity" as lazy load effect
                 alt={category.name}
-                className="w-28 h-28 object-cover rounded-full transition-transform duration-300 group-hover:scale-90"
+                className="w-28 h-28 object-cover rounded-full"
             />
+            <img />
             <p className="text-base w-28 font-semibold truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
                 {category.name}
             </p>

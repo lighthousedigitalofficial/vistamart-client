@@ -6,23 +6,16 @@ import Quantity from './subcomponent/Quantity'
 import { useNavigate } from 'react-router-dom'
 import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
-import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
 import { formatPrice } from '../../utils/helpers'
 
+import ProductSlider from './ProductSlider'
+
 const Product = ({ product }) => {
-    const [mainImage, setMainImage] = useState('')
     const [qty, setQty] = useState(1)
     const [totalPrice, setTotalPrice] = useState(product.price || 0)
 
-    useEffect(() => {
-        const productImage = product?.thumbnail?.startsWith('products')
-            ? `${keys.BUCKET_URL}${product.thumbnail}`
-            : product?.thumbnail
-            ? product.thumbnail
-            : keys.DEFAULT_IMG
-        setMainImage(productImage)
-    }, [product])
+    const images = [...product.images, product?.thumbnail]
 
     useEffect(() => {
         if (!product?.taxIncluded) {
@@ -30,7 +23,6 @@ const Product = ({ product }) => {
         } else setTotalPrice(product.price * qty)
     }, [product, qty])
 
-    const productImages = product ? [...product.images, product?.thumbnail] : []
     const oldPrice = product?.price + product?.discountAmount || 0
 
     const { cartItems } = useSelector((state) => state.cart)
@@ -67,33 +59,7 @@ const Product = ({ product }) => {
         <div className="flex flex-col w-full p-4 bg-white rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
                 <div className="lg:w-1/2 w-full ">
-                    <div className="h-[60vh] overflow-hidden">
-                        <img
-                            src={`${mainImage}` || keys.DEFAULT_IMG}
-                            alt="Main product image"
-                            loading="lazy"
-                            className="w-full object-cover p-2 transition-transform duration-300 ease-out"
-                        />
-                    </div>
-                    {/* <div className="flex justify-center mt-4 ">
-                        {productImages?.map((src, index) => {
-                            const productImage = src?.startsWith('products')
-                                ? `${keys.BUCKET_URL}${src}`
-                                : src
-                                ? src
-                                : keys.DEFAULT_IMG
-                            return (
-                                <img
-                                    key={index}
-                                    src={productImage}
-                                    alt={`Thumbnail ${index + 1}`}
-                                    className="w-16 h-16 md:w-20 md:h-20 object-cover mr-2 border border-gray-100 rounded-md shadow-sm cursor-pointer"
-                                    onClick={() => setMainImage(src)}
-                                    loading="lazy"
-                                />
-                            )
-                        })}
-                    </div> */}
+                    <ProductSlider images={images} />
                 </div>
                 <div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
                     <h2 className="text-lg md:text-xl">{product.name}</h2>

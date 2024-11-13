@@ -1,9 +1,9 @@
 import BrandsProductsPage from '../_root/pages/BrandsProductsPage'
 import CategoryProductsPage from '../_root/pages/CategoryProductsPage'
+import FeaturedProductsPage from '../_root/pages/FeaturedProductsPage'
 import FlashDealsPage from '../_root/pages/FlashDealsPage'
 import ProductDetailsPage from '../_root/pages/ProductDetailsPage'
 import ProductsPage from '../_root/pages/ProductsPage'
-import FeatureProducts from '../components/Product/FeatureProducts'
 
 const productRoutes = [
     {
@@ -12,7 +12,7 @@ const productRoutes = [
     },
     {
         path: '/products/featured',
-        element: <FeatureProducts />,
+        element: <FeaturedProductsPage />,
     },
     {
         path: 'products/:slug',

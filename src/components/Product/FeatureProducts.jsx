@@ -12,8 +12,6 @@ const FeatureProducts = () => {
         isFeatured: true,
     })
 
-    console.log(products)
-
     return isLoading ? (
         <Loader />
     ) : products && products?.doc && products?.doc?.length ? (

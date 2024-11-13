@@ -4,21 +4,29 @@ import { removeFromCart } from '../../../redux/slices/cartSlice'
 import { FaTrash } from 'react-icons/fa'
 import keys from './../../../config/keys'
 import { formatPrice } from '../../../utils/helpers'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const CartViewItem = ({ item }) => {
     const dispatch = useDispatch()
 
-    const removeFromCartHandler = (id) => {
-        dispatch(removeFromCart(id))
+    const removeFromCartHandler = (item) => {
+        dispatch(removeFromCart(item))
     }
+
+    const productImage = item.thumbnail
+        ? item.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${item.thumbnail}`
+            : item.thumbnail
+        : keys.DEFAULT_IMG
 
     return (
         <div
             key={item._id}
             className="flex items-center bg-gray-50 justify-around border-b p-2"
         >
-            <img
-                src={item?.thumbnail ? `${item.thumbnail}` : keys.DEFAULT_IMG}
+            <LazyLoadImage
+                src={productImage}
+                effect="blur" // You can use "blur" or "opacity" as lazy load effect
                 alt={item.name}
                 className="w-16 h-16 object-contain mr-4"
             />
@@ -33,7 +41,7 @@ const CartViewItem = ({ item }) => {
                     qty: <span>{item.qty}</span>
                 </p>
                 <button
-                    onClick={() => removeFromCartHandler(item._id)}
+                    onClick={() => removeFromCartHandler(item)}
                     className="text-inherit cursor-pointer py-2"
                 >
                     <FaTrash className="text-sm text-red-300 ml-2 hover:text-red-400" />

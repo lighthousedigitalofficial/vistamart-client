@@ -59,7 +59,7 @@ const FilterSidebar = ({ filters }) => {
         <div className="mb-2 mt-2 bg-white p-6 rounded-lg shadow-lg w-full max-w-xs hidden lg:block">
             <h2 className="text-xl font-semibold mb-4">Filter</h2>
 
-            <div className="py-4">
+            {/* <div className="py-4">
                 <label htmlFor="filterSelect" className="block text-gray-700">
                     Choose
                 </label>
@@ -75,7 +75,7 @@ const FilterSidebar = ({ filters }) => {
                         <option>Featured Deal</option>
                     </select>
                 </div>
-            </div>
+            </div> */}
 
             <div className="border-b-2 py-4">
                 <h3 className="text-lg font-medium">Price</h3>

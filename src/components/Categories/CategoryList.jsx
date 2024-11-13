@@ -7,15 +7,15 @@ const CategoryList = ({ categories }) => {
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1024 },
-            items: 6,
+            items: 7,
         },
         desktop: {
             breakpoint: { max: 1024, min: 768 },
-            items: 4,
+            items: 5,
         },
         tablet: {
             breakpoint: { max: 768, min: 464 },
-            items: 2,
+            items: 3,
         },
         mobile: {
             breakpoint: { max: 464, min: 0 },

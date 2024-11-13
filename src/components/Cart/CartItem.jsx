@@ -7,6 +7,7 @@ import { FaTrash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
 import { formatPrice } from '../../utils/helpers'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 /* eslint-disable react/prop-types */
 const CartItem = ({ item }) => {
@@ -25,21 +26,21 @@ const CartItem = ({ item }) => {
         // console.log('ID: ', id)
     }
 
+    const productImage = item.thumbnail
+        ? item.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${item.thumbnail}`
+            : item.thumbnail
+        : keys.DEFAULT_IMG
+
     return item && qty > 0 ? (
         <div className="bg-gray-50 p-3 flex gap-3 justify-between items-center rounded-lg shadow-sm">
             <div className="flex gap-2">
                 <Link to={`/products/${item.slug}`} className="cursor-pointer">
-                    <img
-                        src={
-                            item?.thumbnail?.startsWith('products')
-                                ? `${keys.BUCKET_URL}${item.thumbnail}`
-                                : item?.thumbnail
-                                ? item.thumbnail
-                                : keys.DEFAULT_IMG
-                        }
+                    <LazyLoadImage
+                        src={productImage}
+                        effect="blur" // You can use "blur" or "opacity" as lazy load effect
                         alt={item.name}
-                        loading="lazy"
-                        className="h-20 object-cover rounded-md"
+                        className="w-16 h-16 object-contain mr-4"
                     />
                 </Link>
                 <div className="flex flex-col justify-between items-start">

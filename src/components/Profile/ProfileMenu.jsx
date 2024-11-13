@@ -29,7 +29,7 @@ const ProfileMenu = ({ user }) => {
     const logoutHandler = () => {
         try {
             // Get accessToken from localStorage
-            const userInfo = localStorage.getuser('userInfo')
+            const userInfo = localStorage.getItem('userInfo')
             const user = JSON.parse(userInfo)
 
             dispatch(logout())

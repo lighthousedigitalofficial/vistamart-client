@@ -23,7 +23,11 @@ const ProductCard = ({ data: product }) => {
         setSelectedProduct(null)
     }
 
-    // console.log(product)
+    const productThumbnail = product?.thumbnail
+        ? product.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.thumbnail}`
+            : product.thumbnail
+        : keys.DEFAULT_IMG
 
     return (
         product && (
@@ -35,13 +39,7 @@ const ProductCard = ({ data: product }) => {
                         </div>
                     )}
                     <img
-                        src={
-                            product?.thumbnail?.startsWith('products')
-                                ? `${keys.BUCKET_URL}${product.thumbnail}`
-                                : product?.thumbnail
-                                ? product.thumbnail
-                                : keys.DEFAULT_IMG
-                        }
+                        src={productThumbnail}
                         alt={product.name}
                         loading="lazy"
                         className="product__img object-cover"
