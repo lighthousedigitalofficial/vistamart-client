@@ -29,9 +29,9 @@ const ProductDetailsPage = () => {
     const { data: products, isLoading: isProductsLoading } =
         useGetProductsQuery(
             {
-                brand: product?.brand?._id,
+                brand: product?.doc?.brand?._id,
             },
-            { skip: !product?.brand?._id }
+            { skip: !product?.doc?.brand?._id }
         )
 
     return isLoading ? (
