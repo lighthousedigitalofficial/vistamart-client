@@ -59,7 +59,7 @@ const ProductDetailsPage = () => {
 
             {isProductsLoading ? (
                 <Loader />
-            ) : products && products.doc ? (
+            ) : products && products.doc?.length ? (
                 <div className="products-container">
                     <div className="flex justify-between items-center mx-2">
                         <div className="flex justify-between items-center w-fit gap-2 mb-4">
