@@ -65,7 +65,7 @@ const MobileFilter = () => {
                     <div className="mb-2 mt-2 bg-white w-full max-w-xs">
                         <h2 className="text-xl font-semibold mb-4">Filter</h2>
 
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <label
                                 htmlFor="filterSelect"
                                 className="block text-gray-700"
@@ -77,9 +77,9 @@ const MobileFilter = () => {
                                 className="w-full mt-1 border rounded-lg px-3 py-2"
                             >
                                 <option>Choose</option>
-                                {/* Add more options as needed */}
+                                {/* Add more options as needed
                             </select>
-                        </div>
+                        </div> */}
 
                         <div className="mb-4">
                             <h3 className="text-lg font-medium">Price</h3>
