@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { savePaymentMethod } from '../../redux/slices/cartSlice'
 import PaymentMethod from '../../components/Checkout/PaymentMethod'
@@ -10,6 +10,7 @@ import keys from '../../config/keys'
 
 const CheckoutPaymentPage = () => {
     const user = useAuth()
+    const cart = useSelector((state) => state.cart)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -38,8 +39,10 @@ const CheckoutPaymentPage = () => {
     useEffect(() => {
         if (!user) {
             navigate('/customer/auth/sign-in')
+        } else if (!cart) {
+            navigate('/products')
         }
-    }, [navigate, user])
+    }, [cart, navigate, user])
 
     const placeOrderSubmit = () => {
         if (paymentMethod) {
@@ -69,29 +72,15 @@ const CheckoutPaymentPage = () => {
     //     }
     // }
     return (
-        <div className="w-full p-4 md:p-4">
-            <PaymentMethod
-                onSubmit={placeOrderSubmit}
-                setPaymentMethod={setPaymentMethod}
-            />
-
-            {/* <div className="py-2">
-                <h2 className="text-2xl mb-4">Cash Via Online</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                    {/* Jazz Cash Page redirection card */}
-
-            {/* <form
-                        name="jazzcashForm"
-                        method="post"
-                        action="https://sandbox.jazzcash.com.pk/CustomerPortal/transactionmanagement/merchantform/"
-                    >
-                        <button type="button" onClick={handleOnlineCard}>
-                            Debit / Credit Card
-                        </button>
-                    </form>
-                </div> 
-            </div> */}
-        </div>
+        user &&
+        cart && (
+            <div className="w-full p-4 md:p-4">
+                <PaymentMethod
+                    onSubmit={placeOrderSubmit}
+                    setPaymentMethod={setPaymentMethod}
+                />
+            </div>
+        )
     )
 }
 
