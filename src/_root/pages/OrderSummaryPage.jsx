@@ -29,32 +29,135 @@ const OrderSummaryPage = () => {
         }
     }, [cart, navigate])
 
+    console.log(cart)
+
     const [createOrder, { isLoading }] = useCreateOrderMutation()
+
+    // const handleOrderSubmit = async () => {
+    //     try {
+    //         let products = cart?.cartItems.map((item) => {
+    //             return {
+    //                 product: item._id,
+    //                 price: item.price,
+    //                 quantity: item.qty,
+    //             }
+    //         })
+
+    //         const order = {
+    //             products,
+    //             customerId: user?._id,
+    //             shippingAddress: cart?.shippingAddress,
+    //             billingAddress: cart?.billingAddress,
+    //             paymentMethod: cart?.paymentMethod,
+    //             totalAmount: cart?.totalPrice,
+    //             vendors: cart?.vendors,
+    //             paymentStatus: cart?.paymentStatus,
+    //         }
+
+    //         console.log(order)
+
+    //         const res = await createOrder(order).unwrap()
+    //         toast.success('Order created successfully')
+
+    //         dispatch(clearCartItems())
+    //         navigate(`/order-confirmation/${res?.data?._id}`)
+    //     } catch (err) {
+    //         console.error(err)
+    //         toast.error(err?.data?.message || 'Something went wrong')
+    //     }
+    // }
 
     const handleOrderSubmit = async () => {
         try {
-            let products = cart?.cartItems.map((item) => {
-                return { product: item._id, quantity: item.qty }
+            // Group products by vendor
+            const groupedOrders = cart?.cartItems.reduce((acc, item) => {
+                // Safeguard against undefined `product`
+                console.log(item)
+                if (!item.userId) {
+                    toast.error('Missing product or userId for item:', item)
+                    console.log('Missing product or userId for item')
+                    return acc // Skip this item
+                }
+
+                // Assuming `userId` represents the vendor
+                const vendorId = item.userId
+                if (!acc[vendorId]) {
+                    acc[vendorId] = {
+                        vendor: vendorId,
+                        products: [],
+                    }
+                }
+
+                acc[vendorId].products.push({
+                    product: item._id,
+                    price: item.price,
+                    discountAmount: item.discountAmount || 0, // Ensure discountAmount is present
+                    shippingCost: item.shippingCost || 0, // Ensure shippingCost is present
+                    taxAmount: item.taxAmount || 0, // Ensure taxAmount is present
+                    quantity: item.qty,
+                })
+                return acc
+            }, {})
+
+            const orders = Object.keys(groupedOrders).map((vendorId) => {
+                const vendorOrder = groupedOrders[vendorId]
+                const totalAmount = vendorOrder.products.reduce(
+                    (total, product) =>
+                        total +
+                        product.price * product.quantity - // Base price
+                        (product.discountAmount || 0) + // Add discount
+                        (product.taxIncluded
+                            ? product.taxAmount * product.quantity
+                            : 0) + // Add tax if included
+                        product.shippingCost, // Add shipping
+                    0
+                )
+
+                console.log(vendorOrder)
+
+                const totalDiscount = vendorOrder.products.reduce(
+                    (total, product) => total + product.discountAmount,
+                    0
+                )
+
+                const totalShippingCost = vendorOrder.products.reduce(
+                    (total, product) => total + product.shippingCost,
+                    0
+                )
+
+                const totalQty = vendorOrder.products.reduce(
+                    (total, product) => total + product.quantity,
+                    0
+                )
+
+                return {
+                    vendor: vendorId,
+                    products: vendorOrder.products,
+                    customerId: user?._id,
+                    shippingAddress: cart?.shippingAddress,
+                    billingAddress: cart?.billingAddress,
+                    paymentMethod: cart?.paymentMethod,
+                    totalAmount,
+                    totalDiscount,
+                    totalShippingCost,
+                    totalQty,
+                    paymentStatus: cart?.paymentStatus,
+                }
             })
 
-            const order = {
-                products,
-                customerId: user?._id,
-                shippingAddress: cart?.shippingAddress,
-                billingAddress: cart?.billingAddress,
-                paymentMethod: cart?.paymentMethod,
-                totalAmount: cart?.totalPrice,
-                vendors: cart?.vendors,
-                paymentStatus: cart?.paymentStatus,
+            console.log(orders)
+
+            if (orders.length !== 0) {
+                // Submit each order separately
+                for (const order of orders) {
+                    const res = await createOrder(order).unwrap()
+                    toast.success(`Order created successfully: ${res.orderId}`)
+                }
+
+                // Clear cart and navigate to confirmation
+                dispatch(clearCartItems())
+                navigate('/order-confirmation')
             }
-
-            console.log(order)
-
-            const res = await createOrder(order).unwrap()
-            toast.success('Order created successfully')
-
-            dispatch(clearCartItems())
-            navigate(`/order-confirmation/${res?.data?._id}`)
         } catch (err) {
             console.error(err)
             toast.error(err?.data?.message || 'Something went wrong')

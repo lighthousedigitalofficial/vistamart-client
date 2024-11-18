@@ -2,7 +2,7 @@
 import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
 import Loader from '../Loader'
 import VanderCard from '../Product/subcomponent/VanderCard'
-import MoreStoreProducts from '../Product/subcomponent/MoreStoreProducts'
+// import MoreStoreProducts from '../Product/subcomponent/MoreStoreProducts'
 import FeatureCard from '../Product/subcomponent/FeatureCard'
 import {
     FaCertificate,
@@ -27,28 +27,22 @@ const VendorRightBar = ({ vendorId }) => {
         { skip: !vendorId }
     )
 
-    console.log(vendorProducts)
-
     return isLoading ? (
         <Loader />
-    ) : 
+    ) : (
         <div className="flex flex-col gap-4">
             <FeatureCard features={features} />
-            {vendorProducts && vendorProducts.length ? (
+            <VanderCard vendorId={vendorId} />
+            {/* {vendorProducts && vendorProducts.length ? (
                 <div className="flex flex-col gap-6">
-                    
-                    <VanderCard
-                        vendorId={vendorId}
-                        totalProducts={vendorProducts?.doc?.results}
-                    />
                     <MoreStoreProducts
                         vendorId={vendorId}
                         products={vendorProducts}
                     />
                 </div>
-            ) : null}
+            ) : null} */}
         </div>
-    
+    )
 }
 
 export default VendorRightBar

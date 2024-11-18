@@ -11,8 +11,6 @@ const ProductSlider = ({ images }) => {
         setFeaturedImage(image)
     }
 
-    console.log({ images })
-
     const scrollSlider = (direction) => {
         const slider = document.getElementById('slider')
         slider.scrollLeft += direction === 'right' ? 180 : -180
@@ -21,7 +19,7 @@ const ProductSlider = ({ images }) => {
     return (
         <div className="flex flex-wrap justify-center items-center space-y-8 lg:space-y-0 lg:space-x-8">
             <div className="w-full lg:w-1/2">
-                <img
+                {/* <img
                     src={
                         featuredImage
                             ? featuredImage.startsWith('products')
@@ -29,6 +27,19 @@ const ProductSlider = ({ images }) => {
                                 : featuredImage
                             : keys.DEFAULT_IMG
                     }
+                    alt="Featured product"
+                    className="w-full h-80 object-cover border-2 border-gray-100 cursor-pointer"
+                /> */}
+
+                <LazyLoadImage
+                    src={
+                        featuredImage
+                            ? featuredImage.startsWith('products')
+                                ? `${keys.BUCKET_URL}${featuredImage}`
+                                : featuredImage
+                            : keys.DEFAULT_IMG
+                    }
+                    effect="blur" // You can use "blur" or "opacity" as lazy load effect
                     alt="Featured product"
                     className="w-full h-80 object-cover border-2 border-gray-100 cursor-pointer"
                 />

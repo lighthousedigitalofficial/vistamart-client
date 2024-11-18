@@ -29,7 +29,7 @@ const customerRoutes = [
         element: <ResetPassword />,
     },
     {
-        path: 'order-confirmation/:orderId',
+        path: 'order-confirmation',
         element: <OrderConfirmationPage />,
     },
     {

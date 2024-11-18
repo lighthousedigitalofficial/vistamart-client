@@ -70,15 +70,15 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             keepUnusedDataFor: 5,
         }),
         getLatestProducts: builder.query({
-            query: () => `${PRODUCTS_URL}?sort=-createdAt`,
+            query: () => `${PRODUCTS_URL}?sort=-createdAt&status=approved`,
             keepUnusedDataFor: 5,
         }),
         getFeaturedProducts: builder.query({
-            query: () => `${PRODUCTS_URL}?isFeatured=true`,
+            query: () => `${PRODUCTS_URL}?isFeatured=true&status=approved`,
             keepUnusedDataFor: 5,
         }),
         getFeaturedDeals: builder.query({
-            query: () => `/feature-deals`,
+            query: () => `/admin/featured-deals?status=active`,
             keepUnusedDataFor: 5,
         }),
         getProductSuggestions: builder.query({

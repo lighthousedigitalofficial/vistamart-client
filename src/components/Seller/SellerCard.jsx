@@ -2,28 +2,37 @@
 import PropTypes from 'prop-types' // Import PropTypes for prop validation (optional)
 import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const SellerCard = ({ data: seller }) => {
     return (
         <>
             <div className="bg-white rounded-lg border border-primary-100 overflow-hidden flex flex-col w-75 mx-2 cursor-pointer">
                 <Link to={`/shop-view/${seller?.slug}`}>
-                    <img
+                    <LazyLoadImage
                         src={
-                            `${keys.BUCKET_URL}${seller.banner}` ||
-                            keys.DEFAULT_IMG
+                            seller.banner
+                                ? seller.banner.startsWith('vendors')
+                                    ? `${keys.BUCKET_URL}${seller.banner}`
+                                    : seller.banner
+                                : keys.DEFAULT_IMG
                         }
+                        effect="blur" // You can use "blur" or "opacity" as lazy load effect
                         alt={seller.firstName}
-                        loading="lazy"
                         className="w-full h-24 object-cover transform transition duration-300 ease-in-out hover:scale-105"
                     />
+
                     <div className="p-4 flex-col items-center">
                         <div className="flex flex-row gap-2">
-                            <img
+                            <LazyLoadImage
                                 src={
-                                    `${keys.BUCKET_URL}${seller.logo}` ||
-                                    keys.DEFAULT_IMG
+                                    seller.logo
+                                        ? seller.logo.startsWith('vendors')
+                                            ? `${keys.BUCKET_URL}${seller.logo}`
+                                            : seller.logo
+                                        : keys.DEFAULT_IMG
                                 }
+                                effect="blur" // You can use "blur" or "opacity" as lazy load effect
                                 alt={seller.shopName}
                                 className="w-16 h-16 bg-white rounded-full object-cover -mt-8 border-2 border-white shadow-md transform transition duration-300 ease-in-out hover:scale-105"
                             />

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import FeatureProducts from '../../components/Product/FeatureProducts'
 import Categories from '../../components/Categories'
-import FeaturedDeal from '../../components/Deals/FeaturedDeal'
+// import FeaturedDeal from '../../components/Deals/FeaturedDeal'
 import LatestProducts from '../../components/Product/LatestProducts'
 import DealOfTheDay from '../../components/Deals/DealOfTheDay'
 import ProductsCategory from '../../components/Product/ProductsCategory'
@@ -55,9 +55,9 @@ const HomePage = () => {
             </section>
 
             {/* Featured Deal */}
-            <section className="py-4">
+            {/* <section className="py-4">
                 <FeaturedDeal />
-            </section>
+            </section> */}
 
             {/* Deal Offer Section */}
             <section className="py-4 mb-4">

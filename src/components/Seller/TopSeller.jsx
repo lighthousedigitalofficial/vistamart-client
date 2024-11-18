@@ -9,8 +9,6 @@ import Loader from '../Loader'
 const TopSeller = () => {
     const { data: sellers, isLoading } = useGetVendorsQuery({})
 
-    // console.log(sellers)
-
     return isLoading ? (
         <Loader />
     ) : sellers && sellers?.doc ? (

@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios'
 import keys from '../config/keys'
-
 // Function to get a pre-signed upload URL
 export const getUploadUrl = async (type, folder) => {
     try {

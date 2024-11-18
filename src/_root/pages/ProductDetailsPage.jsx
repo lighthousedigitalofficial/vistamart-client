@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import {
     useGetProductBySlugQuery,
-    // useGetProductDetailsQuery,
     useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice'
 
@@ -51,7 +50,7 @@ const ProductDetailsPage = () => {
                             />
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            <VendorRightBar vendorId={product?.userId} />
+                            <VendorRightBar vendorId={product?.doc?.userId} />
                         </div>
                     </div>
                 </div>

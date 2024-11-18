@@ -1,31 +1,59 @@
 /* eslint-disable react/prop-types */
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import keys from './../../config/keys'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const ShopBanner = ({ vendor }) => {
-    // console.log(vendor)
     return (
         vendor && (
             <div className="relative h-[50vh] mt-4 p-4 rounded-lg shadow-lg max-w-7xl mx-auto py-4 bg-pink-100">
                 <img
                     src={
-                        `${keys.BUCKET_URL}${vendor.banner}` || keys.DEFAULT_IMG
+                        vendor.banner
+                            ? vendor?.banner.startsWith('vendors')
+                                ? `${keys.BUCKET_URL}${vendor.banner}`
+                                : vendor.banner
+                            : keys.DEFAULT_IMG
                     }
                     alt="Shop Banner"
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover rounded-lg"
                 />
+                {/* <LazyLoadImage
+                    src={
+                        vendor.banner
+                            ? vendor?.banner.startsWith('vendors')
+                                ? `${keys.BUCKET_URL}${vendor.banner}`
+                                : vendor.banner
+                            : keys.DEFAULT_IMG
+                    }
+                    effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                    alt={vendor.firstName}
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                /> */}
                 <div className="relative flex items-center h-full">
                     <div className="flex flex-col justify-between w-[500px] z-10">
                         <div className="h-[240px]"></div>
                         <div className="bg-white p-4 rounded-lg shadow-lg flex items-center">
-                            <img
+                            {/* <img
                                 src={
                                     `${keys.BUCKET_URL}${vendor.logo}` ||
                                     keys.DEFAULT_IMG
                                 }
                                 loading="lazy"
                                 alt="shop logo"
+                                className="w-16 h-16 object-cover rounded"
+                            /> */}
+                            <LazyLoadImage
+                                src={
+                                    vendor.logo
+                                        ? vendor.logo.startsWith('vendors')
+                                            ? `${keys.BUCKET_URL}${vendor.logo}`
+                                            : vendor.logo
+                                        : keys.DEFAULT_IMG
+                                }
+                                effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                                alt={vendor.shopName}
                                 className="w-16 h-16 object-cover rounded"
                             />
                             <div className="ml-4">

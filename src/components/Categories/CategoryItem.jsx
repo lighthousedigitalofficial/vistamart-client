@@ -19,10 +19,10 @@ const CategoryItem = ({ category }) => {
                 src={categoryLogo}
                 effect="blur" // You can use "blur" or "opacity" as lazy load effect
                 alt={category.name}
-                className="w-28 h-28 object-cover rounded-full"
+                className="w-24 h-24 object-cover rounded-full"
             />
             <img />
-            <p className="text-base w-28 font-semibold truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
+            <p className="text-base w-28 truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
                 {category.name}
             </p>
         </Link>

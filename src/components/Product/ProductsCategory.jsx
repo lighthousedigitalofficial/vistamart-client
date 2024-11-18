@@ -28,7 +28,7 @@ const ProductsCategory = () => {
 
             {categories?.doc &&
                 categories?.doc?.map((category) => {
-                    if (category.priority === 1 || category.priority === 2)
+                    if ([1, 2, 3, 4].includes(category.priority))
                         return (
                             <CategoryCarousel
                                 key={category._id}

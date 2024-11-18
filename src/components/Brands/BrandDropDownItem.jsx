@@ -6,14 +6,13 @@ import { capitalizeFirstLetter } from '../../utils'
 const BrandDropDownItem = () => {
     const { data: brands, isLoading } = useGetBrandsQuery({})
 
-    // console.log(brands?.doc)
     return isLoading ? (
         <Loader />
     ) : brands && brands.doc ? (
         <>
             <ul>
                 {brands.doc.map((brand, index) => {
-                    if (index <= 6)
+                    if (index <= 6 && brand.totalProducts > 0)
                         return (
                             <li
                                 key={brand._id}

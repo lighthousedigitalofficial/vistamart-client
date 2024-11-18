@@ -31,7 +31,7 @@ const CartViewItem = ({ item }) => {
                 className="w-16 h-16 object-contain mr-4"
             />
             <div className="flex-grow">
-                <div className="font-semibold truncate">{item.name}</div>
+                <div className="font-semibold truncate w-24">{item.name}</div>
                 <div className="text-gray-700">
                     Rs.{formatPrice(item?.price)}
                 </div>
