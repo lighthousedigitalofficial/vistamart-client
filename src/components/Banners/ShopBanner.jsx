@@ -2,6 +2,7 @@
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 import keys from './../../config/keys'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import { FcApproval } from 'react-icons/fc'
 
 const ShopBanner = ({ vendor }) => {
     return (
@@ -57,8 +58,9 @@ const ShopBanner = ({ vendor }) => {
                                 className="w-16 h-16 object-cover rounded"
                             />
                             <div className="ml-4">
-                                <h2 className="text-xl font-semibold">
+                                <h2 className="text-xl font-semibold flex items-center gap-2">
                                     {vendor.shopName}
+                                    <FcApproval />
                                 </h2>
                                 <div className="flex items-center text-yellow-500">
                                     {[1, 2, 3, 4].map((star) => (

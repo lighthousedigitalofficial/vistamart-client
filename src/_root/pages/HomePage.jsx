@@ -15,7 +15,7 @@ import Brands from '../../components/Brands'
 import TopProducts from '../../components/Home/TopProducts'
 
 // images
-import PromoSaleImage from './../../assets/banner/promo-sale.webp'
+import PromoSaleImage from './../../assets/banner/headphone-add.webp'
 import MegaSaleBanner1 from './../../assets/banner/mega-sale.webp'
 import MegaSaleBanner2 from './../../assets/banner/super-sale.webp'
 

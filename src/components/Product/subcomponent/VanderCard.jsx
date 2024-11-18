@@ -6,6 +6,7 @@ import Loader from '../../Loader'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import keys from '../../../config/keys'
+import { FcApproval } from 'react-icons/fc'
 
 const VanderCard = ({ vendorId }) => {
     const { data: vendor, isLoading } = useGetVendorDetailsQuery(vendorId, {
@@ -35,11 +36,12 @@ const VanderCard = ({ vendorId }) => {
                     alt={vendor?.doc?.shopName}
                     className="w-16 h-16 rounded-full object-contain"
                 />
-                <div>
-                    <div className="font-bold group-hover:text-primary-400">
+                <div className="group-hover:text-primary-500 text-gray-80 ">
+                    <h3 className="flex items-center gap-2">
                         {vendor?.doc?.shopName}
-                    </div>
-                    <div className="text-gray-600 text-sm group-hover:text-primary-400">
+                        <FcApproval />
+                    </h3>
+                    <div className="text-gray-600 text-sm truncate w-3/4">
                         {vendor?.doc?.address}
                     </div>
                 </div>

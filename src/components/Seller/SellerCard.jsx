@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 
+import { FcApproval } from 'react-icons/fc'
+
 const SellerCard = ({ data: seller }) => {
     return (
         <>
@@ -38,7 +40,10 @@ const SellerCard = ({ data: seller }) => {
                             />
 
                             <div className="flex flex-col -mt-2 ">
-                                <h3 className="font-medium text-gray-800">{`${seller.shopName}`}</h3>
+                                <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                                    {`${seller.shopName}`}
+                                    <FcApproval />
+                                </h3>
                                 <div className="flex flex-row gap-1">
                                     <span className="text-yellow-400">★</span>
                                     <span className=" text-gray-600 text-sm">

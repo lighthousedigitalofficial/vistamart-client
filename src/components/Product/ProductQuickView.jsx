@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { addToCart } from '../../redux/slices/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Quantity from './subcomponent/Quantity'
-import { FaXmark } from 'react-icons/fa6'
+import { FaArrowLeft, FaXmark } from 'react-icons/fa6'
 import Loader from '../Loader'
 import { useGetProductDetailsQuery } from '../../redux/slices/productsApiSlice'
 import WishListIcon from './subcomponent/WishListIcon'
@@ -59,7 +59,7 @@ const ProductQuickView = ({ productId, onClose }) => {
 
     const buyNowHandler = () => {
         if (qty >= product.doc.minimumOrderQty) {
-            dispatch(addToCart({ ...product, qty }))
+            dispatch(addToCart({ ...product.doc, qty }))
             onClose()
             navigate('/checkout/shipping-address')
         } else setMinimumOrderError(true)
@@ -70,7 +70,7 @@ const ProductQuickView = ({ productId, onClose }) => {
             <Loader />
         </div>
     ) : product && product?.doc ? (
-        <div className="flex flex-col border shadow bg-white rounded w-full">
+        <div className="flex flex-col border shadow bg-white rounded w-full p-4">
             {/* Close button and Product title */}
             <div className="flex justify-between items-center p-4 border-b">
                 <Link
