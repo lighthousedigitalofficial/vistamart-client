@@ -6,7 +6,7 @@ import keys from './../../config/keys'
 const SellerCard = ({ data: seller }) => {
     return (
         <>
-            <div className="bg-white rounded-lg border border-primary-100 overflow-hidden flex flex-col w-75 mx-2 cursor-pointer">
+            <div className="bg-white h-56 rounded-lg border border-primary-100 overflow-hidden flex flex-col w-full mx-2 cursor-pointer">
                 <Link to={`/shop-view/${seller?.slug}`}>
                     <img
                         src={
@@ -15,7 +15,7 @@ const SellerCard = ({ data: seller }) => {
                         }
                         alt={seller.firstName}
                         loading="lazy"
-                        className="w-full h-24 object-cover transform transition duration-300 ease-in-out hover:scale-105"
+                        className="w-full h-24 object-cover md:object-fill transform transition duration-300 ease-in-out hover:scale-105"
                     />
                     <div className="p-4 flex-col items-center">
                         <div className="flex flex-row gap-2">
