@@ -29,53 +29,15 @@ const OrderSummaryPage = () => {
         }
     }, [cart, navigate])
 
-    console.log(cart)
-
     const [createOrder, { isLoading }] = useCreateOrderMutation()
-
-    // const handleOrderSubmit = async () => {
-    //     try {
-    //         let products = cart?.cartItems.map((item) => {
-    //             return {
-    //                 product: item._id,
-    //                 price: item.price,
-    //                 quantity: item.qty,
-    //             }
-    //         })
-
-    //         const order = {
-    //             products,
-    //             customerId: user?._id,
-    //             shippingAddress: cart?.shippingAddress,
-    //             billingAddress: cart?.billingAddress,
-    //             paymentMethod: cart?.paymentMethod,
-    //             totalAmount: cart?.totalPrice,
-    //             vendors: cart?.vendors,
-    //             paymentStatus: cart?.paymentStatus,
-    //         }
-
-    //         console.log(order)
-
-    //         const res = await createOrder(order).unwrap()
-    //         toast.success('Order created successfully')
-
-    //         dispatch(clearCartItems())
-    //         navigate(`/order-confirmation/${res?.data?._id}`)
-    //     } catch (err) {
-    //         console.error(err)
-    //         toast.error(err?.data?.message || 'Something went wrong')
-    //     }
-    // }
 
     const handleOrderSubmit = async () => {
         try {
             // Group products by vendor
             const groupedOrders = cart?.cartItems.reduce((acc, item) => {
                 // Safeguard against undefined `product`
-                console.log(item)
                 if (!item.userId) {
                     toast.error('Missing product or userId for item:', item)
-                    console.log('Missing product or userId for item')
                     return acc // Skip this item
                 }
 
@@ -113,8 +75,6 @@ const OrderSummaryPage = () => {
                     0
                 )
 
-                console.log(vendorOrder)
-
                 const totalDiscount = vendorOrder.products.reduce(
                     (total, product) => total + product.discountAmount,
                     0
@@ -145,13 +105,13 @@ const OrderSummaryPage = () => {
                 }
             })
 
-            console.log(orders)
-
             if (orders.length !== 0) {
                 // Submit each order separately
                 for (const order of orders) {
                     const res = await createOrder(order).unwrap()
-                    toast.success(`Order created successfully: ${res.orderId}`)
+                    toast.success(
+                        `Order created successfully: ${res.doc.orderId}`
+                    )
                 }
 
                 // Clear cart and navigate to confirmation

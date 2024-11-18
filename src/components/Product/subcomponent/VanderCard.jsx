@@ -25,10 +25,10 @@ const VanderCard = ({ vendorId }) => {
             >
                 <LazyLoadImage
                     src={
-                        vendor?.doc?.banner
-                            ? vendor?.doc?.banner.startsWith('vendors')
-                                ? `${keys.BUCKET_URL}${vendor?.doc?.banner}`
-                                : vendor?.doc?.banner
+                        vendor?.doc?.logo
+                            ? vendor?.doc?.logo.startsWith('vendors')
+                                ? `${keys.BUCKET_URL}${vendor?.doc?.logo}`
+                                : vendor?.doc?.logo
                             : keys.DEFAULT_IMG
                     }
                     effect="blur" // You can use "blur" or "opacity" as lazy load effect
