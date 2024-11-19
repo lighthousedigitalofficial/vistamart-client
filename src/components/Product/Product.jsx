@@ -14,13 +14,16 @@ import ProductSlider from './ProductSlider'
 const Product = ({ product }) => {
     const [qty, setQty] = useState(1)
     const [totalPrice, setTotalPrice] = useState(product.price || 0)
+    const [images, setImages] = useState([])
 
-    const images = [...product.images, product?.thumbnail]
+    // const images = [...product.images, product?.thumbnail]
 
     useEffect(() => {
         if (!product?.taxIncluded) {
             setTotalPrice((product?.price + product.taxAmount) * qty)
         } else setTotalPrice(product.price * qty)
+
+        setImages([...product.images, product?.thumbnail])
     }, [product, qty])
 
     const oldPrice = product?.price + product?.discountAmount || 0

@@ -1,17 +1,16 @@
 import { useState } from 'react'
-import { FaEye, FaStar } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 import ProductDialog from './ProductDialog'
 import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
 import keys from './../../config/keys'
 import { formatPrice } from '../../utils/helpers'
+import { Rating } from '@mui/material'
 
 const ProductCard = ({ data: product }) => {
     const oldPrice = product?.price + product?.discountAmount || 0
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-    // console.log(oldPrice)
 
     const handleProductClick = (product) => {
         setSelectedProduct(product)
@@ -42,7 +41,7 @@ const ProductCard = ({ data: product }) => {
                         src={productThumbnail}
                         alt={product.name}
                         loading="lazy"
-                        className="product__img object-cover"
+                        className="product__img object-cover object-top"
                     />
                     <div className="product__quick-view z-20">
                         <button
@@ -58,13 +57,16 @@ const ProductCard = ({ data: product }) => {
                         <p className="font-medium truncate mb-2 group-hover:text-primary-400 transition-all ease-in">
                             {product.name}
                         </p>
-                        {/* add the star with number of reviews */}
-                        <div className="flex items-center text-yellow-600 gap-1 ">
-                            <FaStar />
-                            <p className="text-sm text-gray-500">
-                                ({product?.numReviews || '0'})
-                            </p>
-                        </div>
+                        {/* <span className="text-sm text-gray-500 mb-0">
+                                {product?.rating || '0'}
+                            </span> */}
+                        <Rating
+                            name="half-rating-read"
+                            defaultValue={0}
+                            value={product?.rating}
+                            precision={0.5}
+                            readOnly
+                        />
                         <div className="flex items-center justify-between">
                             {oldPrice > product.price && (
                                 <p className="text-sm line-through text-gray-500">

@@ -13,13 +13,15 @@ import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
 import AddReview from '../../components/Product/AddReview'
+import { useEffect, useState } from 'react'
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
+    const [isLoading, setIsLoading] = useState(false)
 
     const {
         data: product,
-        isLoading,
+        isLoading: productLoading,
         refetch,
     } = useGetProductBySlugQuery(slug, {
         skip: !slug,
@@ -33,7 +35,14 @@ const ProductDetailsPage = () => {
             { skip: !product?.doc?.brand?._id }
         )
 
-    return isLoading ? (
+    useEffect(() => {
+        if (!product?.doc) {
+            setIsLoading(true)
+        }
+        setIsLoading(false)
+    }, [product?.doc, slug])
+
+    return productLoading || isLoading ? (
         <Loader />
     ) : product && product.doc ? (
         <div className="container w-full flex flex-col space-y-4 sm:space-y-0">

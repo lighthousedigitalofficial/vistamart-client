@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import Loader from '../../components/Loader'
 import { useGetVendorsQuery } from '../../redux/slices/vendorsApiSlice'
 import StoreList from '../../components/Seller/StoreList'
+import TablePagination from '@mui/material/TablePagination'
 
 const VendorsPage = () => {
     const { data: vendors, isLoading } = useGetVendorsQuery({})
-
     const [filteredVendors, setFilteredVendors] = useState([])
     const [keywords, setKeywords] = useState('')
+    const [currentPage, setCurrentPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(12)
 
     useEffect(() => {
         if (vendors && vendors?.doc) {
@@ -22,9 +24,23 @@ const VendorsPage = () => {
         const filteredItems = vendors?.doc?.filter((seller) =>
             seller.shopName.toLowerCase().includes(keywords.toLowerCase())
         )
-
         setFilteredVendors(filteredItems)
+        setCurrentPage(0) // Reset to the first page when searching
     }
+
+    const handleChangePage = (event, newPage) => {
+        setCurrentPage(newPage)
+    }
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setCurrentPage(0) // Reset to the first page when changing rows per page
+    }
+
+    const paginatedVendors = filteredVendors.slice(
+        currentPage * rowsPerPage,
+        currentPage * rowsPerPage + rowsPerPage
+    )
 
     return (
         <div>
@@ -47,7 +63,7 @@ const VendorsPage = () => {
                         onChange={handleInputChange}
                     />
                     <button className="p-2 bg-primary-400 text-white rounded rounded-l-none outline-none border-none">
-                        Serach
+                        Search
                     </button>
                 </div>
             </div>
@@ -55,8 +71,8 @@ const VendorsPage = () => {
                 <Loader />
             ) : vendors && filteredVendors ? (
                 <div className="mb-4">
-                    {filteredVendors?.length ? (
-                        <StoreList sellers={filteredVendors} />
+                    {paginatedVendors?.length ? (
+                        <StoreList sellers={paginatedVendors} />
                     ) : (
                         keywords && (
                             <p className="w-full bg-blue-50 text-lg p-8">
@@ -66,6 +82,14 @@ const VendorsPage = () => {
                             </p>
                         )
                     )}
+                    <TablePagination
+                        component="div"
+                        count={filteredVendors.length}
+                        page={currentPage}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
                 </div>
             ) : (
                 <p>Stores not found!</p>
