@@ -31,6 +31,7 @@ const ProductDetailsPage = () => {
         useGetProductsQuery(
             {
                 brand: product?.doc?.brand?._id,
+                slug: { $ne: slug },
             },
             { skip: !product?.doc?.brand?._id }
         )

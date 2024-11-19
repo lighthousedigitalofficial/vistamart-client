@@ -11,8 +11,14 @@ import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 
 const schema = z.object({
-    firstName: z.string().min(1, 'First name is required'),
-    lastName: z.string().min(1, 'Last name is required'),
+    firstName: z
+        .string()
+        .min(1, 'First name is required')
+        .regex(/^[a-zA-Z]+$/, 'First name can only contain letters'),
+    lastName: z
+        .string()
+        .min(1, 'Last name is required')
+        .regex(/^[a-zA-Z]+$/, 'Last name can only contain letters'),
     email: z.string().email('Invalid email address'),
     password: z
         .string()

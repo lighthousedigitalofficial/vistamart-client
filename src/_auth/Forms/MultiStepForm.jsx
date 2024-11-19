@@ -38,8 +38,14 @@ const schema = z
             .string()
             .min(8, 'Password must be at least 8 characters'),
         phoneNumber: z.string().min(1, 'Phone number is required'),
-        firstName: z.string().min(1, 'First name is required'),
-        lastName: z.string().min(1, 'Last name is required'),
+        firstName: z
+            .string()
+            .min(1, 'First name is required')
+            .regex(/^[a-zA-Z]+$/, 'First name can only contain letters'),
+        lastName: z
+            .string()
+            .min(1, 'Last name is required')
+            .regex(/^[a-zA-Z]+$/, 'Last name can only contain letters'),
         shopName: z.string().min(1, 'Shop name is required'),
         address: z.string().min(3, 'Shop address is required'),
         logo: z.any(),

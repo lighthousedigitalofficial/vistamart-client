@@ -17,7 +17,7 @@ const Quantity = ({ product, qty, setQty }) => {
     }, [dispatch, qty])
 
     const increaseQty = () => {
-        setQty(qty + 1)
+        if (qty < product.stock) setQty(qty + 1)
     }
 
     const decreaseQty = () => {
