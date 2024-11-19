@@ -21,7 +21,7 @@ const SellerCard = ({ data: seller }) => {
                         }
                         effect="blur" // You can use "blur" or "opacity" as lazy load effect
                         alt={seller.firstName}
-                        className="w-full h-24 object-cover transform transition duration-300 ease-in-out hover:scale-105"
+                        className="w-svw h-24 object-cover transform transition duration-300 ease-in-out hover:scale-105"
                     />
 
                     <div className="p-4 flex-col items-center">
