@@ -78,7 +78,7 @@ const NavList = () => {
                         color="blue-gray"
                         className="p-1 font-medium cursor-pointer"
                     >
-                        <p className="navbar-item">Vandor Zone</p>
+                        <p className="navbar-item">Vendor Zone</p>
                     </Typography>
                 </MenuHandler>
                 <MenuList className="hidden overflow-visible md:grid shadow-md">

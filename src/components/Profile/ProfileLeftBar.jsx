@@ -19,6 +19,7 @@ const menuItems = [
     { icon: FaUserCircle, label: 'Profile Info', to: '/profile/profile-info' },
     { icon: FaShoppingBag, label: 'My Order', to: '/profile/my-orders' },
     { icon: FaHeart, label: 'Wish List', to: '/profile/wish-list' },
+    
     // { icon: FaWallet, label: "My Wallet", to: "/profile/my-wallet" },
     // { icon: FaStar, label: "My Loyalty Point", to: "/profile/my-loyalty-point" },
     // { icon: FaInbox, label: 'Inbox', to: '/profile/inbox', chip: 14 },
