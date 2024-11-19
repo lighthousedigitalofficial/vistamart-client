@@ -179,7 +179,7 @@ const MultiStepForm = () => {
             // Instead of FormData, send JSON data
             await vendorRegister(finalData).unwrap()
             toast.success('Vendor registered successfully')
-            navigate('/auth/vendor/login')
+            navigate('https://seller.vistamart.biz/')
         } catch (err) {
             toast.error(err?.data?.message || err.error)
             console.error('Error: ', err)

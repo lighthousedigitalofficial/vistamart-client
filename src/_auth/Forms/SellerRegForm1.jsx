@@ -29,7 +29,7 @@ const SellerRegForm1 = ({ errors }) => {
                 <p className="text-sm lg:text-base text-center lg:text-left">
                     Create your own store. Already have store?
                     <Link
-                        to="/vendor/auth/login"
+                        to="https://seller.vistamart.biz"
                         className="text-primary-500 text-lg lg:text-xl font-bold ml-2"
                     >
                         Login
