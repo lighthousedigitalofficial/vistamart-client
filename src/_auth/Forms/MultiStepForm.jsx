@@ -5,7 +5,6 @@ import { z } from 'zod'
 import SellerRegForm2 from './SellerRegForm2'
 import SellerRegForm1 from './SellerRegForm1'
 import { useVendorRegisterMutation } from '../../redux/slices/vendorsApiSlice'
-import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 import {
@@ -70,8 +69,6 @@ const MultiStepForm = () => {
         mode: 'onSubmit', // Validates only on form submission
         reValidateMode: 'onChange', // Validates on each change after initial submission
     })
-
-    const navigate = useNavigate()
 
     const isPasswordStrong = (password) => {
         const hasMinLength = password.length >= 8
@@ -179,7 +176,8 @@ const MultiStepForm = () => {
             // Instead of FormData, send JSON data
             await vendorRegister(finalData).unwrap()
             toast.success('Vendor registered successfully')
-            navigate('https://seller.vistamart.biz/')
+            // Redirect to external login page
+            window.location.href = 'https://seller.vistamart.biz'
         } catch (err) {
             toast.error(err?.data?.message || err.error)
             console.error('Error: ', err)
