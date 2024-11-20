@@ -3,7 +3,7 @@
 // import VandorApp from '../../components/Seller/VandorApp'
 import MultiStepForm from '../../_auth/Forms/MultiStepForm'
 import { z } from 'zod'
-import FAQSection from './../../components/Seller/FAQSection'
+// import FAQSection from './../../components/Seller/FAQSection'
 
 // Combined schema for both steps
 const vendorSchema = z
