@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
+import { Link } from 'react-router-dom'
 import { useFormContext } from 'react-hook-form'
 import { PhoneInput } from 'react-international-phone'
-import { Link } from 'react-router-dom'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
+
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import { useState } from 'react'
 
-const SellerRegForm1 = ({ errors }) => {
+const SellerRegForm1 = ({ errors, handleNext }) => {
     const { register } = useFormContext()
 
     const [showPassword, setShowPassword] = useState(false)
@@ -21,27 +22,32 @@ const SellerRegForm1 = ({ errors }) => {
     }
 
     return (
-        <div className="flex flex-col p-8 gap-6">
+        <div className="flex flex-col p-4  gap-6">
+            <h2 className="text-3xl font-bold text-primary-600 ">
+                Create your own Store
+            </h2>
             <div className="flex flex-col justify-center items-center mb-6 lg:mb-0">
                 <h2 className="text-2xl lg:text-3xl text-center lg:text-left">
                     Vendor Registration
                 </h2>
-                <p className="text-sm lg:text-base text-center lg:text-left">
-                    Create your own store. Already have store?
+                <div className="text-center lg:text-left">
+                    <span className="text-sm text-gray-800">
+                        Already have store?
+                    </span>
                     <Link
                         to="https://seller.vistamart.biz"
-                        className="text-primary-500 text-lg lg:text-xl font-bold ml-2"
+                        className="text-primary-500 text-lg font-bold ml-2 hover:text-primary-400 hover:underline transition-all ease-in delay-100"
                     >
                         Login
                     </Link>
-                </p>
-                <img
+                </div>
+                {/* <img
                     src="https://6valley.6amtech.com/public/assets/front-end/img/media/seller-registration.png"
                     alt="vendor"
                     className="h-40 w-40 lg:h-64 lg:w-64 object-contain mt-4 lg:mt-0"
-                />
+                /> */}
             </div>
-            <div className=" bg-white p-4 md:p-6 lg:p-8 rounded-lg flex-grow">
+            <div className=" bg-white p-4 md:p-8 lg:p-12 rounded-lg flex-grow">
                 <h2 className="text-xl lg:text-2xl font-semibold mb-4 lg:mb-6 text-center lg:text-left">
                     Account Information
                 </h2>
@@ -59,6 +65,22 @@ const SellerRegForm1 = ({ errors }) => {
                         {errors.email && (
                             <p className="text-red-500 text-xs italic">
                                 {errors.email.message}
+                            </p>
+                        )}
+                    </div>
+                    <div className="mb-4">
+                        <label className="input-label">Phone Number</label>
+                        <PhoneInput
+                            defaultCountry="pk"
+                            {...register('phoneNumber')}
+                            className={`custom-phone-input ${
+                                errors.password ? 'border-red-500' : ''
+                            }`}
+                            inputClassName="custom-phone-input"
+                        />
+                        {errors.phoneNumber && (
+                            <p className="text-red-500 text-xs italic">
+                                {errors.phoneNumber.message}
                             </p>
                         )}
                     </div>
@@ -116,22 +138,15 @@ const SellerRegForm1 = ({ errors }) => {
                             </p>
                         )}
                     </div>
-                    <div className="mb-4">
-                        <label className="input-label">Phone Number</label>
-                        <PhoneInput
-                            defaultCountry="pk"
-                            {...register('phoneNumber')}
-                            className={`custom-phone-input ${
-                                errors.password ? 'border-red-500' : ''
-                            }`}
-                            inputClassName="custom-phone-input"
-                        />
-                        {errors.phoneNumber && (
-                            <p className="text-red-500 text-xs italic">
-                                {errors.phoneNumber.message}
-                            </p>
-                        )}
-                    </div>
+                </div>
+                <div className="flex justify-end">
+                    <button
+                        className="btn primary-btn cursor-pointer "
+                        type="button"
+                        onClick={handleNext}
+                    >
+                        Proceed to Next
+                    </button>
                 </div>
             </div>
         </div>

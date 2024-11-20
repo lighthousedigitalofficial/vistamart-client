@@ -75,7 +75,7 @@ const ProductQuickView = ({ productId, onClose }) => {
             <div className="flex justify-between items-center p-4 border-b">
                 <Link
                     to={`/products/${product.doc.slug}`}
-                    className="text-lg md:text-xl font-semibold hover:text-primary-500 text-primary-600"
+                    className="text-lg md:text-xl truncate w-2/3 font-semibold hover:text-primary-500 text-primary-600"
                 >
                     {product.doc.name}
                 </Link>
@@ -88,7 +88,7 @@ const ProductQuickView = ({ productId, onClose }) => {
             <div className="flex flex-col lg:flex-row items-start gap-4 p-4">
                 {/* Product Image Section */}
                 <div className="w-full lg:w-1/2">
-                    <div className="w-full h-48 md:h-64 lg:h-80 overflow-hidden">
+                    <div className="w-full h-44 md:h-64 lg:h-96 overflow-hidden">
                         <img
                             src={mainImage ? `${mainImage}` : keys.DEFAULT_IMG}
                             alt={product.doc.name}

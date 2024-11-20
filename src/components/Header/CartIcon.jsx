@@ -31,7 +31,11 @@ const CartIcon = () => {
     }
 
     return (
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+        <div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className="outline-none border-none"
+        >
             <Menu open={openMenu} handler={setOpenMenu}>
                 <MenuHandler>
                     <Link
@@ -42,7 +46,7 @@ const CartIcon = () => {
                             <IconButton
                                 variant="text"
                                 aria-label="Shopping Cart"
-                                className="rounded-full border-none"
+                                className="rounded-full border-none outline-none"
                             >
                                 <FaShoppingCart className="h-5 w-5 text-primary-500" />
                             </IconButton>

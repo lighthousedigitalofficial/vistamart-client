@@ -83,7 +83,6 @@ const ProfileInfo = () => {
         try {
             let imageConfig
             if (data.image[0]) {
-                console.log('first')
                 imageConfig = await getUploadUrl(data?.image.type, 'customers')
 
                 await uploadImage(imageConfig, data.image)

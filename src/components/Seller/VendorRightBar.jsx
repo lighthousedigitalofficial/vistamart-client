@@ -31,8 +31,8 @@ const VendorRightBar = ({ vendorId }) => {
         <Loader />
     ) : (
         <div className="flex flex-col gap-4">
-            <FeatureCard features={features} />
             <VanderCard vendorId={vendorId} />
+            <FeatureCard features={features} />
             {/* {vendorProducts && vendorProducts.length ? (
                 <div className="flex flex-col gap-6">
                     <MoreStoreProducts

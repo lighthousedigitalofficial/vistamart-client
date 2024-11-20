@@ -99,4 +99,8 @@
     .discount-badge {
         @apply absolute top-2 left-2 bg-primary-400 text-white text-sm font-bold px-2 py-1 rounded z-40;
     }
+
+    .upload_img-btn {
+        @apply flex flex-col items-center justify-center p-2 lg:w-96 md:w-80 w-64 h-48 border-2 border-dashed border-gray-400 rounded-md shadow-sm bg-gray-100 cursor-pointer;
+    }
 }

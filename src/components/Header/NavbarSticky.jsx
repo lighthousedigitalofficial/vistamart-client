@@ -93,7 +93,7 @@ const NavbarSticky = () => {
                         </IconButton>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
                         <Badge content={totalWishListItems}>
                             <Link to="/profile/wish-list">
                                 <IconButton
@@ -115,20 +115,26 @@ const NavbarSticky = () => {
                                     <MenuHandler>
                                         <IconButton
                                             variant="text"
-                                            className="bg-gray-100 rounded-full border-none"
+                                            className="bg-gray-100 rounded-full border-none outline-none"
                                             onClick={toggleMenu} // Allow click to toggle menu
                                         >
                                             <FaUser className="h-5 w-5 text-primary-500" />
                                         </IconButton>
                                     </MenuHandler>
                                     <MenuList className="overflow-visible md:grid shadow-md">
-                                        <Link to="/customer/auth/sign-in">
+                                        <Link
+                                            to="/customer/auth/sign-in"
+                                            className="outline-none"
+                                        >
                                             <MenuItem>
                                                 <FaSignInAlt className="inline mr-2" />
                                                 Login
                                             </MenuItem>
                                         </Link>
-                                        <Link to="/customer/auth/sign-up">
+                                        <Link
+                                            to="/customer/auth/sign-up"
+                                            className="outline-none"
+                                        >
                                             <MenuItem>
                                                 <FaUserPlus className="inline mr-2" />
                                                 SignUp

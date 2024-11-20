@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import PhoneInput from 'react-phone-input-2'
-import 'react-phone-input-2/lib/style.css'
+import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
+import './../../styles/customPhoneInput.css'
+
 import { Link, useNavigate } from 'react-router-dom'
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa'
 import { useCustomerRegisterMutation } from '../../redux/slices/customersApiSlice'
@@ -33,7 +35,7 @@ const schema = z.object({
     confirmPassword: z
         .string()
         .min(8, 'Password must be at least 8 characters'),
-    phoneNumber: z.string().min(1, 'Phone number is required'),
+    phoneNumber: z.string().min(8, 'Phone number is required'),
     referCode: z.string().optional(),
 })
 
@@ -80,10 +82,6 @@ const SignUpForm = () => {
         }
     }
 
-    const handlePhoneChange = (value) => {
-        setValue('phoneNumber', value)
-    }
-
     const handleTogglePassword = () => {
         setShowPassword(!showPassword)
     }
@@ -92,8 +90,13 @@ const SignUpForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="w-3/4 mx-auto p-8">
-            <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-3/4 mx-auto p-8 lg:p-12 bg-white my-4"
+        >
+            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                Create new account
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 md:gap-4">
                 <div className="mb-4">
                     <label className="input-label">First Name</label>
@@ -146,23 +149,12 @@ const SignUpForm = () => {
                 <div className="mb-4">
                     <label className="input-label">Phone Number</label>
                     <PhoneInput
-                        country={'pk'}
-                        onChange={handlePhoneChange}
-                        inputClass="input"
-                        inputStyle={{
-                            appearance: 'none',
-                            border: '1px solid #e2e8f0', // border-gray-300
-                            borderRadius: '0.375rem', // rounded
-                            width: '92%', // w-full
-                            padding: '0.75rem 1.5rem', // py-2 px-3
-                            marginLeft: '2rem',
-                            color: '#4a5568', // text-gray-700
-                            lineHeight: '1.25', // leading-tight
-                            outline: 'none',
-                            boxShadow: '0 0 0 1px #c6f6d5', // focus:outline-1 outline-green-100
-                            transition: 'box-shadow 0.2s ease-in-out',
-                        }}
-                        placeholder="Enter phone number"
+                        defaultCountry="pk"
+                        {...register('phoneNumber')}
+                        className={`custom-phone-input ${
+                            errors.password ? 'border-red-500' : ''
+                        }`}
+                        inputClassName="custom-phone-input"
                     />
                     {errors.phoneNumber && (
                         <p className="text-red-500 text-xs italic">
