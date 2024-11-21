@@ -1,5 +1,6 @@
 import BrandsProductsPage from '../_root/pages/BrandsProductsPage'
 import CategoryProductsPage from '../_root/pages/CategoryProductsPage'
+import DiscountedProductsPage from '../_root/pages/DiscountedProducts'
 import FeaturedProductsPage from '../_root/pages/FeaturedProductsPage'
 import FlashDealsPage from '../_root/pages/FlashDealsPage'
 import ProductDetailsPage from '../_root/pages/ProductDetailsPage'
@@ -9,6 +10,10 @@ const productRoutes = [
     {
         path: 'products',
         element: <ProductsPage />,
+    },
+    {
+        path: 'products/discount',
+        element: <DiscountedProductsPage />,
     },
     {
         path: '/products/featured',

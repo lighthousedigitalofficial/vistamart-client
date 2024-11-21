@@ -11,6 +11,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                 }
             },
         }),
+        getDiscountedProducts: builder.query({
+            query: (query) => {
+                return {
+                    url: `${PRODUCTS_URL}?status=approved&discountAmount[gt]=0`,
+                    params: query,
+                }
+            },
+        }),
         getProductDetails: builder.query({
             query: (id) => ({
                 url: `${PRODUCTS_URL}/${id}`,
@@ -118,4 +126,5 @@ export const {
     useSearchProductsQuery,
     useGetAllProductsQuery,
     useGetProductBySlugQuery,
+    useGetDiscountedProductsQuery,
 } = productsApiSlice

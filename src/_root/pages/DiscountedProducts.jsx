@@ -2,13 +2,13 @@ import { BrandHeader } from '../../components/Brands/BrandHeader'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+import { useGetDiscountedProductsQuery } from '../../redux/slices/productsApiSlice'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
 
-export const ProductsPage = () => {
+export const DiscountedProductsPage = () => {
     const [searchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(12)
@@ -24,41 +24,9 @@ export const ProductsPage = () => {
         {}
     )
 
-    // const filters = Array.from(searchParams.entries()).reduce(
-    //     (acc, [param, value]) => {
-    //         // Handle filtering logic
-    //         if (param.includes('[') && param.includes(']')) {
-    //             // Extract field and operator from the parameter
-    //             const [field, operator] = param.split(/[[\]]/).filter(Boolean)
-
-    //             // Map query operators to MongoDB operators
-    //             const mongoOperatorMap = {
-    //                 gt: '$gt',
-    //                 gte: '$gte',
-    //                 lt: '$lt',
-    //                 lte: '$lte',
-    //                 ne: '$ne',
-    //             }
-
-    //             if (mongoOperatorMap[operator]) {
-    //                 acc[field] = {
-    //                     ...acc[field],
-    //                     [mongoOperatorMap[operator]]: Number(value),
-    //                 }
-    //             }
-    //         } else if (param === 'featured') {
-    //             acc.isFeatured = true // Example for specific filters
-    //         } else {
-    //             acc[param] = value // Default case
-    //         }
-
-    //         return acc
-    //     },
-    //     {}
-    // )
-
     // Fetch all products without pagination (modify the query to fetch all)
-    const { data: products, isFetching } = useGetProductsQuery(filters)
+    const { data: products, isFetching } =
+        useGetDiscountedProductsQuery(filters)
 
     // Trigger loader on filter change or fetching status
     useEffect(() => {
@@ -90,12 +58,12 @@ export const ProductsPage = () => {
 
     return loading ? (
         <Loader />
-    ) : !loading && products ? (
+    ) : products ? (
         <>
             <div className="mt-4 w-full mx-auto py-4">
                 <BrandHeader
                     filters={filters}
-                    title={'Products'}
+                    title={'Discounted Products'}
                     products={products}
                 />
                 <div className="flex justify-between items-start gap-4 my-4">
@@ -130,7 +98,7 @@ export const ProductsPage = () => {
             </div>
         </>
     ) : (
-        <p className="text-center p-12">Products not found!</p>
+        <p className="text-center p-12">Discounted Products not found!</p>
     )
 }
-export default ProductsPage
+export default DiscountedProductsPage

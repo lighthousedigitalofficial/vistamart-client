@@ -4,7 +4,7 @@ import MobileFilter from '../Sort/MobileFilter'
 // import SortFilter from '../Sort/SortFilter'
 import { TbSortAscending2 } from 'react-icons/tb'
 
-export const BrandHeader = ({ products, filters }) => {
+export const BrandHeader = ({ products, filters, title }) => {
     // console.log(filters)
 
     const [searchParams, setSearchParams] = useSearchParams()
@@ -25,22 +25,6 @@ export const BrandHeader = ({ products, filters }) => {
         setSearchParams(searchParams)
     }
 
-    const getTitle = () => {
-        if (filters.brand) {
-            return `Brand Products`
-        } else if (filters.category) {
-            return `Category Products`
-        } else if (filters.sort) {
-            if (filters.sort === 'featured') {
-                return 'Featured Products'
-            } else if (filters.sort === 'discount') {
-                return 'Discount Products'
-            }
-        }
-        return 'Products'
-    }
-
-    const title = getTitle()
     return (
         <div className="bg-white p-4 rounded-lg shadow-lg flex justify-between items-center w-full">
             <div>

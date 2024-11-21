@@ -23,8 +23,6 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
         formState: { errors },
     } = methods
 
-    console.log(address)
-
     // Update default values when address data changes
     useEffect(() => {
         if (address) {
@@ -167,3 +165,4 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
 }
 
 export default ShippingAddressForm
+1
