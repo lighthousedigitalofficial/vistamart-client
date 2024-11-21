@@ -7,11 +7,33 @@ import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import keys from '../../../config/keys'
 import { FcApproval } from 'react-icons/fc'
+import { Rating } from '@mui/material'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 const VanderCard = ({ vendorId }) => {
     const { data: vendor, isLoading } = useGetVendorDetailsQuery(vendorId, {
         skip: !vendorId,
     })
+
+    const [vendorRating, setVendorRating] = useState(0)
+    const [vendorReviews, setVendorReviews] = useState(0)
+
+    useEffect(() => {
+        if (vendor?.doc?.products) {
+            const productsRating = vendor?.doc?.products?.reduce(
+                (acc, p) => acc + p.rating,
+                0
+            )
+            const productsNumOfReviews = vendor?.doc?.products?.reduce(
+                (acc, p) => acc + p.numOfReviews,
+                0
+            )
+
+            setVendorReviews(productsNumOfReviews)
+            setVendorRating(productsRating / productsNumOfReviews)
+        }
+    }, [vendor?.doc?.products])
 
     return isLoading ? (
         <Loader />
@@ -34,18 +56,31 @@ const VanderCard = ({ vendorId }) => {
                     }
                     effect="blur" // You can use "blur" or "opacity" as lazy load effect
                     alt={vendor?.doc?.shopName}
-                    className="w-16 h-16 rounded-full object-contain"
+                    className="w-16 h-16 rounded-full border-2 border-primary-300 object-cover"
                 />
                 <div className="group-hover:text-primary-500 text-gray-80 ">
                     <h3 className="flex items-center gap-2">
+                        {/* <span className=" truncate w-2/3"> */}
                         {vendor?.doc?.shopName}
+                        {/* </span>{' '} */}
                         <FcApproval />
                     </h3>
                     <div className="text-gray-600 text-sm truncate w-3/4">
                         {vendor?.doc?.address}
                     </div>
+                    {/* <div className="flex items-center gap-2">
+                        <Rating
+                            name="half-rating-read"
+                            defaultValue={0}
+                            value={vendorRating}
+                            precision={0.5}
+                            readOnly
+                            size="small"
+                        />
+                    </div> */}
                 </div>
             </Link>
+
             <div className="mt-2">
                 <div className="flex text-gray-600 mx-auto justify-center items-center">
                     <div className="flex flex-col gap-2 justify-center items-center pr-4 border-r border-gray-300">

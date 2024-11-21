@@ -58,8 +58,6 @@ export const ProductsPage = () => {
         setCurrentPage(0) // Reset to the first page when changing rows per page
     }
 
-    console.log(currentProducts)
-
     return loading || isLoading ? (
         <Loader />
     ) : products ? (

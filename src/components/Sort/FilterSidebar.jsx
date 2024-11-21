@@ -45,7 +45,7 @@ const FilterSidebar = ({ filters }) => {
         setSearchParams(searchParams)
     }
 
-    const handleBrandsSerach = (e) => {
+    const handleBrandsSearch = (e) => {
         const searchTerm = e.target.value
         setSearchItem(searchTerm)
 
@@ -106,79 +106,85 @@ const FilterSidebar = ({ filters }) => {
                 </div>
             </div>
 
-            <div className="mb-4 overflow-hidden border-b-2 py-4">
-                <h3 className="text-lg font-bold">Brands</h3>
-                <div className="relative mt-2">
-                    <input
-                        type="text"
-                        value={searchItem}
-                        onChange={handleBrandsSerach}
-                        placeholder="Search by brands"
-                        className="w-full input"
-                    />
-                    <button className="absolute right-2 top-2 text-gray-400 flex items-center justify-center ">
-                        <FaSearch className="h-4 w-4" />
-                    </button>
-                </div>
-                <ul className="mt-4 space-y-2">
-                    {isBrandsLoading ? (
-                        <Loader />
-                    ) : filterBrands ? (
-                        filterBrands.map((brand) => {
-                            if (brand.totalProducts > 0)
-                                return (
-                                    <li key={brand._id}>
-                                        <Link
-                                            to={`/products/brand/${brand.slug}`}
-                                            className="flex justify-between items-center hover:text-primary-700"
-                                        >
-                                            <span>
-                                                {capitalizeFirstLetter(
-                                                    brand.name
-                                                )}
-                                            </span>
-                                            <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
-                                                {brand.totalProducts}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                )
-                        })
-                    ) : (
-                        <li>No Brands found!</li>
-                    )}
-                </ul>
-            </div>
-
-            {isCategoriesLoading ? (
-                <Loader />
-            ) : categories && categories?.doc?.length ? (
-                <>
-                    <h3 className="text-lg font-bold my-2">Categories</h3>
-                    <ul className="mt-4 space-y-2">
-                        {categories?.doc?.map((category) => {
-                            if (category?.totalProducts > 0)
-                                return (
-                                    <li key={category._id}>
-                                        <Link
-                                            to={`/products/category/${category.slug}`}
-                                            className="flex justify-between items-center hover:text-primary-700"
-                                        >
-                                            <span>
-                                                {capitalizeFirstLetter(
-                                                    category.name
-                                                )}
-                                            </span>
-                                            <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
-                                                {category.totalProducts}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                )
-                        })}
+            <div>
+                {/* Brands Section */}
+                <div className="mb-4 overflow-hidden border-b-2 py-4">
+                    <h3 className="text-lg font-semibold">Brands</h3>
+                    <div className="relative mt-2">
+                        <input
+                            type="text"
+                            value={searchItem}
+                            onChange={handleBrandsSearch}
+                            placeholder="Search by brands"
+                            className="w-full input"
+                        />
+                        <button className="absolute right-2 top-2 text-gray-400 flex items-center justify-center">
+                            <FaSearch className="h-4 w-4" />
+                        </button>
+                    </div>
+                    <ul className="mt-4 space-y-2 max-h-[240px] overflow-y-auto scrollbar-thin">
+                        {isBrandsLoading ? (
+                            <Loader />
+                        ) : filterBrands ? (
+                            filterBrands.map((brand) => {
+                                if (brand.totalProducts > 0)
+                                    return (
+                                        <li key={brand._id}>
+                                            <Link
+                                                to={`/products/brand/${brand.slug}`}
+                                                className="flex justify-between items-center px-2 hover:text-primary-600"
+                                            >
+                                                <span className=" font-thin text-sm">
+                                                    {capitalizeFirstLetter(
+                                                        brand.name
+                                                    )}
+                                                </span>
+                                                <span className="bg-gray-200 text-gray-700 rounded-full text-center py-1 px-3 text-sm">
+                                                    {brand.totalProducts}
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    )
+                            })
+                        ) : (
+                            <li>No Brands found!</li>
+                        )}
                     </ul>
-                </>
-            ) : null}
+                </div>
+
+                {/* Categories Section */}
+                {isCategoriesLoading ? (
+                    <Loader />
+                ) : categories?.doc?.length ? (
+                    <>
+                        <h3 className="text-lg font-semibold my-2">
+                            Categories
+                        </h3>
+                        <ul className="mt-4 space-y-2 max-h-[240px] overflow-y-auto scrollbar-thin">
+                            {categories?.doc?.map((category) => {
+                                if (category?.totalProducts > 0)
+                                    return (
+                                        <li
+                                            key={category._id}
+                                            className="border-b border-gray-200 last:border-none p-2"
+                                        >
+                                            <Link
+                                                to={`/products/category/${category.slug}`}
+                                                className="flex justify-between items-center px-2 hover:text-primary-600 "
+                                            >
+                                                <span className=" font-thin text-sm">
+                                                    {capitalizeFirstLetter(
+                                                        category.name
+                                                    )}
+                                                </span>
+                                            </Link>
+                                        </li>
+                                    )
+                            })}
+                        </ul>
+                    </>
+                ) : null}
+            </div>
         </div>
     )
 }

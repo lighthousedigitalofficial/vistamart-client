@@ -61,7 +61,7 @@ const Product = ({ product }) => {
     return (
         <div className="flex flex-col w-full p-4 rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
-                <div className="lg:w-1/2 w-full ">
+                <div className="lg:w-1/2 w-full">
                     <ProductSlider images={images} />
                 </div>
                 <div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
@@ -131,7 +131,7 @@ const Product = ({ product }) => {
                         <span className="mx-2 px-1 text-xs">
                             {product.taxIncluded
                                 ? '(Tax: incl.)'
-                                : `(Tax: Rs. ${product.taxAmount})`}
+                                : `(Tax: Rs. ${product.taxAmount || 0})`}
                         </span>
                     </div>
                     <div className="flex gap-6 w-full">

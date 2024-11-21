@@ -5,6 +5,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useGetBrandBySlugQuery } from '../../redux/slices/brandsApiSlice'
 import { capitalizeFirstLetter } from '../../utils'
 import img from '../../assets/no-product-found.png'
+import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
 
 export const BrandsProductsPage = () => {
     const [searchParams] = useSearchParams()
@@ -31,6 +32,13 @@ export const BrandsProductsPage = () => {
     // Fetch products based on query parameters
     const { data: brand, isLoading } = useGetBrandBySlugQuery(slug)
 
+    const { data: products, isLoading: isProductsLoading } =
+        useGetProductsQuery({
+            brand: brand?.doc?._id,
+        })
+
+    console.log(products)
+
     // console.log(brand)
 
     return isLoading ? (
@@ -49,11 +57,11 @@ export const BrandsProductsPage = () => {
                 </div>
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
-                    {brand?.doc &&
-                    brand?.doc?.products &&
-                    brand?.doc?.products?.length ? (
+                    {isProductsLoading ? (
+                        <Loader />
+                    ) : products?.doc && products?.results > 0 ? (
                         <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
-                            {brand?.doc?.products?.map((product, index) => (
+                            {products?.doc?.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
                         </div>

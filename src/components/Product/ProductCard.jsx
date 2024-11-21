@@ -60,13 +60,22 @@ const ProductCard = ({ data: product }) => {
                         {/* <span className="text-sm text-gray-500 mb-0">
                                 {product?.rating || '0'}
                             </span> */}
-                        <Rating
-                            name="half-rating-read"
-                            defaultValue={0}
-                            value={product?.rating}
-                            precision={0.5}
-                            readOnly
-                        />
+                        {product?.rating > 0 && (
+                            <div className="flex items-center gap-2">
+                                <Rating
+                                    name="half-rating-read"
+                                    defaultValue={0}
+                                    value={product?.rating}
+                                    precision={0.5}
+                                    readOnly
+                                    size="small"
+                                />
+                                <p className="text-xs">
+                                    ({product?.numOfReviews})
+                                </p>
+                            </div>
+                        )}
+
                         <div className="flex items-center justify-between">
                             {oldPrice > product.price && (
                                 <p className="text-sm line-through text-gray-500">

@@ -7,6 +7,8 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 const ProductSlider = ({ images }) => {
     const [featuredImage, setFeaturedImage] = useState(images[0])
 
+    console.log(images)
+
     const handleThumbnailClick = (image) => {
         setFeaturedImage(image)
     }
@@ -25,20 +27,22 @@ const ProductSlider = ({ images }) => {
 
     return (
         <div className="flex flex-wrap flex-col justify-center items-center gap-2 space-y-8 lg:space-y-0 lg:space-x-8">
-            {featuredImage && (
-                <LazyLoadImage
-                    src={
-                        featuredImage
-                            ? featuredImage?.startsWith('products')
-                                ? `${keys.BUCKET_URL}${featuredImage}`
-                                : featuredImage
-                            : keys.DEFAULT_IMG
-                    }
-                    effect="blur" // You can use "blur" or "opacity" as lazy load effect
-                    alt="Featured product"
-                    className="w-full lg:h-[60vh] md:h-[50vh] h-[40vh] object-contain border-2 border-gray-100 cursor-pointer"
-                />
-            )}
+            <div>
+                {featuredImage && (
+                    <LazyLoadImage
+                        src={
+                            featuredImage
+                                ? featuredImage?.startsWith('products')
+                                    ? `${keys.BUCKET_URL}${featuredImage}`
+                                    : featuredImage
+                                : keys.DEFAULT_IMG
+                        }
+                        effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                        alt="Featured product"
+                        className="w-full lg:h-[55vh] md:h-[50vh] h-[40vh] object-contain border-2 border-gray-100 cursor-pointer"
+                    />
+                )}
+            </div>
 
             <div className="flex items-center space-x-4 mt-4">
                 <FaChevronLeft

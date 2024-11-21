@@ -12,27 +12,33 @@ import toast from 'react-hot-toast'
 import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
 import { formatPrice } from '../../utils/helpers'
+import ProductSlider from './ProductSlider'
 
 const ProductQuickView = ({ productId, onClose }) => {
     const { data: product, isLoading } = useGetProductDetailsQuery(productId, {
         skip: !productId,
     })
 
-    const [mainImage, setMainImage] = useState('')
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [images, setImages] = useState([])
+
     const [qty, setQty] = useState(1)
     const [minimumOrderError, setMinimumOrderError] = useState(false)
 
-    const productImages = product?.doc ? [mainImage, ...product.doc.images] : []
     const oldPrice = product?.doc?.price + product?.doc?.discountAmount || 0
-
     useEffect(() => {
-        const productImage = product?.doc?.thumbnail?.startsWith('products')
-            ? `${keys.BUCKET_URL}${product.doc.thumbnail}`
-            : product?.doc?.thumbnail
-            ? product?.doc?.thumbnail
-            : keys.DEFAULT_IMG
-        setMainImage(productImage)
-    }, [product])
+        if (product?.doc) {
+            const productImages = product?.doc
+                ? [product?.doc?.thumbnail, ...product.doc.images]
+                : []
+            setImages(productImages)
+        }
+        if (!product?.doc?.taxIncluded) {
+            setTotalPrice((product?.doc?.price + product?.doc.taxAmount) * qty)
+        } else setTotalPrice(product?.doc?.price * qty)
+
+        // setMainImage(productImage)
+    }, [product?.doc, qty])
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -70,7 +76,7 @@ const ProductQuickView = ({ productId, onClose }) => {
             <Loader />
         </div>
     ) : product && product?.doc ? (
-        <div className="flex flex-col border shadow bg-white rounded w-full p-4">
+        <div className="flex flex-col  border shadow bg-white rounded w-full p-4 max-h-screen md:max-h-[100vh] overflow-y-auto">
             {/* Close button and Product title */}
             <div className="flex justify-between items-center p-4 border-b">
                 <Link
@@ -87,31 +93,12 @@ const ProductQuickView = ({ productId, onClose }) => {
             {/* Product Image and Details */}
             <div className="flex flex-col lg:flex-row items-start gap-4 p-4">
                 {/* Product Image Section */}
-                <div className="w-full lg:w-1/2">
-                    <div className="w-full h-44 md:h-64 lg:h-96 overflow-hidden">
-                        <img
-                            src={mainImage ? `${mainImage}` : keys.DEFAULT_IMG}
-                            alt={product.doc.name}
-                            loading="lazy"
-                            className="w-full h-full object-contain"
-                        />
-                    </div>
-                    {/* <div className="flex justify-center mt-4">
-                        {productImages?.map((src, index) => (
-                            <img
-                                key={index}
-                                src={`${src}` || keys.DEFAULT_IMG}
-                                alt={`Thumbnail ${index + 1}`}
-                                loading="lazy"
-                                className="w-16 h-16 object-cover mr-2 border rounded cursor-pointer"
-                                onClick={() => setMainImage(src)}
-                            />
-                        ))}
-                    </div> */}
+                <div className="lg:w-1/2 w-full">
+                    <ProductSlider images={images} />
                 </div>
 
                 {/* Product Details Section */}
-                <div className="w-full lg:w-1/2 flex flex-col gap-4">
+                <div className="w-full lg:w-1/2 flex flex-col gap-8">
                     <h2 className="text-xl md:text-2xl">{product.doc.name}</h2>
                     <div className="flex items-center mb-2">
                         <span className="mx-2 text-gray-600 ">
@@ -171,9 +158,14 @@ const ProductQuickView = ({ productId, onClose }) => {
                     <div className="flex items-center gap-2 font-bold">
                         <h3 className="">Total Price:</h3>
                         <p className="text-primary-400 ">
-                            Rs.{formatPrice(product?.doc?.price * qty)}
+                            Rs.{formatPrice(totalPrice)}
                         </p>
-                        <span className="text-xs">(Tax included)</span>
+                        <span className="text-xs">
+                            {' '}
+                            {product.doc.taxIncluded
+                                ? '(Tax: incl.)'
+                                : `(Tax: Rs. ${product.doc.taxAmount || 0})`}
+                        </span>
                     </div>
                     <div className="flex flex-col lg:flex-row gap-3">
                         <button
