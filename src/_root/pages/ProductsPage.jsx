@@ -19,7 +19,7 @@ export const ProductsPage = () => {
     const filters = Array.from(searchParams.entries()).reduce(
         (acc, [param, value]) => {
             if (param === 'discount') {
-                acc.sort = 'discount'
+                acc.discountAmount = { $gt: 0 }
             } else if (param === 'featured') {
                 acc.isFeatured = true
             } else {
