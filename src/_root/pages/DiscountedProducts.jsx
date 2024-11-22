@@ -93,6 +93,7 @@ export const DiscountedProductsPage = () => {
                         onPageChange={handleChangePage}
                         rowsPerPage={rowsPerPage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[12, 24, 36, 60]} // You can customize this
                     />
                 )}
             </div>

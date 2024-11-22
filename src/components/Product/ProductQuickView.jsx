@@ -9,7 +9,6 @@ import Loader from '../Loader'
 import { useGetProductDetailsQuery } from '../../redux/slices/productsApiSlice'
 import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
-import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
 import { formatPrice } from '../../utils/helpers'
 import ProductSlider from './ProductSlider'
@@ -131,7 +130,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                             </p>
                         )}
                     </div>
-                    {product.doc.stock > 1 && (
+                    {product.doc.stock > 0 ? (
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold">Quantity:</h3>
@@ -154,6 +153,10 @@ const ProductQuickView = ({ productId, onClose }) => {
                                 </p>
                             )}
                         </div>
+                    ) : (
+                        <h2 className="md:text-2xl text-lg font-bold text-red-600 mb-2">
+                            Out of Stock
+                        </h2>
                     )}
                     <div className="flex items-center gap-2 font-bold">
                         <h3 className="">Total Price:</h3>
@@ -167,23 +170,30 @@ const ProductQuickView = ({ productId, onClose }) => {
                                 : `(Tax: Rs. ${product.doc.taxAmount || 0})`}
                         </span>
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-3">
+                    <div className="flex lg:flex-row flex-col gap-6 w-full">
                         <button
                             onClick={buyNowHandler}
-                            className="btn bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 w-full lg:w-1/2"
+                            disabled={product.doc.stock < 1}
+                            className={`btn px-10 text-white ${
+                                product.doc.stock < 1
+                                    ? 'bg-orange-500 opacity-50 cursor-not-allowed'
+                                    : 'bg-orange-500 hover:bg-orange-600'
+                            }`}
                         >
                             Buy now
                         </button>
                         <button
                             onClick={addToCartHandler}
-                            className="btn primary-btn w-full lg:w-1/2"
+                            disabled={product.doc.stock < 1}
+                            className={`btn px-10 ${
+                                product.doc.stock < 1
+                                    ? 'primary-btn opacity-50 cursor-not-allowed'
+                                    : 'primary-btn'
+                            }`}
                         >
                             {isProductAddToCart ? 'Update Cart' : 'Add to cart'}
                         </button>
-                        <WishListIcon
-                            productId={product.doc._id}
-                            onClose={onClose}
-                        />
+                        <WishListIcon productId={product._id} />
                     </div>
                 </div>
             </div>

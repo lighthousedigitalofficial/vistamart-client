@@ -1,29 +1,46 @@
 import ShopBanner from '../../components/Banners/ShopBanner'
 import Loader from '../../components/Loader'
 import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
-import { useParams } from 'react-router-dom'
+import { useParams, useSearchParams } from 'react-router-dom'
 import ProductCard from '../../components/Product/ProductCard'
-import CategorySidebar from '../../components/Categories/CategorySideBar'
 import { BrandHeader } from '../../components/Brands/BrandHeader'
 import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
 import { useState } from 'react'
+import FilterSidebar from '../../components/Sort/FilterSidebar'
+import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
 
 const ShopViewPage = () => {
+    const [searchParams] = useSearchParams()
+
     const { slug } = useParams()
-
-    const { data: vendor, isLoading } = useGetVendorBySlugQuery(slug)
-
-    // Pagination states
     const [currentPage, setCurrentPage] = useState(0) // MUI uses 0-based indexing
     const [rowsPerPage, setRowsPerPage] = useState(10) // Adjust as needed
 
-    // Extract product count and any filters you want to pass to BrandHeader
-    const productCount = vendor?.doc?.totalProducts || 0
+    let filters = Array.from(searchParams.entries()).reduce(
+        (acc, [param, value]) => {
+            acc[param] = value
+            return acc
+        },
+        {}
+    )
+
+    const { data: vendor, isLoading } = useGetVendorBySlugQuery(slug)
+
+    const { data: products, isFetching } = useGetProductsQuery(
+        {
+            userId: vendor?.doc?._id,
+            status: 'approved',
+            ...filters,
+        },
+        {
+            skip: !vendor?.doc?._id,
+        }
+    )
 
     // Calculate current products based on pagination
     const currentProducts =
-        vendor?.doc?.products.slice(
+        products?.doc?.slice(
             currentPage * rowsPerPage,
             currentPage * rowsPerPage + rowsPerPage
         ) || []
@@ -39,7 +56,7 @@ const ShopViewPage = () => {
         setCurrentPage(0) // Reset to the first page when changing rows per page
     }
 
-    return isLoading ? (
+    return isLoading || isFetching ? (
         <Loader />
     ) : vendor && vendor?.doc ? (
         <div>
@@ -49,16 +66,14 @@ const ShopViewPage = () => {
             <div className="mt-6 lg:mt-8">
                 <BrandHeader
                     style={{ marginTop: '10px' }} // Spacing between banner and header
-                    products={{ results: productCount }}
+                    products={{ results: products?.results || 0 }}
                     filters={{ brand: vendor?.doc?.name }}
                 />
             </div>
 
             <div className="flex justify-between gap-6 items-start w-full mt-6 lg:mt-8">
                 {/* Adjusted sidebar for larger screens */}
-                <div className="hidden lg:block lg:w-1/4 bg-white border border-gray-200 rounded-md shadow-lg p-4">
-                    <CategorySidebar />
-                </div>
+                <FilterSidebar filters={filters} />
                 <div className="w-full lg:w-3/4 p-4">
                     {vendor && vendor?.doc?.totalProducts > 0 ? (
                         <>
@@ -70,12 +85,12 @@ const ShopViewPage = () => {
                             {/* Pagination Controls using MUI TablePagination */}
                             <TablePagination
                                 component="div"
-                                count={productCount} // Total product count
+                                count={products?.results || 0}
                                 page={currentPage}
                                 onPageChange={handleChangePage}
                                 rowsPerPage={rowsPerPage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
-                                rowsPerPageOptions={[4, 8, 12]} // You can customize this
+                                rowsPerPageOptions={[12, 24, 36, 60]} // You can customize this
                             />
                         </>
                     ) : (

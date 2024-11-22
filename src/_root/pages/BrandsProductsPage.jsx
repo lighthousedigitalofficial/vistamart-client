@@ -6,42 +6,52 @@ import { useGetBrandBySlugQuery } from '../../redux/slices/brandsApiSlice'
 import { capitalizeFirstLetter } from '../../utils'
 import img from '../../assets/no-product-found.png'
 import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+import { TablePagination } from '@mui/material'
+import { useState } from 'react'
 
 export const BrandsProductsPage = () => {
     const [searchParams] = useSearchParams()
-
     const { slug } = useParams()
-    // Extract query parameters from URL
 
-    let filters = {}
-    for (let [param, value] of searchParams.entries()) {
-        filters[param] = value
-        if (param === 'discount') {
-            filters = {
-                sort: 'discount',
-            }
-        }
+    const [currentPage, setCurrentPage] = useState(0) // Current page
+    const [rowsPerPage, setRowsPerPage] = useState(12) // Rows per page
 
-        if (param === 'featured') {
-            filters = {
-                isFeatured: true,
-            }
-        }
-    }
+    // Construct filters from search parameters
+    let filters = Array.from(searchParams.entries()).reduce(
+        (acc, [param, value]) => {
+            acc[param] = value
+            return acc
+        },
+        {}
+    )
 
     // Fetch products based on query parameters
     const { data: brand, isLoading } = useGetBrandBySlugQuery(slug)
 
-    const { data: products, isLoading: isProductsLoading } =
+    const { data: products, isFetching: productsFetching } =
         useGetProductsQuery({
             brand: brand?.doc?._id,
+            status: 'approved',
+            ...filters,
         })
 
-    console.log(products)
+    // Calculate the starting index of the products to display on the current page
+    const startIndex = currentPage * rowsPerPage
+    const currentProducts =
+        products?.doc?.slice(startIndex, startIndex + rowsPerPage) || []
 
-    // console.log(brand)
+    // Handle page change
+    const handleChangePage = (event, newPage) => {
+        setCurrentPage(newPage)
+    }
 
-    return isLoading ? (
+    // Handle rows per page change
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10))
+        setCurrentPage(0) // Reset to the first page when changing rows per page
+    }
+
+    return isLoading || productsFetching ? (
         <Loader />
     ) : brand && brand?.doc ? (
         <>
@@ -52,21 +62,21 @@ export const BrandsProductsPage = () => {
                         {capitalizeFirstLetter(brand?.doc?.name)})
                     </h1>
                     <h1 className="text-lg text-gray-600">
-                        {brand?.doc?.totalProducts} items found
+                        {products?.results} items found
                     </h1>
                 </div>
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
-                    {isProductsLoading ? (
+                    {productsFetching ? (
                         <Loader />
-                    ) : products?.doc && products?.results > 0 ? (
-                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
-                            {products?.doc?.map((product, index) => (
+                    ) : currentProducts.length > 0 ? (
+                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 py-2 transition-all ease-in duration-300">
+                            {currentProducts.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
                         </div>
                     ) : (
-                        <div className="text-lg flex mt-20 justify-center items-center  w-full text-center">
+                        <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
                             <img
                                 src={img}
                                 alt="No Product Found"
@@ -75,6 +85,18 @@ export const BrandsProductsPage = () => {
                         </div>
                     )}
                 </div>
+                {/* Pagination Controls */}
+                {products?.results > rowsPerPage && (
+                    <TablePagination
+                        component="div"
+                        count={products?.results || 0}
+                        page={currentPage}
+                        onPageChange={handleChangePage}
+                        rowsPerPage={rowsPerPage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[12, 24, 36, 60]} // You can customize this
+                    />
+                )}
             </div>
         </>
     ) : (

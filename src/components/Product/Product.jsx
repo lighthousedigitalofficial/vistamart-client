@@ -100,7 +100,7 @@ const Product = ({ product }) => {
                         )}
                     </div>
                     <div className="flex items-center">
-                        {product.stock > 1 ? (
+                        {product.stock > 0 ? (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <h3 className="text-gray-800 font-bold">
@@ -120,7 +120,11 @@ const Product = ({ product }) => {
                                     {product.minimumOrderQty})
                                 </p>
                             </div>
-                        ) : null}
+                        ) : (
+                            <h2 className="md:text-2xl text-lg  font-bold text-red-600 mb-2">
+                                Out of Stock
+                            </h2>
+                        )}
                     </div>
                     <div className="flex items-center gap-2">
                         <h3 className="text-gray-800 font-bold">
@@ -138,13 +142,23 @@ const Product = ({ product }) => {
                     <div className="flex gap-6 w-full">
                         <button
                             onClick={buyNowHandler}
-                            className="btn bg-orange-500 hover:bg-orange-600 focus: text-white px-10"
+                            disabled={product.stock < 1}
+                            className={`btn px-10 text-white ${
+                                product.stock < 1
+                                    ? 'bg-orange-500 opacity-50 cursor-not-allowed'
+                                    : 'bg-orange-500 hover:bg-orange-600'
+                            }`}
                         >
                             Buy now
                         </button>
                         <button
                             onClick={addToCartHandler}
-                            className="btn primary-btn px-10"
+                            disabled={product.stock < 1}
+                            className={`btn px-10 ${
+                                product.stock < 1
+                                    ? 'primary-btn opacity-50 cursor-not-allowed'
+                                    : 'primary-btn'
+                            }`}
                         >
                             {isProductAddToCart ? 'Update Cart' : 'Add to cart'}
                         </button>

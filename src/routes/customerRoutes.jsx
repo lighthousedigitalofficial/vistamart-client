@@ -28,10 +28,7 @@ const customerRoutes = [
         path: 'users/reset-password/:hash',
         element: <ResetPassword />,
     },
-    {
-        path: 'order-confirmation',
-        element: <OrderConfirmationPage />,
-    },
+
     {
         path: 'cart',
         element: <CartPage />,
@@ -51,6 +48,10 @@ const customerRoutes = [
     {
         path: 'checkout/order-summary',
         element: <OrderSummaryPage />,
+    },
+    {
+        path: 'order-confirmation',
+        element: <OrderConfirmationPage />,
     },
 
     {

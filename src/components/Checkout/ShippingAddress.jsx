@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 // eslint-disable-next-line react/prop-types
-const ShippingAddressForm = ({ onSubmit, address }) => {
+const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
     const methods = useForm({
+        resolver: zodResolver(shippingAddressSchema),
         defaultValues: {
             name: '',
             phoneNumber: '',
@@ -56,7 +58,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('name', {
                                     required: 'Full Name is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.name
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.name && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -71,7 +77,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('phoneNumber', {
                                     required: 'Phone Number is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.phoneNumber
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.phoneNumber && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -86,7 +96,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('country', {
                                     required: 'Country is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.country
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.country && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -101,7 +115,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('city', {
                                     required: 'City is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.city
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.city && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -116,7 +134,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('state', {
                                     required: 'State is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.state
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.state && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -131,7 +153,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('zipCode', {
                                     required: 'Zip Code is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.zipCode
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.zipCode && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -146,7 +172,11 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
                                 {...register('address', {
                                     required: 'Address is required',
                                 })}
-                                className="input"
+                                className={`input ${
+                                    errors.address
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
                             />
                             {errors.address && (
                                 <p className="text-red-500 text-xs mt-1">
@@ -165,4 +195,3 @@ const ShippingAddressForm = ({ onSubmit, address }) => {
 }
 
 export default ShippingAddressForm
-1

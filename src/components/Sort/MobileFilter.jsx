@@ -7,28 +7,54 @@ import { Drawer, Card } from '@material-tailwind/react'
 import { useGetBrandsQuery } from '../../redux/slices/brandsApiSlice'
 import { useGetCategoriesQuery } from '../../redux/slices/categoriesApiSlice'
 import Loader from '../Loader'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { capitalizeFirstLetter } from '../../utils'
+import toast from 'react-hot-toast'
 // Filter side bar as a model
 
 const MobileFilter = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchItem, setSearchItem] = useState('')
+    const [filterBrands, setFilterBrands] = useState([])
+
+    // State for min and max price
+    const [minPrice, setMinPrice] = useState(0)
+    const [maxPrice, setMaxPrice] = useState(null)
 
     const { data: brands, isLoading: isBrandsLoading } = useGetBrandsQuery({})
     const { data: categories, isLoading: isCategoriesLoading } =
         useGetCategoriesQuery({})
 
-    const [searchItem, setSearchItem] = useState('')
-
-    const [filterBrands, setFilterBrands] = useState([])
-
     useEffect(() => {
-        if (brands) {
+        if (brands && brands?.doc) {
             setFilterBrands(brands?.doc)
         }
     }, [brands])
 
-    const handleBrandsSerach = (e) => {
+    useEffect(() => {
+        const min = searchParams.get('price[gte]') || 0
+        const max = searchParams.get('price[lte]') || null
+
+        setMinPrice(min)
+        setMaxPrice(max)
+    }, [searchParams])
+
+    const priceRangeHandler = (e) => {
+        e.preventDefault()
+
+        if (minPrice > maxPrice) {
+            return toast.error('The min price is greater than max price.')
+        }
+
+        searchParams.set('price[gte]', minPrice)
+        searchParams.set('price[lte]', maxPrice)
+
+        // Update URL without resetting inputs
+        setSearchParams(searchParams)
+    }
+
+    const handleBrandsSearch = (e) => {
         const searchTerm = e.target.value
         setSearchItem(searchTerm)
 
@@ -83,41 +109,54 @@ const MobileFilter = () => {
 
                         <div className="mb-4">
                             <h3 className="text-lg font-medium">Price</h3>
-                            <div className="flex items-center mt-2">
-                                <input
-                                    type="number"
-                                    min="0"
-                                    placeholder="0"
-                                    className="w-1/2 border rounded-lg px-3 py-2 mr-2"
-                                />
-                                <span className="mx-2">To</span>
-                                <input
-                                    type="number"
-                                    min="0"
-                                    placeholder="100"
-                                    className="w-1/2 border rounded-lg px-3 py-2 mr-2"
-                                />
-                                <button className="bg-primary-500 text-white rounded-lg px-3 py-3">
-                                    <MdArrowForwardIos />
-                                </button>
-                            </div>
+                            <form onSubmit={priceRangeHandler}>
+                                <div className="flex items-center justify-between gap-2 mt-2">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={minPrice}
+                                        onChange={(e) =>
+                                            setMinPrice(e.target.value)
+                                        }
+                                        placeholder="0"
+                                        className="w-1/2 input px-3 py-2"
+                                    />
+                                    <span className="mx-2">To</span>
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        value={maxPrice}
+                                        onChange={(e) =>
+                                            setMaxPrice(e.target.value)
+                                        }
+                                        placeholder="100"
+                                        className="w-1/2 input px-3 py-2"
+                                    />
+                                    <button
+                                        type="submit"
+                                        className="bg-primary-500 text-white rounded-lg px-3 py-3"
+                                    >
+                                        <MdArrowForwardIos />
+                                    </button>
+                                </div>
+                            </form>
                         </div>
 
                         <div className="mb-4 overflow-hidden">
                             <h3 className="text-lg font-medium">Brands</h3>
-                            <div className="relative mt-2">
-                                <input
-                                    type="text"
-                                    value={searchItem}
-                                    onChange={handleBrandsSerach}
-                                    placeholder="Search by brands"
-                                    className="w-full border rounded-lg px-3 py-2"
-                                />
-                                <button className="absolute right-2 top-2 text-gray-400 flex items-center justify-center ">
-                                    <FaSearch className="h-4 w-4" />
-                                </button>
+                            <div className="relative mt-2 px-2">
+                                <div className="flex items-center bg-gray-50 border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus-within:ring-1 focus-within:ring-primary-500">
+                                    <FaSearch className="text-gray-500 mr-2" />
+                                    <input
+                                        type="text"
+                                        value={searchItem}
+                                        onChange={handleBrandsSearch}
+                                        placeholder="Search by brands..."
+                                        className="w-full bg-transparent outline-none text-gray-800"
+                                    />
+                                </div>
                             </div>
-                            <ul className="mt-4 space-y-2">
+                            <ul className="mt-4 space-y-2 max-h-[240px] overflow-y-auto scrollbar-thin">
                                 {isBrandsLoading ? (
                                     <Loader />
                                 ) : filterBrands ? (
@@ -127,14 +166,14 @@ const MobileFilter = () => {
                                                 <li key={brand._id}>
                                                     <Link
                                                         to={`/products/brand/${brand.slug}`}
-                                                        className="flex justify-between items-center hover:text-primary-700"
+                                                        className="flex justify-between items-center px-2 hover:text-primary-600"
                                                     >
-                                                        <span>
+                                                        <span className=" font-thin text-sm">
                                                             {capitalizeFirstLetter(
                                                                 brand.name
                                                             )}
                                                         </span>
-                                                        <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
+                                                        <span className="bg-gray-200 text-gray-700 rounded-full text-center py-1 px-3 text-sm">
                                                             {
                                                                 brand.totalProducts
                                                             }
@@ -149,37 +188,38 @@ const MobileFilter = () => {
                             </ul>
                         </div>
 
-                        <div className="text-center">
-                            <h3 className="text-lg font-medium">Categories</h3>
-                        </div>
-                        <ul className="mt-4 space-y-2">
-                            {isCategoriesLoading ? (
-                                <Loader />
-                            ) : categories ? (
-                                categories?.doc?.map((category) => {
-                                    if (category?.totalProducts > 0)
-                                        return (
-                                            <li key={category._id}>
-                                                <Link
-                                                    to={`/products/category/${category.slug}`}
-                                                    className="flex justify-between items-center hover:text-primary-700"
+                        {/* Categories Section */}
+                        {isCategoriesLoading ? (
+                            <Loader />
+                        ) : categories?.doc?.length ? (
+                            <>
+                                <h3 className="text-lg font-semibold my-2">
+                                    Categories
+                                </h3>
+                                <ul className="mt-4 space-y-2 max-h-[250px] overflow-y-auto scrollbar-thin">
+                                    {categories?.doc?.map((category) => {
+                                        if (category?.totalProducts > 0)
+                                            return (
+                                                <li
+                                                    key={category._id}
+                                                    className="border-b border-gray-200 last:border-none p-2"
                                                 >
-                                                    <span>
-                                                        {capitalizeFirstLetter(
-                                                            category.name
-                                                        )}
-                                                    </span>
-                                                    <span className="bg-gray-200 text-gray-700 rounded-full px-3 py-1">
-                                                        {category.totalProducts}
-                                                    </span>
-                                                </Link>
-                                            </li>
-                                        )
-                                })
-                            ) : (
-                                <li>No Categories found!</li>
-                            )}
-                        </ul>
+                                                    <Link
+                                                        to={`/products/category/${category.slug}`}
+                                                        className="flex justify-between items-center px-2 hover:text-primary-600 "
+                                                    >
+                                                        <span className=" font-thin text-sm">
+                                                            {capitalizeFirstLetter(
+                                                                category.name
+                                                            )}
+                                                        </span>
+                                                    </Link>
+                                                </li>
+                                            )
+                                    })}
+                                </ul>
+                            </>
+                        ) : null}
                     </div>
                 </Card>
             </Drawer>

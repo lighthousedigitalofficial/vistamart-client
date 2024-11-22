@@ -4,36 +4,25 @@ import MobileFilter from '../Sort/MobileFilter'
 // import SortFilter from '../Sort/SortFilter'
 import { TbSortAscending2 } from 'react-icons/tb'
 
-export const BrandHeader = ({ products, filters, title }) => {
-    // console.log(filters)
-
+export const BrandHeader = ({ products, title }) => {
     const [searchParams, setSearchParams] = useSearchParams()
-    // Determine the title based on query parameters
-
-    //   const [showFilter, setShowFilter] = useState(false)
-
-    //   const toggleFilter = () => {
-    //       setShowFilter(!showFilter)
-    //   }
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target
         searchParams.set(name, value)
-        filters = {
-            name: value,
-        }
+
         setSearchParams(searchParams)
     }
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-lg flex justify-between items-center w-full">
+        <div className="bg-white p-6 rounded-lg shadow-sm flex justify-between items-center w-full">
             <div>
                 <h2 className="text-xl font-semibold">{title}</h2>
                 <p className="text-gray-500">{products?.results} Items found</p>
             </div>
             {/* <SortFilter filters={filters} /> */}
             <div className="lg:block hidden">
-                <div className="flex items-center space-x-2 border-2 border-gray-200  px-2 rounded-lg hover:shadow-lg">
+                <div className="flex items-center space-x-2 border-2 border-gray-200  px-2 rounded-lg hover:shadow-md">
                     <TbSortAscending2 className="text-gray-600" />
 
                     <label className="text-gray-700">Sort by:</label>
