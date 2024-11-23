@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FaUserCircle, FaCamera } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import {
     useGetCustomerDetailsQuery,
@@ -12,6 +11,8 @@ import toast from 'react-hot-toast'
 import keys from '../../config/keys'
 import Loader from '../Loader'
 import { getUploadUrl, uploadImageToS3 } from '../../utils/helpers'
+import useAuth from './../../hooks/useAuth'
+import { useDeleteUploadedImageMutation } from '../../redux/slices/uploadApiSlice'
 
 // Zod schema for form validation
 const profileSchema = z.object({
@@ -23,15 +24,18 @@ const profileSchema = z.object({
 })
 
 const ProfileInfo = () => {
-    const { userInfo } = useSelector((state) => state.auth)
+    const user = useAuth()
 
     const {
-        data: user,
+        data: userData,
         isLoading: customerLoading,
         refetch,
-    } = useGetCustomerDetailsQuery(userInfo.user._id, {
-        skip: !userInfo?.user?._id,
+    } = useGetCustomerDetailsQuery(user._id, {
+        skip: !user?._id,
     })
+
+    const [deleteUploadedImage, { isLoading, error }] =
+        useDeleteUploadedImageMutation()
 
     const [selectedImage, setSelectedImage] = useState(null)
 
@@ -39,12 +43,10 @@ const ProfileInfo = () => {
         useUpdateCustomerMutation()
 
     useEffect(() => {
-        if (userInfo && user?.doc && user?.doc?.image) {
-            setSelectedImage(`${keys.BUCKET_URL}${user?.doc?.image}`)
+        if (user && userData?.doc && userData?.doc?.image) {
+            setSelectedImage(`${keys.BUCKET_URL}${userData?.doc?.image}`)
         }
-    }, [setSelectedImage, user, userInfo])
-
-    console.log(user)
+    }, [setSelectedImage, user, userData])
 
     const {
         register,
@@ -54,10 +56,10 @@ const ProfileInfo = () => {
     } = useForm({
         resolver: zodResolver(profileSchema),
         defaultValues: {
-            firstName: user?.doc?.firstName || '',
-            lastName: user?.doc?.lastName || '',
-            email: user?.doc?.email || '',
-            phoneNumber: user?.doc?.phoneNumber || '',
+            firstName: userData?.doc?.firstName || '',
+            lastName: userData?.doc?.lastName || '',
+            email: userData?.doc?.email || '',
+            phoneNumber: userData?.doc?.phoneNumber || '',
         },
     })
 
@@ -82,21 +84,31 @@ const ProfileInfo = () => {
     const onSubmit = async (data) => {
         try {
             let imageConfig
-            if (data.image[0]) {
-                imageConfig = await getUploadUrl(data?.image.type, 'customers')
-
-                await uploadImage(imageConfig, data.image)
-            }
-
-            const userData = {
-                customerId: userInfo?.user?._id,
+            console.log(data.image)
+            let updatedData = {
+                customerId: user?._id,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                image: imageConfig?.key || user?.doc?.image,
                 phoneNumber: data.phoneNumber,
             }
+            // Check if an image file is selected and the FileList length is greater than 0
+            if (data.image && data.image.name) {
+                console.log('upload')
+                imageConfig = await getUploadUrl(data.image.type, 'customers')
 
-            await updateCustomer(userData).unwrap()
+                await uploadImage(imageConfig, data.image)
+
+                if (userData?.doc?.image) {
+                    console.log(userData?.doc?.image)
+                    await deleteUploadedImage(userData?.doc?.image)
+                }
+
+                updatedData = { ...updatedData, image: imageConfig?.key }
+            }
+
+            console.log(updatedData)
+
+            await updateCustomer(updatedData).unwrap()
             toast.success('Customer Update successfully')
             refetch()
         } catch (error) {
@@ -110,7 +122,7 @@ const ProfileInfo = () => {
             <h2 className="text-2xl font-bold mb-6">Profile Info</h2>
             {customerLoading ? (
                 <Loader />
-            ) : user && user?.doc ? (
+            ) : user && userData.doc ? (
                 <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                     <div className="relative h-full flex items-center justify-center mb-6">
                         <div className="relative">

@@ -40,7 +40,10 @@ const FilterSidebar = () => {
     const priceRangeHandler = (e) => {
         e.preventDefault()
 
-        if (minPrice > maxPrice) {
+        console.log('first')
+        console.log({ minPrice, maxPrice })
+
+        if (Number(minPrice) > Number(maxPrice)) {
             return toast.error('The min price is greater than max price.')
         }
 

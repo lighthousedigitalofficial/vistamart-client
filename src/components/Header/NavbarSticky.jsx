@@ -16,12 +16,19 @@ import CartIcon from './CartIcon'
 import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 import MobileSidebar from './MobileSidebar'
 import useAuth from './../../hooks/useAuth'
+import { useGetCustomerDetailsQuery } from '../../redux/slices/customersApiSlice'
+import Loader from '../Loader'
 
 const NavbarSticky = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const [isSticky, setIsSticky] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const user = useAuth()
+
+    const { data: userData, isFetching: isUserFetching } =
+        useGetCustomerDetailsQuery(user?._id, {
+            skip: !user?._id,
+        })
 
     const { data: wishList } = useGetWishListByIdQuery(user?._id, {
         skip: !user?._id,
@@ -59,7 +66,9 @@ const NavbarSticky = () => {
         setOpenMenu(false)
     }
 
-    return (
+    return isUserFetching ? (
+        <Loader />
+    ) : (
         <div
             className={`w-full z-40 transition-all bg-white duration-500 ease-in-out py-4 ${
                 isSticky ? 'fixed top-0 shadow-lg ' : 'relative'
@@ -108,8 +117,8 @@ const NavbarSticky = () => {
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
-                            {user ? (
-                                <ProfileMenu user={user} />
+                            {user && userData?.doc ? (
+                                <ProfileMenu user={userData?.doc} />
                             ) : (
                                 <Menu open={openMenu} handler={setOpenMenu}>
                                     <MenuHandler>

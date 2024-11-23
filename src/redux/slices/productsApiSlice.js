@@ -72,7 +72,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             query: () => {
                 return {
                     url: PRODUCTS_URL,
-                    params: `sort=-rating&limit=20`,
+                    params: `sort=-rating&limit=6&rating[gte]=4&status=approved`,
                 }
             },
             keepUnusedDataFor: 5,

@@ -46,6 +46,16 @@ export const deleteUploadedImages = async (keys) => {
         throw new Error('Failed to delete images')
     }
 }
+export const deleteUploadedImage = async (key) => {
+    try {
+        await axios.delete(`${keys.BASE_URL}/api/v1/image/delete-image`, {
+            data: { key },
+        })
+    } catch (error) {
+        console.error('Error deleting image', error)
+        throw new Error('Failed to delete image')
+    }
+}
 
 export const formatPrice = (value) => {
     return Number(value).toLocaleString('en-PK', {

@@ -15,3 +15,4 @@ export const PRODUCT_REVIEW_URL = '/user/reviews'
 export const VENDORS_URL = '/seller/vendors'
 
 export const OTP_URL = '/user/otp'
+export const UPLOAD_URL = '/image'

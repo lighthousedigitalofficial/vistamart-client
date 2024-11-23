@@ -15,7 +15,7 @@ const ShopViewPage = () => {
 
     const { slug } = useParams()
     const [currentPage, setCurrentPage] = useState(0) // MUI uses 0-based indexing
-    const [rowsPerPage, setRowsPerPage] = useState(10) // Adjust as needed
+    const [rowsPerPage, setRowsPerPage] = useState(12) // Adjust as needed
 
     let filters = Array.from(searchParams.entries()).reduce(
         (acc, [param, value]) => {
@@ -75,9 +75,9 @@ const ShopViewPage = () => {
                 {/* Adjusted sidebar for larger screens */}
                 <FilterSidebar filters={filters} />
                 <div className="w-full lg:w-3/4 p-4">
-                    {vendor && vendor?.doc?.totalProducts > 0 ? (
+                    {vendor && currentProducts?.length > 0 ? (
                         <>
-                            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                            <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all py-2 ease-in duration-300">
                                 {currentProducts.map((product, index) => (
                                     <ProductCard key={index} data={product} />
                                 ))}

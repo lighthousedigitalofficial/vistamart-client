@@ -7,7 +7,11 @@ import { useGetVendorsQuery } from '../../redux/slices/vendorsApiSlice'
 import Loader from '../Loader'
 
 const TopSeller = () => {
-    const { data: sellers, isLoading } = useGetVendorsQuery({})
+    const { data: sellers, isLoading } = useGetVendorsQuery({
+        limit: 10,
+    })
+
+    console.log(sellers)
 
     return isLoading ? (
         <Loader />
