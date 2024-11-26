@@ -34,8 +34,15 @@ const schema = z.object({
         ),
     confirmPassword: z
         .string()
-        .min(8, 'Password must be at least 8 characters'),
-    phoneNumber: z.string().min(8, 'Phone number is required'),
+        .min(8, 'Password must be at least 8 characters')
+        .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+        .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+        .regex(/[0-9]/, 'Password must contain at least one number')
+        .regex(
+            /[^a-zA-Z0-9]/,
+            'Password must contain at least one special character'
+        ),
+    phoneNumber: z.string().min(10, 'Phone number is required'),
     referCode: z.string().optional(),
 })
 
@@ -45,7 +52,6 @@ const SignUpForm = () => {
     const {
         register,
         handleSubmit,
-        setValue,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(schema),
@@ -152,7 +158,7 @@ const SignUpForm = () => {
                         defaultCountry="pk"
                         {...register('phoneNumber')}
                         className={`custom-phone-input ${
-                            errors.password ? 'border-red-500' : ''
+                            errors.phoneNumber ? 'border-red-500' : ''
                         }`}
                         inputClassName="custom-phone-input"
                     />
@@ -213,9 +219,9 @@ const SignUpForm = () => {
                             <FaRegEye className="mt-6" />
                         )}
                     </button>
-                    {errors.password && (
+                    {errors.confirmPassword && (
                         <p className="text-red-500 text-xs italic">
-                            {errors.password.message}
+                            {errors.confirmPassword.message}
                         </p>
                     )}
                 </div>
@@ -249,7 +255,7 @@ const SignUpForm = () => {
                         })}
                     />{' '}
                     I agree to the{' '}
-                    <Link to="/" className="text-blue-500">
+                    <Link to="/terms" className="text-blue-500">
                         Terms and Conditions
                     </Link>
                 </label>

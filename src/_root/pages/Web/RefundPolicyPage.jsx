@@ -1,13 +1,13 @@
 import Loader from '../../../components/Loader'
 import { useGetPageBySlugQuery } from '../../../redux/slices/systemApiSlice'
 
-const TermsPage = () => {
-    const { data, isLoading } = useGetPageBySlugQuery('terms-and-conditions')
+const RefundPolicy = () => {
+    const { data, isLoading } = useGetPageBySlugQuery('refund-policy')
 
     return (
         <div className="my-6">
             <h2 className="text-center text-gray-900 font-bold md:text-3xl text-lg  mb-6">
-                Terms and Conditions
+                Refund Policy
             </h2>
             {isLoading ? (
                 <Loader />
@@ -20,9 +20,10 @@ const TermsPage = () => {
                     />
                 </div>
             ) : (
-                <p>No Terms and Conditions found!</p>
+                <p>No refund policy found!</p>
             )}
         </div>
     )
 }
-export default TermsPage
+
+export default RefundPolicy

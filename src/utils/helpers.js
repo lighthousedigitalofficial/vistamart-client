@@ -57,9 +57,18 @@ export const deleteUploadedImage = async (key) => {
     }
 }
 
+// export const formatPrice = (value) => {
+//     return Number(value).toLocaleString('en-PK', {
+//         minimumFractionDigits: 2,
+//         maximumFractionDigits: 2,
+//     })
+// }
+
 export const formatPrice = (value) => {
-    return Number(value).toLocaleString('en-PK', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    })
+    return Number.isInteger(value)
+        ? Number(value).toLocaleString('en-PK')
+        : Number(value).toLocaleString('en-PK', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          })
 }

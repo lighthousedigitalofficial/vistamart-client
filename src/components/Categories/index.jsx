@@ -6,7 +6,7 @@ import { useGetCategoriesQuery } from '../../redux/slices/categoriesApiSlice'
 import Loader from '../Loader'
 
 const Categories = () => {
-    const { data: categories, isLoading } = useGetCategoriesQuery({})
+    const { data: categories, isLoading } = useGetCategoriesQuery({ limit: 20 })
 
     return isLoading ? (
         <Loader />

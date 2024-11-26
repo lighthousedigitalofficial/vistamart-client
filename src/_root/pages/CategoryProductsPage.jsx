@@ -31,7 +31,6 @@ export const CategoryProductsPage = () => {
     const { data: products, isFetching: productsFetching } =
         useGetProductsQuery({
             category: category?.doc?._id,
-            status: 'approved',
             ...filters,
         })
 

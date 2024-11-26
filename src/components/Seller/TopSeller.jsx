@@ -11,7 +11,7 @@ const TopSeller = () => {
         limit: 10,
     })
 
-    console.log(sellers)
+    console.log({ sellers })
 
     return isLoading ? (
         <Loader />

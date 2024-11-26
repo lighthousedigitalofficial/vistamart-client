@@ -29,7 +29,7 @@ export const vendorsApiSlice = apiSlice.injectEndpoints({
         getVendors: builder.query({
             query: (query) => ({
                 url: `${VENDORS_URL}?status=active`,
-                query,
+                params: query,
             }),
             providesTags: ['Vendor'],
             keepUnusedDataFor: 5,

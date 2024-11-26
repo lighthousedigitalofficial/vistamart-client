@@ -3,13 +3,9 @@ import RootLayout from './_root/RootLayout'
 
 import HomePage from './_root/pages/HomePage'
 import BrandsPage from './_root/pages/BrandsPage'
-import FaqPage from './_root/pages/FaqPage'
 import ContactUsPage from './_root/pages/ContactUsPage'
-import AboutUsPage from './_root/pages/AboutUsPagae'
 import CategoriesPage from './_root/pages/CategoriesPage'
-import RefundPolicy from './_root/pages/RefundPolicyPage'
-import ReturnPolicy from './_root/pages/ReturnPolicyPage'
-import CancellationPolicy from './_root/pages/CancellationPolicyPage'
+
 import SearchResultPage from './_root/pages/SearchResulstPage'
 
 // Sperate routes
@@ -22,7 +18,13 @@ import authRoutes from './routes/authRoutes'
 import ScrollToTop from './components/ScrollToTop'
 import ServerErrorPage from './_root/pages/ServerErrorPage'
 import NotFoundPage from './_root/pages/NotFoundPage'
+
 import PrivacyPolicyPage from './_root/pages/Web/PrivacyPolicyPage'
+import FaqPage from './_root/pages/Web/FaqPage'
+import AboutUsPage from './_root/pages/Web/AboutUsPagae'
+import RefundPolicy from './_root/pages/Web/RefundPolicyPage'
+import ReturnPolicy from './_root/pages/Web/ReturnPolicyPage'
+import CancellationPolicy from './_root/pages/Web/CancellationPolicyPage'
 import TermsPage from './_root/pages/Web/TermsPage'
 
 // import ErrorBoundary from './components/ErrorBoundary'
