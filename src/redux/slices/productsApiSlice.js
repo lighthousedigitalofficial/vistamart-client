@@ -107,6 +107,10 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             query: () => `${FLASHDEALS_URL}`,
             keepUnusedDataFor: 5,
         }),
+        getDealOfTheDay: builder.query({
+            query: () => `/admin/deal-of-day?sort=-createdAt&limit=1`,
+            keepUnusedDataFor: 5,
+        }),
         searchProducts: builder.query({
             query: ({ query, page = 1, limit = 10 }) =>
                 `/api/search?query=${query}&page=${page}&limit=${limit}`,
