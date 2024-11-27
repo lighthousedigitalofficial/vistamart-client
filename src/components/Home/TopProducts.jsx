@@ -24,7 +24,7 @@ const TopProducts = () => {
                     icon={TopRatedIcon}
                     title={'Top rated'}
                     products={topProducts?.doc}
-                    link="/products/top-rated"
+                    link="/products?sort=-rating&rating[gte]=4&limit=60"
                 />
             )}
             {sellingProducts?.doc && (
@@ -32,7 +32,7 @@ const TopProducts = () => {
                     icon={BestSellingIcon}
                     title={'Best sellings'}
                     products={sellingProducts?.doc}
-                    link="/products/best-sellings"
+                    link="/products?sort=-sold&limit=60"
                 />
             )}
         </div>
