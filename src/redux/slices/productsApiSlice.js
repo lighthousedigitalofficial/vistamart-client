@@ -69,10 +69,19 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Product'],
         }),
         getTopRatedProducts: builder.query({
-            query: () => {
+            query: (query) => {
                 return {
-                    url: PRODUCTS_URL,
-                    params: `sort=-rating&limit=6&rating[gte]=4&status=approved`,
+                    url: `${PRODUCTS_URL}?sort=-rating&rating[gte]=4&status=approved`,
+                    params: query,
+                }
+            },
+            keepUnusedDataFor: 5,
+        }),
+        getBestSellingProducts: builder.query({
+            query: (query) => {
+                return {
+                    url: `${PRODUCTS_URL}?sort=-sold&status=approved`,
+                    params: query,
                 }
             },
             keepUnusedDataFor: 5,
@@ -128,4 +137,5 @@ export const {
     useGetAllProductsQuery,
     useGetProductBySlugQuery,
     useGetDiscountedProductsQuery,
+    useGetBestSellingProductsQuery,
 } = productsApiSlice

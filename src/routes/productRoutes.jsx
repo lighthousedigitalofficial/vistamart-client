@@ -4,6 +4,8 @@ import DiscountedProductsPage from '../_root/pages/DiscountedProducts'
 import FeaturedProductsPage from '../_root/pages/FeaturedProductsPage'
 import FlashDealsPage from '../_root/pages/FlashDealsPage'
 import ProductDetailsPage from '../_root/pages/ProductDetailsPage'
+import BestSellingProductsPage from '../_root/pages/Products/BestSellingProductsPage'
+import TopRatedProdcutsPage from '../_root/pages/Products/TopRatedProdcutsPage'
 import ProductsPage from '../_root/pages/ProductsPage'
 
 const productRoutes = [
@@ -18,6 +20,14 @@ const productRoutes = [
     {
         path: '/products/featured',
         element: <FeaturedProductsPage />,
+    },
+    {
+        path: '/products/best-sellings',
+        element: <BestSellingProductsPage />,
+    },
+    {
+        path: '/products/top-rated',
+        element: <TopRatedProdcutsPage />,
     },
     {
         path: 'products/:slug',
