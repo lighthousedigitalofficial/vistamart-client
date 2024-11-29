@@ -108,7 +108,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             keepUnusedDataFor: 5,
         }),
         getDealOfTheDay: builder.query({
-            query: () => `/admin/deal-of-day?sort=-createdAt&limit=1`,
+            query: () => `/admin/deal-of-day/latest`,
             keepUnusedDataFor: 5,
         }),
         searchProducts: builder.query({
@@ -142,4 +142,5 @@ export const {
     useGetProductBySlugQuery,
     useGetDiscountedProductsQuery,
     useGetBestSellingProductsQuery,
+    useGetDealOfTheDayQuery,
 } = productsApiSlice

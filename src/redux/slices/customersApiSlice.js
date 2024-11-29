@@ -38,7 +38,7 @@ export const customerApiSlice = apiSlice.injectEndpoints({
                 body: email,
             }),
         }),
-        customerForgetPassword: builder.mutation({
+        customerForgotPassword: builder.mutation({
             query: (email) => ({
                 url: `${CUSTOMERS_URL}/forgot-password`,
                 method: 'POST',
@@ -105,5 +105,5 @@ export const {
     useUpdateCustomerMutation,
     useGetCustomerDetailsQuery,
     useCustomerSubscribeMutation,
-    useCustomerForgetPasswordMutation,
+    useCustomerForgotPasswordMutation,
 } = customerApiSlice

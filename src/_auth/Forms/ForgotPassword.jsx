@@ -1,14 +1,15 @@
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FaCheckCircle } from 'react-icons/fa'
+import toast from 'react-hot-toast'
+
+import { useCustomerForgotPasswordMutation } from '../../redux/slices/customersApiSlice'
 
 const schema = z.object({
     email: z.string().email('Invalid email address'),
 })
 
-const ForgotPasswordPage = () => {
+const ForgotPassword = () => {
     const {
         register,
         handleSubmit,
@@ -17,32 +18,28 @@ const ForgotPasswordPage = () => {
         resolver: zodResolver(schema),
     })
 
-    const [successMessage, setSuccessMessage] = useState('')
+    const [customerForgotPassword, { isLoading }] =
+        useCustomerForgotPasswordMutation()
 
-    const onSubmit = (data) => {
-        setSuccessMessage(
-            'Please check your email inbox for a link to complete the reset.', 
-        )
-        // Handle email submission logic here
-        // console.log('Email submitted:', data.email)
+    const onSubmit = async (data) => {
+        try {
+            await customerForgotPassword({ email: data.email }).unwrap()
+            toast.success(
+                'Please check your email inbox for a link to complete the reset.'
+            )
+        } catch (error) {
+            toast.error(error.data.message)
+        }
     }
 
     return (
-        <div className="max-w-md mx-auto mt-16 p-8  rounded-md shadow-md">
+        <div className="max-w-md mx-auto mt-16 p-8 rounded-md shadow-md">
             <h2 className="text-2xl font-bold mb-6 text-center">
                 Reset your password
             </h2>
-
-            {successMessage && (
-                <div
-                    className="flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md mb-6"
-                    role="alert"
-                >
-                    <FaCheckCircle className="mr-2" />
-                    <p className="text-sm">{successMessage}</p>
-                </div>
-            )}
-
+            <p className="text-gray-900 mb-4">
+                Enter the email address associated with your Vista Mart account.
+            </p>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div>
                     <label
@@ -67,15 +64,12 @@ const ForgotPasswordPage = () => {
                     )}
                 </div>
 
-                <button
-                    type="submit"
-                    className="w-full py-2 px-4 rounded-md bg-primary-500 hover:text-gray-100 hover:bg-primary-400 text-white mt-6"
-                >
-                    Reset Password
+                <button type="submit" className="btn primary-btn w-full">
+                    {isLoading ? 'Sending...' : 'Reset Password'}
                 </button>
             </form>
         </div>
     )
 }
 
-export default ForgotPasswordPage
+export default ForgotPassword

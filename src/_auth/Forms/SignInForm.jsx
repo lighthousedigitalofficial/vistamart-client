@@ -109,7 +109,7 @@ const SignInForm = () => {
                         </div>
                         <div className="text-right mb-4 py-2">
                             <Link
-                                to="/forgot-password"
+                                to="/auth/forgot-password"
                                 className="text-green-600 hover:underline cursor-pointer"
                             >
                                 Forgot Password?
@@ -118,7 +118,10 @@ const SignInForm = () => {
                     </div>
                 </div>
                 <div>
-                    <button type="submit" className="w-full btn primary-btn bg-primary-400">
+                    <button
+                        type="submit"
+                        className="w-full btn primary-btn bg-primary-400"
+                    >
                         {isLoading ? 'Loading...' : 'Login'}
                     </button>
                 </div>

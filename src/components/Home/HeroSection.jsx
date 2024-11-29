@@ -23,6 +23,8 @@ const HeroSection = () => {
         // bannerType: 'main',
     })
 
+    console.log(banners)
+
     return isLoading ? (
         <Loader />
     ) : (
@@ -33,13 +35,13 @@ const HeroSection = () => {
             className={`${styles.aws_btn} lg:h-[60vh] md:h-[50vh] h-[30vh]`}
         >
             {banners && banners?.doc?.length ? (
-                banners.doc.map((banner) => (
-                    <div key={banner._id}>
+                banners.doc.map((banner, index) => (
+                    <div key={index}>
                         <LazyLoadImage
                             src={`${keys.BUCKET_URL}${banner.bannerImage}`} // Path to your image
-                            alt="Banner 3"
+                            alt={`Banner ${++index}`}
                             effect="blur" // You can use "blur" or "opacity" as lazy load effect
-                            className="object-contain"
+                            className="object-cover w-full"
                         />
                     </div>
                 ))

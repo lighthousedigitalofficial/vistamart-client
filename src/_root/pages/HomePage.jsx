@@ -73,15 +73,7 @@ const HomePage = () => {
             <TopSeller />
 
             <section className="py-4 mb-4 flex flex-col items-center w-full lg:flex-row lg:items-start justify-around gap-4">
-                <DealOfTheDay
-                    image={
-                        `https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/refurb-macbook-air-space-gray-m1-202010?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1634145627000` ||
-                        keys.DEFAULT_IMG
-                    }
-                    title={'Laptop'}
-                    loading="lazy"
-                    price={150.0}
-                />
+                <DealOfTheDay />
                 <LatestProducts />
             </section>
 

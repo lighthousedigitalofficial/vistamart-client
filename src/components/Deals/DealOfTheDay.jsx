@@ -1,60 +1,111 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect } from 'react'
+import { useGetDealOfTheDayQuery } from '../../redux/slices/productsApiSlice'
+import keys from '../../config/keys'
+import { formatPrice } from '../../utils/helpers'
+import Loader from '../Loader'
+import { Rating } from '@mui/material'
+import toast from 'react-hot-toast'
+import { addToCart } from '../../redux/slices/cartSlice'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-export function DealOfTheDay({ image, title, price }) {
-    const oldPrice = 185.0
-    const [discountAmount, setDiscountAmount] = useState(0)
+export function DealOfTheDay() {
+    const { data: deal, isLoading } = useGetDealOfTheDayQuery({})
+
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [oldPrice, setOldPrice] = useState(0)
+    const product = deal?.doc?.product
 
     useEffect(() => {
-        if (oldPrice > price) {
-            setDiscountAmount(oldPrice - price)
-        }
-    }, [oldPrice, price])
+        if (product && !product?.taxIncluded) {
+            setTotalPrice(product?.price + product.taxAmount)
+        } else setTotalPrice(product?.price)
 
-    return (
-        <div className="py-8 px-4 bg-primary-100 min-w-64 min-h-64 shadow-md rounded-lg">
-            <h2 className="uppercase text-base font-bold text-center text-primary-500 py-4">
-                Deal of the day
+        setOldPrice(product?.price + product?.discountAmount)
+    }, [product])
+
+    const productThumbnail = product?.thumbnail
+        ? product?.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.thumbnail}`
+            : product.thumbnail
+        : keys.DEFAULT_IMG
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const buyNowHandler = () => {
+        dispatch(addToCart({ ...product, qty: 1 }))
+        navigate('/cart')
+        toast.success('Item added successfully')
+    }
+
+    return isLoading ? (
+        <Loader />
+    ) : deal && product ? (
+        <div className="py-8 px-4 my-2 bg-primary-500 flex items-center flex-col min-w-64 min-h-[85vh] shadow-md rounded-lg">
+            <h2 className="uppercase text-lg font-bold text-center text-white py-4">
+                {deal?.doc?.title}
             </h2>
-            <div className="w-56 bg-white py-4 rounded-lg overflow-hidden shadow-sm text-center">
-                <div className="relative rounded-lg overflow-hidden group cursor-pointer">
-                    {discountAmount > 0 && (
-                        <div className="absolute top-2 left-2 bg-blue-800 text-white text-xs font-bold px-2 py-1 rounded z-10">
-                            -${discountAmount.toFixed(2)}
+            <div className="w-56 bg-white flex-grow flex justify-between items-center flex-col  rounded-lg overflow-hidden shadow-sm text-center">
+                <div className="relative rounded-lg overflow-hidden group cursor-pointer flex justify-between items-center flex-col gap-2">
+                    {product?.discountAmount > 0 && (
+                        <div className="discount-badge">
+                            - Rs.{formatPrice(product?.discountAmount)}
                         </div>
                     )}
                     <img
-                        src={image}
-                        alt="product-image"
-                        className="w-full h-56 object-cover rounded-lg transform transition-transform duration-300 group-hover:scale-110"
+                        src={productThumbnail}
+                        alt={product?.name}
+                        loading="lazy"
+                        className="w-full h-72 object-cover mb-4"
                     />
+                    <Link
+                        to={`/products/${product.slug}`}
+                        className="font-medium w-full px-2 mb-2 hover:text-primary-500 transition-all duration-75 ease-in"
+                    >
+                        {product.name}
+                    </Link>
+                    {product?.rating > 0 && (
+                        <div className="flex items-center gap-2">
+                            <Rating
+                                name="half-rating-read"
+                                defaultValue={0}
+                                value={product?.rating}
+                                precision={0.5}
+                                readOnly
+                                size="small"
+                            />
+                            <p className="text-xs">({product?.numOfReviews})</p>
+                        </div>
+                    )}
                 </div>
                 <div className="p-4">
-                    <p className="font-medium truncate mb-2">{title}</p>
                     <div className="flex items-center gap-2">
-                        {oldPrice > price && (
+                        {oldPrice > product?.price && (
                             <p className="text-sm line-through text-gray-500">
-                                ${oldPrice.toFixed(2)}
+                                Rs.{formatPrice(oldPrice)}
                             </p>
                         )}
                         <p className="text-lg font-bold text-primary-500">
-                            ${price.toFixed(2)}
+                            Rs.{formatPrice(totalPrice)}
                         </p>
                     </div>
                 </div>
-                <div>
-                    <button className="btn primary-btn">Buy Now</button>
-                </div>
+                <button
+                    onClick={buyNowHandler}
+                    disabled={product.stock < 1}
+                    className={`btn px-10 mb-4 text-white ${
+                        product.stock < 1
+                            ? 'bg-orange-500 opacity-50 cursor-not-allowed'
+                            : 'bg-orange-500 hover:bg-orange-600'
+                    }`}
+                >
+                    Buy now
+                </button>
             </div>
         </div>
-    )
+    ) : null
 }
-
-// DealOfTheDay.propTypes = {
-// 	imageUrl: PropTypes.string.isRequired,
-// 	title: PropTypes.string.isRequired,
-// 	oldPrice: PropTypes.number.isRequired,
-// 	price: PropTypes.number.isRequired,
-// };
 
 export default DealOfTheDay
