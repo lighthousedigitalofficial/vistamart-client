@@ -9,6 +9,7 @@ import toast from 'react-hot-toast'
 import { addToCart } from '../../redux/slices/cartSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { FaFire } from 'react-icons/fa'
 
 export function DealOfTheDay() {
     const { data: deal, isLoading } = useGetDealOfTheDayQuery({})
@@ -44,13 +45,16 @@ export function DealOfTheDay() {
         <Loader />
     ) : deal && product ? (
         <div className="py-8 px-4 my-2 bg-primary-500 flex items-center flex-col min-w-64 min-h-[85vh] shadow-md rounded-lg">
-            <h2 className="uppercase text-lg font-bold text-center text-white py-4">
-                {deal?.doc?.title}
-            </h2>
-            <div className="w-56 bg-white flex-grow flex justify-between items-center flex-col  rounded-lg overflow-hidden shadow-sm text-center">
+            <div className="flex items-center gap-2 mb-4">
+                <FaFire className="text-orange-600 text-3xl" />
+                <h2 className="uppercase text-lg font-bold text-center text-white py-4">
+                    {deal?.doc?.title}
+                </h2>
+            </div>
+            <div className="w-56 bg-white flex-grow flex justify-between items-center flex-col rounded-lg overflow-hidden shadow-sm text-center">
                 <div className="relative rounded-lg overflow-hidden group cursor-pointer flex justify-between items-center flex-col gap-2">
                     {product?.discountAmount > 0 && (
-                        <div className="discount-badge">
+                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
                             - Rs.{formatPrice(product?.discountAmount)}
                         </div>
                     )}
