@@ -16,8 +16,6 @@ const Product = ({ product }) => {
     const [totalPrice, setTotalPrice] = useState(product.price || 0)
     const [images, setImages] = useState([])
 
-    // const images = [...product.images, product?.thumbnail]
-
     useEffect(() => {
         if (!product?.taxIncluded) {
             setTotalPrice((product?.price + product.taxAmount) * qty)
@@ -65,7 +63,9 @@ const Product = ({ product }) => {
                     <ProductSlider images={images} />
                 </div>
                 <div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
-                    <h2 className="text-lg md:text-xl">{product.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-900 md:text-xl">
+                        {product.name}
+                    </h2>
                     <div className="flex items-center mb-2">
                         <span className="mx-2 text-gray-600 ">
                             {product?.rating || 0}

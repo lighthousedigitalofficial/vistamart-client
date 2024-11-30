@@ -37,7 +37,7 @@ const ProductDetailsPage = () => {
     return isProductFetching ? (
         <Loader />
     ) : product && product.doc ? (
-        <div className="container w-full flex flex-col space-y-4 sm:space-y-0">
+        <div className="container w-full flex flex-col space-y-4 sm:space-y-0 mb-8">
             <div className="flex flex-col lg:flex-row gap-4 w-full">
                 <div className="flex flex-col w-full">
                     <Product product={product?.doc} />

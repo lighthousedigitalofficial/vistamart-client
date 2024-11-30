@@ -5,7 +5,7 @@ import { useGetCategoriesQuery } from '../../redux/slices/categoriesApiSlice'
 
 const ProductsCategory = () => {
     const { data: categories, isLoading: isCategoriesLoading } =
-        useGetCategoriesQuery({})
+        useGetCategoriesQuery({ limit: 5 })
 
     // const { data: arrivalProducts } = useGetProductsQuery({newArrival=true});
     return isCategoriesLoading ? (
@@ -27,15 +27,14 @@ const ProductsCategory = () => {
 			)} */}
 
             {categories?.doc &&
-                categories?.doc?.map((category) => {
-                    if ([1, 2, 3, 4].includes(category.priority))
-                        return (
-                            <CategoryCarousel
-                                key={category._id}
-                                category={category}
-                                component={ProductCard}
-                            />
-                        )
+                categories?.doc.map((category) => {
+                    return (
+                        <CategoryCarousel
+                            key={category._id}
+                            category={category}
+                            component={ProductCard}
+                        />
+                    )
                 })}
         </div>
     ) : (
