@@ -26,7 +26,7 @@ const FlatCard = (product) => {
             <div className="relative overflow-hidden group cursor-pointer z-10">
                 {product.discount > 0 && (
                     <div className="discount-badge">
-                        -${formatPrice(product.discountAmount)}
+                        -Rs.{formatPrice(product.discountAmount)}
                     </div>
                 )}
                 <Link to={`/products/${product.slug}`}>
