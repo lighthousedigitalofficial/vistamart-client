@@ -84,7 +84,7 @@ const ProductReviews = ({ product }) => {
                                                     : 'https://shorturl.at/KREMs'
                                             }
                                             alt={`avatar`}
-                                            className="w-12 h-12 object-contain rounded-full border-2 border-primary-300"
+                                            className="w-12 h-12 object-cover object-top rounded-full border-2 border-primary-300"
                                         />
                                         <div>
                                             <h3 className="font-bold">

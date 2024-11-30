@@ -13,8 +13,6 @@ const TopProducts = () => {
     const { data: sellingProducts, isLoading: bestProductLoading } =
         useGetBestSellingProductsQuery({ limit: 3 })
 
-    console.log({ topProducts })
-
     return topRatedProductsLoading || bestProductLoading ? (
         <Loader />
     ) : (

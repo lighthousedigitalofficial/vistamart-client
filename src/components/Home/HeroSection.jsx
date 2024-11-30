@@ -23,8 +23,6 @@ const HeroSection = () => {
         // bannerType: 'main',
     })
 
-    console.log(banners)
-
     return isLoading ? (
         <Loader />
     ) : (

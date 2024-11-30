@@ -71,7 +71,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         getTopRatedProducts: builder.query({
             query: (query) => {
                 return {
-                    url: `${PRODUCTS_URL}?sort=-rating&rating[gte]=4&status=approved`,
+                    url: `${PRODUCTS_URL}?sort=-numOfReviews&rating[gte]=4&status=approved`,
                     params: query,
                 }
             },
