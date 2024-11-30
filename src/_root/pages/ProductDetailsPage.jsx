@@ -13,37 +13,28 @@ import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
 import AddReview from '../../components/Product/AddReview'
-import { useEffect, useState } from 'react'
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
-    const [isLoading, setIsLoading] = useState(false)
 
     const {
         data: product,
-        isLoading: productLoading,
+        isFetching: isProductFetching,
         refetch,
     } = useGetProductBySlugQuery(slug, {
         skip: !slug,
     })
 
-    const { data: products, isLoading: isProductsLoading } =
+    const { data: products, isFetching: isProductsLoading } =
         useGetProductsQuery(
             {
                 brand: product?.doc?.brand?._id,
-                slug: { $ne: slug },
+                limit: 10,
             },
             { skip: !product?.doc?.brand?._id }
         )
 
-    useEffect(() => {
-        if (!product?.doc) {
-            setIsLoading(true)
-        }
-        setIsLoading(false)
-    }, [product?.doc, slug])
-
-    return productLoading || isLoading ? (
+    return isProductFetching ? (
         <Loader />
     ) : product && product.doc ? (
         <div className="container w-full flex flex-col space-y-4 sm:space-y-0">
@@ -60,7 +51,10 @@ const ProductDetailsPage = () => {
                             />
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            <VendorRightBar vendorId={product?.doc?.userId} />
+                            <VendorRightBar
+                                vendorId={product?.doc?.userId}
+                                shop
+                            />
                         </div>
                     </div>
                 </div>
@@ -76,7 +70,10 @@ const ProductDetailsPage = () => {
                                 Similar Products
                             </h3>
                         </div>
-                        <Link to="/products" className="view-box">
+                        <Link
+                            to={`/products/brand/${product.doc.brand.slug}`}
+                            className="view-box"
+                        >
                             View All
                             <span>
                                 <FaAngleRight className="text-lg" />

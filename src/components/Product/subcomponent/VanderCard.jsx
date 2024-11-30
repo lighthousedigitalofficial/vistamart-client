@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
-import { FaStar, FaBoxOpen, FaComment } from 'react-icons/fa'
+import { FaStar, FaBoxOpen, FaComment, FaStore } from 'react-icons/fa'
 import { useGetVendorDetailsQuery } from '../../../redux/slices/vendorsApiSlice'
 import Loader from '../../Loader'
 import { Link } from 'react-router-dom'
@@ -16,25 +16,6 @@ const VanderCard = ({ vendorId }) => {
         skip: !vendorId,
     })
 
-    const [vendorRating, setVendorRating] = useState(0)
-    const [vendorReviews, setVendorReviews] = useState(0)
-
-    useEffect(() => {
-        if (vendor?.doc?.products) {
-            const productsRating = vendor?.doc?.products?.reduce(
-                (acc, p) => acc + p.rating,
-                0
-            )
-            const productsNumOfReviews = vendor?.doc?.products?.reduce(
-                (acc, p) => acc + p.numOfReviews,
-                0
-            )
-
-            setVendorReviews(productsNumOfReviews)
-            setVendorRating(productsRating / productsNumOfReviews)
-        }
-    }, [vendor?.doc?.products])
-
     return isLoading ? (
         <Loader />
     ) : vendor && vendor?.doc ? (
@@ -42,10 +23,7 @@ const VanderCard = ({ vendorId }) => {
             key={vendor?.doc?._id}
             className="bg-white p-4 rounded shadow flex flex-col gap-2"
         >
-            <Link
-                to={`/shop-view/${vendor?.doc?.slug}`}
-                className="flex items-center space-x-2 group"
-            >
+            <div className="flex items-center gap-3">
                 <LazyLoadImage
                     src={
                         vendor?.doc?.logo
@@ -58,28 +36,17 @@ const VanderCard = ({ vendorId }) => {
                     alt={vendor?.doc?.shopName}
                     className="w-16 h-16 rounded-full border-2 border-primary-300 object-cover"
                 />
+
                 <div className="group-hover:text-primary-500 text-gray-80 ">
                     <h3 className="flex items-center gap-2">
-                        {/* <span className=" truncate w-2/3"> */}
                         {vendor?.doc?.shopName}
-                        {/* </span>{' '} */}
                         <FcApproval />
                     </h3>
                     <div className="text-gray-600 text-sm truncate w-3/4">
                         {vendor?.doc?.address}
                     </div>
-                    {/* <div className="flex items-center gap-2">
-                        <Rating
-                            name="half-rating-read"
-                            defaultValue={0}
-                            value={vendorRating}
-                            precision={0.5}
-                            readOnly
-                            size="small"
-                        />
-                    </div> */}
                 </div>
-            </Link>
+            </div>
 
             <div className="mt-2">
                 <div className="flex text-gray-600 mx-auto justify-center items-center">
@@ -93,9 +60,14 @@ const VanderCard = ({ vendorId }) => {
                     </div>
                 </div>
             </div>
-            {/* <button className="bg-primary-400 text-white px-4 py-2 rounded mt-4 w-full flex justify-center items-center">
-                <FaComment className="mr-2" /> Chat With Vendor
-            </button> */}
+            <Link
+                to={`/shop-view/${vendor?.doc?.slug}`}
+                className="btn primary-btn mt-4 w-full flex justify-center gap-2 items-center"
+            >
+                <FaStore size={20} />
+
+                <span>Visit store</span>
+            </Link>
         </div>
     ) : null
 }
