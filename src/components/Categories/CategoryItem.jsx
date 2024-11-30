@@ -13,7 +13,7 @@ const CategoryItem = ({ category }) => {
     return (
         <Link
             to={`/products/category/${category.slug}`}
-            className="flex-center  flex-col gap-2 p-2 group cursor-pointer"
+            className="flex-center flex-col gap-2 p-2 group cursor-pointer"
         >
             <LazyLoadImage
                 src={categoryLogo}
@@ -21,8 +21,7 @@ const CategoryItem = ({ category }) => {
                 alt={category.name}
                 className="w-24 h-24 object-cover rounded-full"
             />
-            <img />
-            <p className="text-base w-28 truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
+            <p className=" text-sm w-28 truncate transition-colors duration-300 ease-out text-gray-800 group-hover:text-orange-500">
                 {category.name}
             </p>
         </Link>
