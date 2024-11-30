@@ -1,15 +1,12 @@
 /* eslint-disable react/prop-types */
 import PropTypes from 'prop-types'
-import { FaStar, FaBoxOpen, FaComment, FaStore } from 'react-icons/fa'
+import { FaStar, FaBoxOpen, FaStore } from 'react-icons/fa'
 import { useGetVendorDetailsQuery } from '../../../redux/slices/vendorsApiSlice'
 import Loader from '../../Loader'
 import { Link } from 'react-router-dom'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import keys from '../../../config/keys'
 import { FcApproval } from 'react-icons/fc'
-import { Rating } from '@mui/material'
-import { useState } from 'react'
-import { useEffect } from 'react'
 
 const VanderCard = ({ vendorId }) => {
     const { data: vendor, isLoading } = useGetVendorDetailsQuery(vendorId, {

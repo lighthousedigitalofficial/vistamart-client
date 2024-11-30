@@ -3,7 +3,6 @@ import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
 import Loader from '../Loader'
 import VanderCard from '../Product/subcomponent/VanderCard'
 // import MoreStoreProducts from '../Product/subcomponent/MoreStoreProducts'
-import MoreStoreProducts from './../Product/subcomponent/MoreStoreProducts'
 import FeatureCard from '../Product/subcomponent/FeatureCard'
 import {
     FaCertificate,
