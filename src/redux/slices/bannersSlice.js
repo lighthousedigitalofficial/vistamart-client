@@ -5,7 +5,7 @@ export const bannersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getBanners: builder.query({
             query: (params) => ({
-                url: `${BANNERS_URL}?sort=-createdAt`,
+                url: `${BANNERS_URL}?sort=-createdAt&published=true`,
                 params,
             }),
         }),
