@@ -7,8 +7,6 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 const ProductSlider = ({ images }) => {
     const [featuredImage, setFeaturedImage] = useState(images[0])
 
-    console.log(images)
-
     const handleThumbnailClick = (image) => {
         setFeaturedImage(image)
     }
