@@ -5,13 +5,13 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getCategories: builder.query({
             query: (query) => ({
-                url: `${CATEGORIES_URL}?sort=priority`,
+                url: `${CATEGORIES_URL}?sort=priority&status=active`,
                 params: query,
             }),
         }),
         getCategoryDetails: builder.query({
             query: (id) => ({
-                url: `${CATEGORIES_URL}/${id}`,
+                url: `${CATEGORIES_URL}/${id}?status=active`,
             }),
             keepUnusedDataFor: 5,
         }),
