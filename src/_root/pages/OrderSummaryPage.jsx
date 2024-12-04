@@ -116,7 +116,8 @@ const OrderSummaryPage = () => {
 
                 // Clear cart and navigate to confirmation
                 dispatch(clearCartItems())
-                navigate('/order-confirmation')
+                // navigate('/order-confirmation')
+                window.location.href = '/order-confirmation'
             }
         } catch (err) {
             console.error(err)
