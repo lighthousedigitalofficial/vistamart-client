@@ -9,9 +9,12 @@ import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
 
 export const ProductsPage = () => {
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const [currentPage, setCurrentPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(12)
+
+    const query = searchParams.get('query') || ''
 
     // Construct filters from search parameters
     let filters = Array.from(searchParams.entries()).reduce(
@@ -22,7 +25,11 @@ export const ProductsPage = () => {
         {}
     )
     const { data: products, isFetching: isFetchingProducts } =
-        useGetProductsQuery(filters)
+        useGetProductsQuery({
+            ...filters,
+            page: currentPage + 1, // API expects 1-based indexing
+            limit: rowsPerPage,
+        })
 
     // Calculate total products and pagination
     const totalProducts = products?.results || 0
@@ -33,10 +40,15 @@ export const ProductsPage = () => {
         products?.doc?.slice(startIndex, startIndex + rowsPerPage) || []
 
     // Handle page change
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (_, newPage) => {
         setCurrentPage(newPage)
+        setSearchParams({ query, page: newPage + 1 }) // Sync with URL (1-based indexing)
+        // Scroll to the top of the page
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
     }
-
     // Handle rows per page change
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10))

@@ -10,11 +10,13 @@ import { useState } from 'react'
 import { TablePagination } from '@mui/material'
 
 export const CategoryProductsPage = () => {
-    const [searchParams] = useSearchParams()
-
     const { slug } = useParams()
-    const [currentPage, setCurrentPage] = useState(0) // Current page
-    const [rowsPerPage, setRowsPerPage] = useState(12) // Rows per page
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [currentPage, setCurrentPage] = useState(
+        parseInt(searchParams.get('page'), 10) - 1 || 0
+    ) // Sync with URL, 0-based index
+    const [rowsPerPage, setRowsPerPage] = useState(12)
 
     // Construct filters from search parameters
     let filters = Array.from(searchParams.entries()).reduce(
@@ -28,26 +30,34 @@ export const CategoryProductsPage = () => {
     // Fetch products based on query parameters
     const { data: category, isLoading } = useGetCategoryBySlugQuery(slug)
 
-    const { data: products, isFetching: productsFetching } =
-        useGetProductsQuery({
-            category: category?.doc?._id,
-            ...filters,
-        })
+    const { data, isFetching: productsFetching } = useGetProductsQuery({
+        category: category?.doc?._id,
+        ...filters,
+        page: currentPage + 1, // API expects 1-based indexing
+        limit: rowsPerPage,
+    })
 
-    // Calculate the starting index of the products to display on the current page
-    const startIndex = currentPage * rowsPerPage
-    const currentProducts =
-        products?.doc?.slice(startIndex, startIndex + rowsPerPage) || []
+    const totalProducts = data?.totalDocs || 0
 
     // Handle page change
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (_, newPage) => {
         setCurrentPage(newPage)
+        setSearchParams({
+            ...filters,
+            page: newPage + 1,
+        })
+        window.scrollTo({ top: 0, behavior: 'smooth' }) // Scroll to top
     }
 
     // Handle rows per page change
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10))
-        setCurrentPage(0) // Reset to the first page when changing rows per page
+        const newRowsPerPage = parseInt(event.target.value, 10)
+        setRowsPerPage(newRowsPerPage)
+        setCurrentPage(0) // Reset to the first page
+        setSearchParams({
+            ...filters,
+            page: 1, // Reset page to 1
+        })
     }
 
     return isLoading || productsFetching ? (
@@ -61,16 +71,16 @@ export const CategoryProductsPage = () => {
                         {capitalizeFirstLetter(category?.doc?.name)})
                     </h1>
                     <h1 className="text-lg text-gray-600">
-                        {products?.results} Items found
+                        {totalProducts} Items found
                     </h1>
                 </div>
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
                     {productsFetching ? (
                         <Loader />
-                    ) : currentProducts?.length > 0 ? (
+                    ) : data?.doc?.length > 0 ? (
                         <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 py-2 transition-all ease-in duration-300">
-                            {currentProducts?.map((product, index) => (
+                            {data?.doc?.map((product, index) => (
                                 <ProductCard key={index} data={product} />
                             ))}
                         </div>
@@ -85,10 +95,10 @@ export const CategoryProductsPage = () => {
                     )}
                 </div>
                 {/* Pagination Controls */}
-                {products?.results > rowsPerPage && (
+                {totalProducts > rowsPerPage && (
                     <TablePagination
                         component="div"
-                        count={products?.results || 0}
+                        count={totalProducts}
                         page={currentPage}
                         onPageChange={handleChangePage}
                         rowsPerPage={rowsPerPage}

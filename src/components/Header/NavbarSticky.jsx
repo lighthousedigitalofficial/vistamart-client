@@ -13,11 +13,12 @@ import SearchBar from './SerachBar'
 import { Link } from 'react-router-dom'
 import ProfileMenu from '../Profile/ProfileMenu'
 import CartIcon from './CartIcon'
-import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 import MobileSidebar from './MobileSidebar'
 import useAuth from './../../hooks/useAuth'
-import { useGetCustomerDetailsQuery } from '../../redux/slices/customersApiSlice'
 import Loader from '../Loader'
+
+import { useGetCustomerDetailsQuery } from '../../redux/slices/customersApiSlice'
+import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 
 const NavbarSticky = () => {
     const [openMenu, setOpenMenu] = useState(false)

@@ -6,6 +6,7 @@ export const BANNERS_URL = '/admin/banners'
 export const USERS_URL = '/user/users'
 export const CUSTOMERS_URL = '/user/customers'
 export const WISHLIST_URL = '/user/wishlists'
+export const SEARCH_URL = '/user/search'
 
 export const ORDERS_URL = '/transaction/orders'
 export const TRANSACTIONS_URL = '/transaction/payment'

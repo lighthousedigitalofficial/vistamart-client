@@ -1,4 +1,9 @@
-import { FLASHDEALS_URL, PRODUCT_REVIEW_URL, PRODUCTS_URL } from '../constants'
+import {
+    FLASHDEALS_URL,
+    PRODUCT_REVIEW_URL,
+    PRODUCTS_URL,
+    SEARCH_URL,
+} from '../constants'
 import { apiSlice } from './apiSlice'
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -111,14 +116,16 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             query: () => `/admin/deal-of-day/latest`,
             keepUnusedDataFor: 5,
         }),
+        // searchProducts: builder.query({
+        //     query: ({ query, page = 1, limit = 10 }) =>
+        //         `/api/search?query=${query}&page=${page}&limit=${limit}`,
+        // }),
         searchProducts: builder.query({
-            query: ({ query, page = 1, limit = 10 }) =>
-                `/api/search?query=${query}&page=${page}&limit=${limit}`,
-        }),
-        getAllProducts: builder.query({
-            query: () => ({
-                url: PRODUCTS_URL,
+            query: (queryParams) => ({
+                url: `${SEARCH_URL}/products`,
+                params: queryParams,
             }),
+            keepUnusedDataFor: 5,
         }),
     }),
 })
@@ -137,10 +144,9 @@ export const {
     useGetLatestProductsQuery,
     useGetProductSuggestionsQuery,
     useGetFlashDealsQuery,
-    useSearchProductsQuery,
-    useGetAllProductsQuery,
     useGetProductBySlugQuery,
     useGetDiscountedProductsQuery,
     useGetBestSellingProductsQuery,
     useGetDealOfTheDayQuery,
+    useSearchProductsQuery,
 } = productsApiSlice

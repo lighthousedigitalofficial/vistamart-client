@@ -18,7 +18,9 @@ export const BrandHeader = ({ products, title }) => {
         <div className="bg-white p-6 rounded-lg shadow-sm flex justify-between items-center w-full">
             <div>
                 <h2 className="text-xl font-semibold">{title}</h2>
-                <p className="text-gray-500">{products?.results} Items found</p>
+                <p className="text-gray-500">
+                    {products?.totalDocs} Items found
+                </p>
             </div>
             {/* <SortFilter filters={filters} /> */}
             <div className="lg:block hidden">
