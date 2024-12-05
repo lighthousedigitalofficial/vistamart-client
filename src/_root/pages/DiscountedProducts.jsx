@@ -1,4 +1,3 @@
-import { BrandHeader } from '../../components/Brands/BrandHeader'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
@@ -7,6 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
+import ProductsHeader from '../../components/Product/subcomponent/ProductsHeader'
 
 // export const DiscountedProductsPage = () => {
 //     const [searchParams, setSearchParams] = useSearchParams()
@@ -148,11 +148,11 @@ export const DiscountedProductsPage = () => {
         <Loader />
     ) : data ? (
         <div className="mt-4 w-full mx-auto py-4">
-            <BrandHeader
-                filters={filters}
-                title={'Discounted Products'}
-                products={data}
+            <ProductsHeader
+                title="Discounted Products"
+                totalItems={data?.totalDocs}
             />
+
             <div className="flex justify-between items-start gap-4 my-4">
                 <FilterSidebar filters={filters} />
                 {data?.doc?.length ? (

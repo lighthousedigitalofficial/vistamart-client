@@ -27,7 +27,7 @@ const CategoryList = ({ categories }) => {
     const responsive = {
         superLargeDesktop: {
             breakpoint: { max: 4000, min: 1024 },
-            items: 9,
+            items: 8,
         },
         desktop: {
             breakpoint: { max: 1024, min: 768 },

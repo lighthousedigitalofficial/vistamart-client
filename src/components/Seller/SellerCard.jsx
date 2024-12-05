@@ -40,16 +40,16 @@ const SellerCard = ({ data: seller }) => {
                             />
 
                             <div className="flex flex-col -mt-2 ">
-                                <h3 className="font-medium text-gray-800 flex items-center gap-2">
+                                <h3 className="font-medium text-sm text-gray-800 truncate flex items-center gap-2">
                                     {`${seller.shopName}`}
                                     <FcApproval />
                                 </h3>
-                                <div className="flex flex-row gap-1">
-                                    <span className="text-yellow-400">★</span>
+                                {/* <div className="flex flex-row items-center gap-1">
+                                    <span className="text-orange-400">★</span>
                                     <span className=" text-gray-600 text-sm">
                                         2.2 Rating
                                     </span>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
 

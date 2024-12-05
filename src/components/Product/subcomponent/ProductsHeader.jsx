@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useSearchParams } from 'react-router-dom'
-import MobileFilter from '../Sort/MobileFilter'
+import MobileFilter from '../../Sort/MobileFilter'
 // import SortFilter from '../Sort/SortFilter'
 import { TbSortAscending2 } from 'react-icons/tb'
 
-export const BrandHeader = ({ products, title }) => {
+const ProductsHeader = ({ totalItems, title }) => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const handleFilterChange = (e) => {
@@ -18,9 +18,9 @@ export const BrandHeader = ({ products, title }) => {
         <div className="bg-white p-6 rounded-lg shadow-sm flex justify-between items-center w-full">
             <div>
                 <h2 className="text-xl font-semibold">{title}</h2>
-                <p className="text-gray-500">
-                    {products?.totalDocs} Items found
-                </p>
+                {totalItems && (
+                    <p className="text-gray-500">{totalItems} Items found</p>
+                )}
             </div>
             {/* <SortFilter filters={filters} /> */}
             <div className="lg:block hidden">
@@ -46,3 +46,5 @@ export const BrandHeader = ({ products, title }) => {
         </div>
     )
 }
+
+export default ProductsHeader

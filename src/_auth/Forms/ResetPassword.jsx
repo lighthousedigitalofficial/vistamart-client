@@ -1,16 +1,48 @@
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useCustomerResetPasswordMutation } from '../../redux/slices/customersApiSlice'
+import toast from 'react-hot-toast'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const schema = z.object({
-    password: z.string().min(8, 'Password must be at least 8 characters'),
-    confirmPassword: z
+    passwordNew: z
         .string()
-        .min(8, 'Password must be at least 8 characters'),
+        .min(8, 'Password must be at least 8 characters long')
+        .regex(
+            /[a-z]/,
+            'New Password must contain at least one lowercase letter'
+        )
+        .regex(
+            /[A-Z]/,
+            'New Password must contain at least one uppercase letter'
+        )
+        .regex(/[0-9]/, 'New Password must contain at least one number')
+        .regex(
+            /[^a-zA-Z0-9]/,
+            'New Password must contain at least one special character'
+        ),
+    passwordConfirm: z
+        .string()
+        .min(8, 'Confirm Password must be at least 8 characters long')
+        .regex(
+            /[a-z]/,
+            'Confirm Password must contain at least one lowercase letter'
+        )
+        .regex(
+            /[A-Z]/,
+            'Confirm Password must contain at least one uppercase letter'
+        )
+        .regex(/[0-9]/, 'Confirm Password must contain at least one number')
+        .regex(
+            /[^a-zA-Z0-9]/,
+            'Confirm Password must contain at least one special character'
+        ),
 })
 
 const ResetPassword = () => {
+    const { hash } = useParams()
+
     const {
         register,
         handleSubmit,
@@ -19,15 +51,27 @@ const ResetPassword = () => {
         resolver: zodResolver(schema),
     })
 
-    const [error, setError] = useState('')
+    const [customerResetPassword, { isLoading }] =
+        useCustomerResetPasswordMutation()
 
-    const onSubmit = (data) => {
-        if (data.password !== data.confirmPassword) {
-            setError('Passwords do not match')
-        } else {
-            setError('')
-            // Handle password reset logic here
-            // console.log('Password reset successfully')
+    const navigate = useNavigate()
+
+    const onSubmit = async (data) => {
+        if (data.passwordNew !== data.passwordConfirm) {
+            return toast.error('Password do not match')
+        }
+        try {
+            if (hash && data) {
+                await customerResetPassword({ data, hash }).unwrap()
+                toast.success(
+                    'Please check your email inbox for a link to complete the reset.'
+                )
+
+                localStorage.removeItem('userInfo')
+                navigate('/customer/auth/sign-in')
+            } else toast.error('Hash token not found!')
+        } catch (error) {
+            toast.error(error.data.message)
         }
     }
 
@@ -45,56 +89,51 @@ const ResetPassword = () => {
                         New Password
                     </label>
                     <input
-                        id="password"
+                        id="passwordNew"
                         type="password"
-                        {...register('password', { required: true })}
+                        {...register('passwordNew', { required: true })}
                         className={`input mt-1 block w-full px-3 py-2 border ${
-                            errors.password
+                            errors.passwordNew
                                 ? 'border-red-500'
                                 : 'border-gray-300'
                         } rounded-md`}
                         placeholder="Enter new password"
                     />
-                    {errors.password && (
+                    {errors.passwordNew && (
                         <p className="text-red-500 text-xs mt-1">
-                            {errors.password.message}
+                            {errors.passwordNew.message}
                         </p>
                     )}
                 </div>
                 <div>
                     <label
-                        htmlFor="confirmPassword"
+                        htmlFor="passwordConfirm"
                         className="block text-sm font-medium"
                     >
                         Confirm Password
                     </label>
                     <input
-                        id="confirmPassword"
+                        id="passwordConfirm"
                         type="password"
-                        {...register('confirmPassword', { required: true })}
+                        {...register('passwordConfirm', { required: true })}
                         className={`input mt-1 block w-full px-3 py-2 border ${
-                            errors.confirmPassword
+                            errors.passwordConfirm
                                 ? 'border-red-500'
                                 : 'border-gray-300'
                         } rounded-md`}
                         placeholder="Confirm new password"
                     />
-                    {errors.confirmPassword && (
+                    {errors.passwordConfirm && (
                         <p className="text-red-500 text-xs mt-1">
-                            {errors.confirmPassword.message}
+                            {errors.passwordConfirm.message}
                         </p>
                     )}
                 </div>
-                {error && (
-                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4">
-                        {error}
-                    </div>
-                )}
                 <button
                     type="submit"
                     className="w-full py-2 px-4 rounded-md  bg-primary-500 hover:text-gray-100 hover:bg-primary-400 text-white mt-6"
                 >
-                    Reset Password
+                    {isLoading ? 'Loading...' : 'Reset Password'}
                 </button>
             </form>
         </div>

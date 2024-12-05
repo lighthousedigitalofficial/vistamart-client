@@ -59,6 +59,7 @@ export const BrandsProductsPage = () => {
             page: 1, // Reset page to 1
         })
     }
+
     return isLoading || productsFetching ? (
         <Loader />
     ) : brand && brand?.doc ? (

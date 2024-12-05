@@ -3,12 +3,12 @@ import Loader from '../../components/Loader'
 import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
 import ProductCard from '../../components/Product/ProductCard'
-import { BrandHeader } from '../../components/Brands/BrandHeader'
 import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
 import { useState } from 'react'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+import ProductsHeader from '../../components/Product/subcomponent/ProductsHeader'
 
 const ShopViewPage = () => {
     const [searchParams] = useSearchParams()
@@ -63,12 +63,8 @@ const ShopViewPage = () => {
             <ShopBanner vendor={vendor?.doc} />
 
             {/* Space between banner and brand header */}
-            <div className="mt-6 lg:mt-8">
-                <BrandHeader
-                    style={{ marginTop: '10px' }} // Spacing between banner and header
-                    products={{ results: products?.results || 0 }}
-                    filters={{ brand: vendor?.doc?.name }}
-                />
+            <div className="mt-10 lg:mt-8">
+                <ProductsHeader totalItems={products?.results} />
             </div>
 
             <div className="flex justify-between gap-6 items-start w-full mt-6 lg:mt-8">
