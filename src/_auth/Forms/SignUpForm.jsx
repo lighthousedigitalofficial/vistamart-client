@@ -81,7 +81,7 @@ const SignUpForm = () => {
         try {
             const res = await customerRegister(data).unwrap()
             toast.success(res.message || 'OTP send successfully to your email')
-            navigate(`/auth/email/verification?email=${data.email}`)
+            navigate(`/auth/customer/email/verification?email=${data.email}`)
         } catch (err) {
             toast.error(err?.data?.message || err.error)
             console.log(err)

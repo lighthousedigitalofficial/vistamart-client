@@ -24,6 +24,7 @@ export const ProductsPage = () => {
         },
         {}
     )
+
     const { data: products, isFetching: isFetchingProducts } =
         useGetProductsQuery({
             ...filters,

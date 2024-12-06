@@ -2,7 +2,6 @@ import { useGetMyOrdersQuery } from '../../redux/slices/ordersApiSlice'
 import { useSelector } from 'react-redux'
 import Loader from '../Loader'
 import { IoEyeSharp } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
 import img from '../../assets/empty-cart.webp'
 
 const MyOrders = () => {
@@ -11,10 +10,6 @@ const MyOrders = () => {
     const { data: orders, isLoading } = useGetMyOrdersQuery(user._id, {
         skip: !user._id,
     })
-
-    console.log(user._id)
-
-    console.log(orders)
 
     const formatDate = (dateString) => {
         const options = {
@@ -67,7 +62,7 @@ const MyOrders = () => {
                                         <div className="flex items-center">
                                             <div className="ml-2">
                                                 <p className="text-gray-900 whitespace-no-wrap text-xs md:text-sm">
-                                                    {order._id}
+                                                    {order.orderId}
                                                 </p>
                                             </div>
                                         </div>

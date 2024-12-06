@@ -17,6 +17,13 @@ export const vendorsApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        vendorOTPVerification: builder.mutation({
+            query: (data) => ({
+                url: `${VENDORS_URL}/otp/verify`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
         vendorLogout: builder.mutation({
             query: (token) => ({
                 url: `${VENDORS_URL}/logout`,
@@ -72,4 +79,5 @@ export const {
     useUpdateVendorMutation,
     useGetVendorDetailsQuery,
     useGetVendorBySlugQuery,
+    useVendorOTPVerificationMutation,
 } = vendorsApiSlice

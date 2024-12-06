@@ -2,20 +2,9 @@
 import keys from './../../config/keys'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { FcApproval } from 'react-icons/fc'
-import { Rating } from '@mui/material'
+// import { Rating } from '@mui/material'
 
 const ShopBanner = ({ vendor }) => {
-    const productsRating = vendor?.products.reduce(
-        (acc, p) => acc + p.rating,
-        0
-    )
-    const productsNumOfReviews = vendor?.products.reduce(
-        (acc, p) => acc + p.numOfReviews,
-        0
-    )
-
-    const totalVendorRating = productsRating / productsNumOfReviews || 0
-
     return (
         vendor && (
             <div className="relative h-[50vh] mt-4 p-4 rounded-lg shadow-lg max-w-7xl mx-auto py-4 bg-pink-100">
@@ -53,7 +42,7 @@ const ShopBanner = ({ vendor }) => {
                                     {vendor.shopName}
                                     <FcApproval />
                                 </h2>
-                                <div className="flex items-center gap-2">
+                                {/* <div className="flex items-center gap-2">
                                     <Rating
                                         name="half-rating-read"
                                         defaultValue={0}
@@ -65,7 +54,7 @@ const ShopBanner = ({ vendor }) => {
                                     <span className="text-sm text-gray-700">
                                         ({productsNumOfReviews || 0})
                                     </span>
-                                </div>
+                                </div> */}
                                 <div className="text-green-600">
                                     <span>
                                         {vendor?.reviews?.length || 0} Reviews

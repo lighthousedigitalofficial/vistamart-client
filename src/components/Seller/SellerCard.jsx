@@ -64,7 +64,7 @@ const SellerCard = ({ data: seller }) => {
                             </div>
                             <div className="flex flex-row text-center gap-1 px-3 bg-gray-100 rounded-md">
                                 <h4 className="text-lg font-semibold text-primary-400">
-                                    {seller.totalProducts || 0}
+                                    {seller.approvedProducts || 0}
                                 </h4>
                                 <span className="text-gray-600 text-sm p-1">
                                     Products

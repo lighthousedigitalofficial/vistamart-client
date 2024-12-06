@@ -14,6 +14,7 @@ import {
     getUploadUrl,
     uploadImageToS3,
 } from './../../utils/helpers'
+import { useNavigate } from 'react-router-dom'
 
 const MultiStepForm = ({ vendorSchema }) => {
     const [logoImages, setLogoImages] = useState([])
@@ -71,6 +72,8 @@ const MultiStepForm = ({ vendorSchema }) => {
     const handlePrev = () => {
         setStep(0)
     }
+
+    const navigate = useNavigate()
 
     async function uploadImage(uploadConfig, file) {
         try {
@@ -131,10 +134,11 @@ const MultiStepForm = ({ vendorSchema }) => {
             }
 
             // Instead of FormData, send JSON data
-            await vendorRegister(finalData).unwrap()
-            toast.success('Vendor registered successfully')
+            const res = await vendorRegister(finalData).unwrap()
+            toast.success(res.message || 'OTP send successfully to your email')
+            navigate(`/auth/vendor/email/verification?email=${data.email}`)
             // Redirect to external login page
-            window.location.href = 'https://seller.vistamart.biz'
+            // window.location.href = 'https://seller.vistamart.biz'
         } catch (err) {
             toast.error(err?.data?.message || err.error)
             console.error('Error: ', err)
