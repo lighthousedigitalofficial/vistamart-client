@@ -2,7 +2,7 @@ import FaqsAccordions from '../Faqs/FaqsAccordions'
 
 const FAQSection = () => {
     return (
-        <div className="bg-gray-50 text-gray-900 lg:p-8 md:p-6 p-4">
+        <div className="bg-gray-50 text-gray-900 lg:p-8 md:p-6 p-4 my-8">
             <h2 className="text-3xl text-center mb-4">
                 Frequently Asked Questions
             </h2>

@@ -18,14 +18,16 @@ const CategoriesPage = () => {
                 </p>
             </div>
             <div className="p-8">
-                {categories?.doc ? (
+                {categories?.doc?.length ? (
                     <div className="flex flex-wrap gap-4">
                         {categories?.doc?.map((item, index) => (
                             <CategoryItem key={index} category={item} />
                         ))}
                     </div>
                 ) : (
-                    <p>Categories not found!</p>
+                    <p className="text-center text-gray-700 text-lg p-4">
+                        Categories not found!
+                    </p>
                 )}
             </div>
         </div>

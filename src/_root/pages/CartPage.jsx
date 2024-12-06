@@ -10,7 +10,7 @@ const CartPage = () => {
 
     const handleNext = () => {
         cart?.cartItems?.length
-            ? navigate('/checkout-details')
+            ? navigate('/checkout/shipping-address')
             : toast.error('Please add items in the cart.')
     }
 

@@ -6,11 +6,11 @@ import { useGetCategoriesQuery } from '../../redux/slices/categoriesApiSlice'
 import Loader from '../Loader'
 
 const Categories = () => {
-    const { data: categories, isLoading } = useGetCategoriesQuery({})
+    const { data: categories, isLoading } = useGetCategoriesQuery({ limit: 20 })
 
     return isLoading ? (
         <Loader />
-    ) : categories && categories?.doc ? (
+    ) : categories && categories?.doc?.length ? (
         <div className="bg-white shadow-md shadow-gray-100 p-4">
             <div className="flex justify-between items-center p-4">
                 <h2 className="text-xl font-bold mb-4 text-gray-900">
@@ -25,9 +25,7 @@ const Categories = () => {
             </div>
             <CategoryList categories={categories?.doc} />
         </div>
-    ) : (
-        <p>Categories not found!</p>
-    )
+    ) : null
 }
 
 export default Categories
