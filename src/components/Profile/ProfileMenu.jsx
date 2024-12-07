@@ -72,7 +72,7 @@ const ProfileMenu = ({ user }) => {
                 className="flex items-center gap-2 p-1"
             >
                 <img
-                    className="h-8 w-8 object-contain rounded-full"
+                    className="h-8 w-8 object-cover rounded-full"
                     src={customerAvatar}
                     alt={user.firstName}
                 />

@@ -1,14 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useGetOrderDetailsQuery } from '../../../redux/slices/ordersApiSlice'
+import { useGetOrderStatusQuery } from '../../../redux/slices/ordersApiSlice'
 import Loader from '../../Loader'
 import TrackOrderStepper from './TrackOrderStepper'
 
 const OrderProgress = ({ orderId }) => {
-    const { data: order, isLoading } = useGetOrderDetailsQuery(orderId, {
+    const { data: order, isLoading } = useGetOrderStatusQuery(orderId, {
         skip: !orderId,
     })
-
-    console.log(order)
 
     return isLoading ? (
         <Loader />

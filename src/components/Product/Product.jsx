@@ -14,13 +14,14 @@ import ProductSlider from './ProductSlider'
 const Product = ({ product }) => {
     const [qty, setQty] = useState(1)
     const [totalPrice, setTotalPrice] = useState(product.price || 0)
-
-    const images = [...product.images, product?.thumbnail]
+    const [images, setImages] = useState([])
 
     useEffect(() => {
         if (!product?.taxIncluded) {
             setTotalPrice((product?.price + product.taxAmount) * qty)
         } else setTotalPrice(product.price * qty)
+
+        setImages([...product.images, product?.thumbnail])
     }, [product, qty])
 
     const oldPrice = product?.price + product?.discountAmount || 0
@@ -58,11 +59,13 @@ const Product = ({ product }) => {
     return (
         <div className="flex flex-col w-full p-4 rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
-                <div className="lg:w-1/2 w-full ">
+                <div className="lg:w-1/2 w-full">
                     <ProductSlider images={images} />
                 </div>
                 <div className="w-full lg:w-1/2 flex-grow justify-around flex flex-col gap-8">
-                    <h2 className="text-lg md:text-xl">{product.name}</h2>
+                    <h2 className="text-lg font-bold text-gray-900 md:text-xl">
+                        {product.name}
+                    </h2>
                     <div className="flex items-center mb-2">
                         <span className="mx-2 text-gray-600 ">
                             {product?.rating || 0}
@@ -96,7 +99,7 @@ const Product = ({ product }) => {
                         )}
                     </div>
                     <div className="flex items-center">
-                        {product.stock > 1 ? (
+                        {product.stock > 0 ? (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <h3 className="text-gray-800 font-bold">
@@ -116,7 +119,11 @@ const Product = ({ product }) => {
                                     {product.minimumOrderQty})
                                 </p>
                             </div>
-                        ) : null}
+                        ) : (
+                            <h2 className="md:text-2xl text-lg  font-bold text-red-600 mb-2">
+                                Out of Stock
+                            </h2>
+                        )}
                     </div>
                     <div className="flex items-center gap-2">
                         <h3 className="text-gray-800 font-bold">
@@ -128,19 +135,29 @@ const Product = ({ product }) => {
                         <span className="mx-2 px-1 text-xs">
                             {product.taxIncluded
                                 ? '(Tax: incl.)'
-                                : `(Tax: Rs. ${product.taxAmount})`}
+                                : `(Tax: Rs. ${product.taxAmount || 0})`}
                         </span>
                     </div>
                     <div className="flex gap-6 w-full">
                         <button
                             onClick={buyNowHandler}
-                            className="btn bg-orange-500 hover:bg-orange-600 focus: text-white px-10"
+                            disabled={product.stock < 1}
+                            className={`btn px-10 text-white ${
+                                product.stock < 1
+                                    ? 'bg-orange-500 opacity-50 cursor-not-allowed'
+                                    : 'bg-orange-500 hover:bg-orange-600'
+                            }`}
                         >
                             Buy now
                         </button>
                         <button
                             onClick={addToCartHandler}
-                            className="btn primary-btn px-10"
+                            disabled={product.stock < 1}
+                            className={`btn px-10 ${
+                                product.stock < 1
+                                    ? 'primary-btn opacity-50 cursor-not-allowed'
+                                    : 'primary-btn'
+                            }`}
                         >
                             {isProductAddToCart ? 'Update Cart' : 'Add to cart'}
                         </button>

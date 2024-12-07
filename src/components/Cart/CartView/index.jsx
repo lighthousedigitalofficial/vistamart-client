@@ -43,16 +43,22 @@ const CartView = () => {
                                         : 'overflow-y-hidden'
                                 }`}
                             >
-                                {cart?.cartItems.map((item) => (
-                                    <CartViewItem key={item._id} item={item} />
-                                ))}
+                                {cart?.cartItems.map((item, index) => {
+                                    if (index < 3)
+                                        return (
+                                            <CartViewItem
+                                                key={item._id}
+                                                item={item}
+                                            />
+                                        )
+                                })}
                             </div>
 
                             {/* <div className="text-blue-600 mb-4">
 								${remainingForFreeDelivery.toFixed(2)} Add more for free
 								delivery
 							</div> */}
-                            <div className="flex justify-between items-center mb-4 px-4">
+                            <div className="flex justify-between items-center px-4 py-4">
                                 <div>
                                     <span className="font-semibold mr-2">
                                         Subtotal:

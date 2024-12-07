@@ -11,6 +11,7 @@ const CategoryCarousel = ({ category, component }) => {
         useGetProductsQuery(
             {
                 category: category._id,
+                limit: 10,
             },
             { skip: !category._id }
         )

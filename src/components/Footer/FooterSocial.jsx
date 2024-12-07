@@ -62,8 +62,8 @@ const FooterSocial = () => {
                 ))}
             </div>
             <div className="text-white flex gap-4">
-                <Link to="terms">Terms & Conditions</Link>
-                <Link to="privacy-policy">Privacy Policy</Link>
+                <Link to="/terms">Terms & Conditions</Link>
+                <Link to="/privacy-policy">Privacy Policy</Link>
             </div>
         </div>
     )

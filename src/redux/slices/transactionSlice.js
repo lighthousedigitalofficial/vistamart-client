@@ -11,7 +11,18 @@ export const transactionApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ['Transaction'],
         }),
+        jazzCashCardPageRedirection: builder.mutation({
+            query: (data) => ({
+                url: `${TRANSACTIONS_URL}/initiate/card`,
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['Transaction'],
+        }),
     }),
 })
 
-export const { useJazzCashMobileWalletMutation } = transactionApiSlice
+export const {
+    useJazzCashMobileWalletMutation,
+    useJazzCashCardPageRedirectionMutation,
+} = transactionApiSlice

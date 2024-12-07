@@ -39,7 +39,7 @@ const NavList = () => {
                     <BrandDropDownItem />
                 </MenuList>
             </Menu>
-            <Typography
+            {/* <Typography
                 as="li"
                 variant="paragraph"
                 color="blue-gray"
@@ -48,14 +48,14 @@ const NavList = () => {
                 <Link to="/products" className="navbar-item">
                     Products
                 </Link>
-            </Typography>
+            </Typography> */}
             <Typography
                 as="li"
                 variant="paragraph"
                 color="blue-gray"
                 className="p-1 font-medium text-base"
             >
-                <Link to="/products?discount" className="navbar-item">
+                <Link to="/products/discount" className="navbar-item">
                     Discounted Products
                 </Link>
             </Typography>

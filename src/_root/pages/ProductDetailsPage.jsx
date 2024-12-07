@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import {
     useGetProductBySlugQuery,
-    // useGetProductDetailsQuery,
     useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice'
 
@@ -20,24 +19,25 @@ const ProductDetailsPage = () => {
 
     const {
         data: product,
-        isLoading,
+        isFetching: isProductFetching,
         refetch,
     } = useGetProductBySlugQuery(slug, {
         skip: !slug,
     })
 
-    const { data: products, isLoading: isProductsLoading } =
+    const { data: products, isFetching: isProductsLoading } =
         useGetProductsQuery(
             {
                 brand: product?.doc?.brand?._id,
+                limit: 10,
             },
             { skip: !product?.doc?.brand?._id }
         )
 
-    return isLoading ? (
+    return isProductFetching ? (
         <Loader />
     ) : product && product.doc ? (
-        <div className="container w-full flex flex-col space-y-4 sm:space-y-0">
+        <div className="container w-full flex flex-col space-y-4 sm:space-y-0 mb-8">
             <div className="flex flex-col lg:flex-row gap-4 w-full">
                 <div className="flex flex-col w-full">
                     <Product product={product?.doc} />
@@ -51,7 +51,10 @@ const ProductDetailsPage = () => {
                             />
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            <VendorRightBar vendorId={product?.userId} />
+                            <VendorRightBar
+                                vendorId={product?.doc?.userId}
+                                shop
+                            />
                         </div>
                     </div>
                 </div>
@@ -67,7 +70,10 @@ const ProductDetailsPage = () => {
                                 Similar Products
                             </h3>
                         </div>
-                        <Link to="/products" className="view-box">
+                        <Link
+                            to={`/products/brand/${product.doc.brand.slug}`}
+                            className="view-box"
+                        >
                             View All
                             <span>
                                 <FaAngleRight className="text-lg" />

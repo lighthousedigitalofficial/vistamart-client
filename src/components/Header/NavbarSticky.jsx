@@ -13,15 +13,23 @@ import SearchBar from './SerachBar'
 import { Link } from 'react-router-dom'
 import ProfileMenu from '../Profile/ProfileMenu'
 import CartIcon from './CartIcon'
-import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 import MobileSidebar from './MobileSidebar'
 import useAuth from './../../hooks/useAuth'
+import Loader from '../Loader'
+
+import { useGetCustomerDetailsQuery } from '../../redux/slices/customersApiSlice'
+import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
 
 const NavbarSticky = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const [isSticky, setIsSticky] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
     const user = useAuth()
+
+    const { data: userData, isFetching: isUserFetching } =
+        useGetCustomerDetailsQuery(user?._id, {
+            skip: !user?._id,
+        })
 
     const { data: wishList } = useGetWishListByIdQuery(user?._id, {
         skip: !user?._id,
@@ -59,7 +67,9 @@ const NavbarSticky = () => {
         setOpenMenu(false)
     }
 
-    return (
+    return isUserFetching ? (
+        <Loader />
+    ) : (
         <div
             className={`w-full z-40 transition-all bg-white duration-500 ease-in-out py-4 ${
                 isSticky ? 'fixed top-0 shadow-lg ' : 'relative'
@@ -93,7 +103,7 @@ const NavbarSticky = () => {
                         </IconButton>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex items-center gap-3">
                         <Badge content={totalWishListItems}>
                             <Link to="/profile/wish-list">
                                 <IconButton
@@ -108,27 +118,33 @@ const NavbarSticky = () => {
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                         >
-                            {user ? (
-                                <ProfileMenu user={user} />
+                            {user && userData?.doc ? (
+                                <ProfileMenu user={userData?.doc} />
                             ) : (
                                 <Menu open={openMenu} handler={setOpenMenu}>
                                     <MenuHandler>
                                         <IconButton
                                             variant="text"
-                                            className="bg-gray-100 rounded-full border-none"
+                                            className="bg-gray-100 rounded-full border-none outline-none"
                                             onClick={toggleMenu} // Allow click to toggle menu
                                         >
                                             <FaUser className="h-5 w-5 text-primary-500" />
                                         </IconButton>
                                     </MenuHandler>
                                     <MenuList className="overflow-visible md:grid shadow-md">
-                                        <Link to="/customer/auth/sign-in">
+                                        <Link
+                                            to="/customer/auth/sign-in"
+                                            className="outline-none"
+                                        >
                                             <MenuItem>
                                                 <FaSignInAlt className="inline mr-2" />
                                                 Login
                                             </MenuItem>
                                         </Link>
-                                        <Link to="/customer/auth/sign-up">
+                                        <Link
+                                            to="/customer/auth/sign-up"
+                                            className="outline-none"
+                                        >
                                             <MenuItem>
                                                 <FaUserPlus className="inline mr-2" />
                                                 SignUp

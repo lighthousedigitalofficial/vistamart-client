@@ -1,19 +1,23 @@
 /* eslint-disable react/prop-types */
-import axios from 'axios'
 import { useEffect, useState } from 'react'
-import keys from '../../config/keys'
 
 import jazzCashLogo from './../../assets/payment-gateway/jazzcash.png'
+import { useJazzCashCardPageRedirectionMutation } from '../../redux/slices/transactionSlice'
 
 const JazzCashCard = ({ totalPrice }) => {
     const [params, setParams] = useState(null)
 
+    const [jazzCashCardPageRedirection, { isLoading }] =
+        useJazzCashCardPageRedirectionMutation()
+
     const handleSubmit = async () => {
-        // Fetch transaction data from backend
-        const { data } = await axios.post(
-            `${keys.BASE_URL}/api/v1/transaction/payment/initiate/card`,
-            { amount: totalPrice }
-        )
+        const data = await jazzCashCardPageRedirection({
+            amount: totalPrice,
+        }).unwrap()
+        // const { data } = await axios.post(
+        //     `${keys.BASE_URL}/api/v1/transaction/payment/initiate/card`,
+        //     { amount: totalPrice }
+        // )
 
         // Set the params to trigger form submission in useEffect
         if (data.params) {
@@ -116,7 +120,7 @@ const JazzCashCard = ({ totalPrice }) => {
                 className="flex items-center gap-2 bg-primary-50 py-3 px-6"
             >
                 <img src={jazzCashLogo} alt="Jazz Cash" className="h-4" />
-                Cardit Card
+                {isLoading ? 'Loading...' : 'Credit Card'}
             </button>
         </>
     )

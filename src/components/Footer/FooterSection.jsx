@@ -2,29 +2,11 @@ import { Link } from 'react-router-dom'
 import AppStore from '../../assets/socials-icons/apple_app.png'
 import GoogleApp from '../../assets/socials-icons/google_app.png'
 import FooterItems from './FooterItems'
-import {
-    FaEnvelope,
-    FaMapMarkerAlt,
-    FaPhone,
-    FaTicketAlt,
-} from 'react-icons/fa'
-import logo from './../../assets/app-logo/vista-app-logo.png'
+import { FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa'
+import logo from './../../assets/app-logo/vista-app-logo-transp.png'
 import { useCustomerSubscribeMutation } from '../../redux/slices/customersApiSlice'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
-
-// const footerSpecial = [
-//     {
-//         title: 'SPECIAL',
-//         links: [
-//             { name: 'Flash Deal', url: '/flash-deals' },
-//             { name: 'Featured Products', url: '/featured-products' },
-//             { name: 'Latest Products', url: '/latest-products' },
-//             { name: 'Best Selling Products', url: '/best-selling-products' },
-//             { name: 'Top Rated Products', url: '/top-rated-products' },
-//         ],
-//     },
-// ]
 
 const footerInfo = [
     {

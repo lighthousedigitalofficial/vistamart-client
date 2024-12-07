@@ -9,30 +9,35 @@ import Loader from '../Loader'
 import { useGetProductDetailsQuery } from '../../redux/slices/productsApiSlice'
 import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
-import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
 import { formatPrice } from '../../utils/helpers'
+import ProductSlider from './ProductSlider'
 
 const ProductQuickView = ({ productId, onClose }) => {
     const { data: product, isLoading } = useGetProductDetailsQuery(productId, {
         skip: !productId,
     })
 
-    const [mainImage, setMainImage] = useState('')
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [images, setImages] = useState([])
+
     const [qty, setQty] = useState(1)
     const [minimumOrderError, setMinimumOrderError] = useState(false)
 
-    const productImages = product?.doc ? [mainImage, ...product.doc.images] : []
     const oldPrice = product?.doc?.price + product?.doc?.discountAmount || 0
-
     useEffect(() => {
-        const productImage = product?.doc?.thumbnail?.startsWith('products')
-            ? `${keys.BUCKET_URL}${product.doc.thumbnail}`
-            : product?.doc?.thumbnail
-            ? product?.doc?.thumbnail
-            : keys.DEFAULT_IMG
-        setMainImage(productImage)
-    }, [product])
+        if (product?.doc) {
+            const productImages = product?.doc
+                ? [product?.doc?.thumbnail, ...product.doc.images]
+                : []
+            setImages(productImages)
+        }
+        if (!product?.doc?.taxIncluded) {
+            setTotalPrice((product?.doc?.price + product?.doc.taxAmount) * qty)
+        } else setTotalPrice(product?.doc?.price * qty)
+
+        // setMainImage(productImage)
+    }, [product?.doc, qty])
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -59,7 +64,7 @@ const ProductQuickView = ({ productId, onClose }) => {
 
     const buyNowHandler = () => {
         if (qty >= product.doc.minimumOrderQty) {
-            dispatch(addToCart({ ...product, qty }))
+            dispatch(addToCart({ ...product.doc, qty }))
             onClose()
             navigate('/checkout/shipping-address')
         } else setMinimumOrderError(true)
@@ -70,12 +75,12 @@ const ProductQuickView = ({ productId, onClose }) => {
             <Loader />
         </div>
     ) : product && product?.doc ? (
-        <div className="flex flex-col border shadow bg-white rounded w-full">
+        <div className="flex flex-col  border shadow bg-white rounded w-full p-4 max-h-screen md:max-h-[100vh] overflow-y-auto">
             {/* Close button and Product title */}
             <div className="flex justify-between items-center p-4 border-b">
                 <Link
                     to={`/products/${product.doc.slug}`}
-                    className="text-lg md:text-xl font-semibold hover:text-primary-500 text-primary-600"
+                    className="text-lg md:text-xl truncate w-2/3 font-semibold hover:text-primary-500 text-primary-600"
                 >
                     {product.doc.name}
                 </Link>
@@ -87,31 +92,12 @@ const ProductQuickView = ({ productId, onClose }) => {
             {/* Product Image and Details */}
             <div className="flex flex-col lg:flex-row items-start gap-4 p-4">
                 {/* Product Image Section */}
-                <div className="w-full lg:w-1/2">
-                    <div className="w-full h-48 md:h-64 lg:h-80 overflow-hidden">
-                        <img
-                            src={mainImage ? `${mainImage}` : keys.DEFAULT_IMG}
-                            alt={product.doc.name}
-                            loading="lazy"
-                            className="w-full h-full object-contain"
-                        />
-                    </div>
-                    {/* <div className="flex justify-center mt-4">
-                        {productImages?.map((src, index) => (
-                            <img
-                                key={index}
-                                src={`${src}` || keys.DEFAULT_IMG}
-                                alt={`Thumbnail ${index + 1}`}
-                                loading="lazy"
-                                className="w-16 h-16 object-cover mr-2 border rounded cursor-pointer"
-                                onClick={() => setMainImage(src)}
-                            />
-                        ))}
-                    </div> */}
+                <div className="lg:w-1/2 w-full">
+                    <ProductSlider images={images} />
                 </div>
 
                 {/* Product Details Section */}
-                <div className="w-full lg:w-1/2 flex flex-col gap-4">
+                <div className="w-full lg:w-1/2 flex flex-col gap-8">
                     <h2 className="text-xl md:text-2xl">{product.doc.name}</h2>
                     <div className="flex items-center mb-2">
                         <span className="mx-2 text-gray-600 ">
@@ -144,7 +130,7 @@ const ProductQuickView = ({ productId, onClose }) => {
                             </p>
                         )}
                     </div>
-                    {product.doc.stock > 1 && (
+                    {product.doc.stock > 0 ? (
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold">Quantity:</h3>
@@ -167,31 +153,47 @@ const ProductQuickView = ({ productId, onClose }) => {
                                 </p>
                             )}
                         </div>
+                    ) : (
+                        <h2 className="md:text-2xl text-lg font-bold text-red-600 mb-2">
+                            Out of Stock
+                        </h2>
                     )}
                     <div className="flex items-center gap-2 font-bold">
                         <h3 className="">Total Price:</h3>
                         <p className="text-primary-400 ">
-                            Rs.{formatPrice(product?.doc?.price * qty)}
+                            Rs.{formatPrice(totalPrice)}
                         </p>
-                        <span className="text-xs">(Tax included)</span>
+                        <span className="text-xs">
+                            {' '}
+                            {product.doc.taxIncluded
+                                ? '(Tax: incl.)'
+                                : `(Tax: Rs. ${product.doc.taxAmount || 0})`}
+                        </span>
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-3">
+                    <div className="flex lg:flex-row flex-col gap-6 w-full">
                         <button
                             onClick={buyNowHandler}
-                            className="btn bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 w-full lg:w-1/2"
+                            disabled={product.doc.stock < 1}
+                            className={`btn px-10 text-white ${
+                                product.doc.stock < 1
+                                    ? 'bg-orange-500 opacity-50 cursor-not-allowed'
+                                    : 'bg-orange-500 hover:bg-orange-600'
+                            }`}
                         >
                             Buy now
                         </button>
                         <button
                             onClick={addToCartHandler}
-                            className="btn primary-btn w-full lg:w-1/2"
+                            disabled={product.doc.stock < 1}
+                            className={`btn px-10 ${
+                                product.doc.stock < 1
+                                    ? 'primary-btn opacity-50 cursor-not-allowed'
+                                    : 'primary-btn'
+                            }`}
                         >
                             {isProductAddToCart ? 'Update Cart' : 'Add to cart'}
                         </button>
-                        <WishListIcon
-                            productId={product.doc._id}
-                            onClose={onClose}
-                        />
+                        <WishListIcon productId={product._id} />
                     </div>
                 </div>
             </div>

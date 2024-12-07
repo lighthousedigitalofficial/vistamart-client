@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import {
-    FaHourglassStart,
     FaBoxOpen,
     FaTruck,
     FaShippingFast,
     FaCheckCircle,
+    FaClipboardList,
 } from 'react-icons/fa'
 
 const statuses = [
-    { label: 'Pending', key: 'pending', icon: FaHourglassStart },
+    { label: 'Placed', key: 'pending', icon: FaClipboardList },
     { label: 'Order Confirm', key: 'confirmed', icon: FaBoxOpen },
     { label: 'Processing', key: 'packaging', icon: FaTruck },
     { label: 'Shipped', key: 'out_for_delivery', icon: FaShippingFast },

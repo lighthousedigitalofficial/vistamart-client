@@ -26,8 +26,6 @@ const PaymentMethod = ({ onSubmit, setPaymentMethod }) => {
 
     const cart = useSelector((state) => state.cart)
 
-    console.log(cart)
-
     const navigate = useNavigate()
 
     const handleSelectMethod = async (value) => {

@@ -6,7 +6,7 @@ import Contacts from '../components/shared/Contacts'
 import Footer from '../components/Footer'
 import Loader from '../components/Loader'
 
-import { validateSession } from '../_auth/api'
+import { validateSession } from '../api/validateService'
 import { useDispatch, useSelector } from 'react-redux'
 import SessionExpiredModal from './../components/shared/SessionExpiredModal'
 import toast from 'react-hot-toast'

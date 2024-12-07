@@ -1,24 +1,22 @@
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import {
-    useCustomerOTPVerificationMutation,
-    useResendEmailOTPMutation,
-} from '../../redux/slices/customersApiSlice'
+import { useSearchParams } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import { useState, useEffect } from 'react'
-import OTPForm from './OTPForm'
+import { useVendorOTPVerificationMutation } from '../../../redux/slices/vendorsApiSlice'
 
-const EmailVerification = () => {
+import OTPForm from '../OTPForm'
+import { useResendEmailOTPMutation } from '../../../redux/slices/customersApiSlice'
+
+const VendorEmailVerification = () => {
     const [otp, setOtp] = useState('')
     const [canResend, setCanResend] = useState(false)
     const [timeLeft, setTimeLeft] = useState(60)
-    const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const email = searchParams.get('email')
 
     const maskedEmail = `${email?.slice(0, 2)}****@${email?.split('@')[1]}` // Masked email
 
-    const [customerOTPVerification, { isLoading }] =
-        useCustomerOTPVerificationMutation()
+    const [vendorOTPVerification, { isLoading }] =
+        useVendorOTPVerificationMutation()
     const [resendEmailOTP] = useResendEmailOTPMutation()
 
     // Handle OTP input change
@@ -30,12 +28,13 @@ const EmailVerification = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await customerOTPVerification({
+            const res = await vendorOTPVerification({
                 token: otp,
                 email,
             }).unwrap()
             toast.success(res?.message || 'OTP is correct.')
-            navigate('/customer/auth/sign-in')
+            // Redirect to external login page
+            window.location.href = 'https://seller.vistamart.biz'
         } catch (error) {
             toast.error(error.data?.message || 'OTP not valid!')
         }
@@ -83,4 +82,4 @@ const EmailVerification = () => {
     )
 }
 
-export default EmailVerification
+export default VendorEmailVerification

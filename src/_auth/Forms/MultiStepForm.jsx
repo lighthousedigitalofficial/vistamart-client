@@ -1,57 +1,22 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { FaArrowLeft } from 'react-icons/fa'
+
 import SellerRegForm2 from './SellerRegForm2'
 import SellerRegForm1 from './SellerRegForm1'
 import { useVendorRegisterMutation } from '../../redux/slices/vendorsApiSlice'
-import { useNavigate } from 'react-router-dom'
-import toast from 'react-hot-toast'
 
 import {
     deleteUploadedImages,
     getUploadUrl,
     uploadImageToS3,
 } from './../../utils/helpers'
+import { useNavigate } from 'react-router-dom'
 
-// Combined schema for both steps
-const schema = z
-    .object({
-        email: z.string().email('Invalid email address'),
-        password: z
-            .string()
-            .min(8, 'Password must be at least 8 characters')
-            .regex(
-                /[a-z]/,
-                'Password must contain at least one lowercase letter'
-            )
-            .regex(
-                /[A-Z]/,
-                'Password must contain at least one uppercase letter'
-            )
-            .regex(/[0-9]/, 'Password must contain at least one number')
-            .regex(
-                /[^a-zA-Z0-9]/,
-                'Password must contain at least one special character'
-            ),
-        confirmPassword: z
-            .string()
-            .min(8, 'Password must be at least 8 characters'),
-        phoneNumber: z.string().min(1, 'Phone number is required'),
-        firstName: z.string().min(1, 'First name is required'),
-        lastName: z.string().min(1, 'Last name is required'),
-        shopName: z.string().min(1, 'Shop name is required'),
-        address: z.string().min(3, 'Shop address is required'),
-        logo: z.any(),
-        banner: z.any(),
-        vendorImage: z.any(),
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-        message: 'Passwords do not match',
-        path: ['confirmPassword'],
-    })
-
-const MultiStepForm = () => {
+const MultiStepForm = ({ vendorSchema }) => {
     const [logoImages, setLogoImages] = useState([])
     const [bannerImages, setBannerImages] = useState([])
     const [vendorImages, setVendorImages] = useState([])
@@ -60,12 +25,10 @@ const MultiStepForm = () => {
     const [vendorRegister, { isLoading }] = useVendorRegisterMutation()
 
     const methods = useForm({
-        resolver: zodResolver(schema),
+        resolver: zodResolver(vendorSchema),
         mode: 'onSubmit', // Validates only on form submission
         reValidateMode: 'onChange', // Validates on each change after initial submission
     })
-
-    const navigate = useNavigate()
 
     const isPasswordStrong = (password) => {
         const hasMinLength = password.length >= 8
@@ -107,10 +70,10 @@ const MultiStepForm = () => {
     }
 
     const handlePrev = () => {
-        if (step > 0) {
-            setStep(step - 1)
-        }
+        setStep(0)
     }
+
+    const navigate = useNavigate()
 
     async function uploadImage(uploadConfig, file) {
         try {
@@ -171,9 +134,11 @@ const MultiStepForm = () => {
             }
 
             // Instead of FormData, send JSON data
-            await vendorRegister(finalData).unwrap()
-            toast.success('Vendor registered successfully')
-            navigate('/auth/vendor/login')
+            const res = await vendorRegister(finalData).unwrap()
+            toast.success(res.message || 'OTP send successfully to your email')
+            navigate(`/auth/vendor/email/verification?email=${data.email}`)
+            // Redirect to external login page
+            // window.location.href = 'https://seller.vistamart.biz'
         } catch (err) {
             toast.error(err?.data?.message || err.error)
             console.error('Error: ', err)
@@ -185,21 +150,24 @@ const MultiStepForm = () => {
             <FormProvider {...methods}>
                 <form onSubmit={methods.handleSubmit(onSubmit)}>
                     {step === 0 && (
-                        <div className="bg-primary-100 py-10 px-4 lg:px-8">
-                            <SellerRegForm1 errors={methods.formState.errors} />
-                            <div className="flex justify-end mt-4">
-                                <button
-                                    className="btn primary-btn cursor-pointer"
-                                    type="button"
-                                    onClick={handleNext}
-                                >
-                                    Next
-                                </button>
+                        <>
+                            <div className="bg-primary-100 py-10 px-4 lg:px-8">
+                                <SellerRegForm1
+                                    errors={methods.formState.errors}
+                                    handleNext={handleNext}
+                                />
                             </div>
-                        </div>
+                        </>
                     )}
                     {step === 1 && (
                         <>
+                            <button
+                                onClick={() => setStep(0)}
+                                className="btn secondary-btn flex items-center gap-2"
+                            >
+                                <FaArrowLeft />
+                                Back
+                            </button>
                             <SellerRegForm2
                                 errors={methods.formState.errors}
                                 logoImages={logoImages}
@@ -208,27 +176,9 @@ const MultiStepForm = () => {
                                 setBannerImages={setBannerImages}
                                 vendorImages={vendorImages}
                                 setVendorImages={setVendorImages}
+                                isLoading={isLoading}
+                                handlePrev={handlePrev}
                             />
-                            <div className="flex justify-between items-center mt-4">
-                                {step > 0 && (
-                                    <div className="flex justify-between items-center mt-4">
-                                        <button
-                                            className="btn secondary-btn"
-                                            type="button"
-                                            onClick={handlePrev}
-                                        >
-                                            Previous
-                                        </button>
-                                    </div>
-                                )}
-                                <button
-                                    className="btn primary-btn justify-self-end cursor-pointer"
-                                    type="submit"
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? 'Loading...' : 'Submit'}
-                                </button>
-                            </div>
                         </>
                     )}
                 </form>

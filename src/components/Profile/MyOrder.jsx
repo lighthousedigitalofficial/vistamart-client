@@ -1,20 +1,27 @@
 import { useGetMyOrdersQuery } from '../../redux/slices/ordersApiSlice'
 import { useSelector } from 'react-redux'
 import Loader from '../Loader'
-import { IoEyeSharp } from 'react-icons/io5'
-import { Link } from 'react-router-dom'
-import img from '../../assets/empty-cart.webp'
+
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Paper,
+    Typography,
+    Tooltip,
+    IconButton,
+} from '@mui/material'
+import { FaRegCopy } from 'react-icons/fa'
+import toast from 'react-hot-toast'
 
 const MyOrders = () => {
     const { user } = useSelector((state) => state.auth.userInfo)
-
     const { data: orders, isLoading } = useGetMyOrdersQuery(user._id, {
         skip: !user._id,
     })
-
-    console.log(user._id)
-
-    console.log(orders)
 
     const formatDate = (dateString) => {
         const options = {
@@ -28,142 +35,157 @@ const MyOrders = () => {
         return new Date(dateString).toLocaleString('en-US', options)
     }
 
-    return isLoading ? (
-        <Loader />
-    ) : orders ? (
-        <div className="rounded-lg p-4 md:p-6 bg-white">
-            <h1 className="text-sm md:text-lg lg:text-xl font-bold mb-4">
-                My Orders
-            </h1>
-            {orders?.doc && orders?.doc?.length ? (
-                <div className="rounded-lg shadow-lg">
-                    <table className="min-w-full border border-gray-200 table-auto">
-                        <thead>
-                            <tr>
-                                <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wider rounded-tl-lg">
-                                    Order Id
-                                </th>
-                                <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                                    Order Date
-                                </th>
-                                <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 text-left text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                                    Status
-                                </th>
-                                <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 text-center text-xs md:text-sm font-semibold text-gray-600 uppercase tracking-wider">
-                                    Total
-                                </th>
-                                {/* <th className="px-2 md:px-4 py-2 border-b-2 border-gray-200 bg-gray-100 rounded-tr-lg">
-                                    Action
-                                </th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
+    const handleCopy = (orderId) => {
+        navigator.clipboard.writeText(orderId)
+        toast.success(`Order ID ${orderId} copied to clipboard!`)
+    }
+
+    const getStatusStyle = (status) => {
+        switch (status.toLowerCase()) {
+            case 'pending':
+                return { backgroundColor: '#FFECB3', color: '#FF6F00' } // Amber
+            case 'confirmed':
+                return { backgroundColor: '#BBDEFB', color: '#1E88E5' } // Blue
+            case 'packaging':
+                return { backgroundColor: '#E3F2FD', color: '#1565C0' } // Light Blue
+            case 'out_for_delivery':
+                return { backgroundColor: '#C8E6C9', color: '#2E7D32' } // Green
+            case 'delivered':
+                return { backgroundColor: '#C8E6C9', color: '#1B5E20' } // Dark Green
+            case 'failed_to_deliver':
+                return { backgroundColor: '#FFCDD2', color: '#C62828' } // Red
+            case 'returned':
+                return { backgroundColor: '#D1C4E9', color: '#673AB7' } // Purple
+            case 'canceled':
+                return { backgroundColor: '#FFCDD2', color: '#D32F2F' } // Red
+            default:
+                return { backgroundColor: '#E0E0E0', color: '#757575' } // Gray
+        }
+    }
+
+    const getPaymentStatusColor = (status) => {
+        switch (status) {
+            case 'Unpaid':
+                return '#FF6F61' // Vibrant Red-Orange for Unpaid
+            case 'Paid':
+                return '#4CAF50' // Bright Green for Paid
+            default:
+                return '#B0BEC5' // Soft Gray for Default/Unknown
+        }
+    }
+
+    return (
+        <div style={{ padding: '16px' }}>
+            <h1 className="text-2xl font-semibold mb-5">My Orders</h1>
+
+            {isLoading ? (
+                <Loader />
+            ) : orders && orders.doc && orders.doc.length > 0 ? (
+                <TableContainer component={Paper} elevation={3}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>
+                                    <strong>Order ID</strong>
+                                </TableCell>
+                                <TableCell>
+                                    <strong>Order Date</strong>
+                                </TableCell>
+                                <TableCell>
+                                    <strong>Payment Status</strong>
+                                </TableCell>
+                                <TableCell>
+                                    <strong>Status</strong>
+                                </TableCell>
+                                <TableCell align="right">
+                                    <strong>Total (Rs.)</strong>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
                             {orders.doc.map((order) => (
-                                <tr
-                                    key={order._id}
-                                    className="border-b border-gray-200 text-left sm:text-left"
-                                >
-                                    <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200 rounded-l-lg">
-                                        <div className="flex items-center">
-                                            <div className="ml-2">
-                                                <p className="text-gray-900 whitespace-no-wrap text-xs md:text-sm">
-                                                    {order._id}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200">
-                                        <span className="relative inline-block font-semibold leading-tight text-xs md:text-sm">
-                                            <span className="relative">
-                                                {formatDate(order.createdAt)}
-                                            </span>
-                                        </span>
-                                    </td>
-                                    <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200">
-                                        <span className="relative inline-block font-semibold text-green-900 leading-tight text-xs md:text-sm">
-                                            <span className="relative">
-                                                {order.status}
-                                            </span>
-                                        </span>
-                                    </td>
-                                    <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm border border-gray-200">
-                                        <p className="text-gray-900 whitespace-no-wrap text-xs md:text-sm">
-                                            Rs.
-                                            {order.totalAmount
-                                                ? order.totalAmount.toFixed(2)
-                                                : '0.00'}
-                                        </p>
-                                    </td>
-                                    {/* <td className="px-2 md:px-4 py-2 bg-white text-xs md:text-sm flex justify-center items-center">
-                                        <Link
-                                            to={`/profile/order-view/${order._id}`}
-                                            className="text-blue-600 hover:text-blue-900 border-none cursor-pointer"
+                                <TableRow key={order._id} hover>
+                                    <TableCell>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
                                         >
-                                            <IoEyeSharp />
-                                        </Link>
-                                    </td> */}
-                                </tr>
+                                            <span>{order.orderId}</span>
+                                            <Tooltip title="Copy Order ID">
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() =>
+                                                        handleCopy(
+                                                            order.orderId
+                                                        )
+                                                    }
+                                                    style={{
+                                                        marginLeft: '8px',
+                                                    }}
+                                                >
+                                                    <FaRegCopy />
+                                                </IconButton>
+                                            </Tooltip>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        {formatDate(order.createdAt)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <span
+                                            style={{
+                                                padding: '4px 8px',
+                                                borderRadius: '4px',
+                                                fontWeight: 'bold',
+                                                textTransform: 'uppercase',
+                                                color: '#fff',
+                                                backgroundColor:
+                                                    getPaymentStatusColor(
+                                                        order.paymentStatus
+                                                    ),
+                                            }}
+                                        >
+                                            {order.paymentStatus}
+                                        </span>
+                                    </TableCell>
+
+                                    <TableCell>
+                                        <span
+                                            style={{
+                                                padding: '4px 8px',
+                                                borderRadius: '4px',
+                                                fontWeight: 'bold',
+                                                textTransform: 'uppercase',
+                                                ...getStatusStyle(order.status),
+                                            }}
+                                        >
+                                            {order.status}
+                                        </span>
+                                    </TableCell>
+                                    <TableCell align="right">
+                                        {order.totalAmount
+                                            ? order.totalAmount.toFixed(2)
+                                            : '0.00'}
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
-                </div>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             ) : (
-                <p className="text-center text-gray-700">No orders found!</p>
+                <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    align="center"
+                    style={{ marginTop: '20px' }}
+                >
+                    No orders found!
+                </Typography>
             )}
-        </div>
-    ) : (
-        <div>
-            <p>No orders found!</p>
-            <img src={img} alt="" />
         </div>
     )
 }
 
 export default MyOrders
-
-// OrderPage.jsx
-
-// import OrderCard from "./subcomponenets/OrderCard";
-
-// const OrderPage = () => {
-//   // Sample order data (this can come from an API)
-
-//   const handleViewOrder = (Id) => {
-//     // alert(`Viewing details for order ${orderId}`);
-//     navigator(`/profile/order/${Id}`);
-//   };
-
-//   const handleDownloadOrder = (Id) => {
-//     alert(`Downloading invoice for order ${Id}`);
-//   };
-
-//   return (
-//     <div className="border border-primary-100 rounded-lg min-h-screen">
-//       <div className="max-w-4xl mx-auto bg-white ">
-//         <h1 className="text-2xl font-semibold mb-5">My Order</h1>
-
-//         {/* Order List Header */}
-//         <div className="border-b-2 bg-green-50 p-2 pb-2 mb-5">
-//           <div className="grid grid-cols-5 text-center text-gray-600 font-semibold">
-//             <div className="col-span-2 text-left">Order List</div>
-//             <div>Status</div>
-//             <div>Total</div>
-//             <div>Action</div>
-//           </div>
-//         </div>
-
-//         {/* Order List */}
-//         {orders.map((order) => (
-//           <OrderCard
-//             key={order.id}
-//             data={order}
-//             onView={() => handleViewOrder(order.id)}
-//             onDownload={() => handleDownloadOrder(order.id)}
-//           />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderPage;

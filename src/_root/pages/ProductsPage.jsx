@@ -1,71 +1,70 @@
-import { BrandHeader } from '../../components/Brands/BrandHeader'
 import FilterSidebar from '../../components/Sort/FilterSidebar'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
 import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
 import { useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
+import ProductsHeader from './../../components/Product/subcomponent/ProductsHeader'
 
 export const ProductsPage = () => {
-    const [searchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const [currentPage, setCurrentPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(12)
 
-    const [loading, setLoading] = useState(false)
+    const query = searchParams.get('query') || ''
 
     // Construct filters from search parameters
-    const filters = Array.from(searchParams.entries()).reduce(
+    let filters = Array.from(searchParams.entries()).reduce(
         (acc, [param, value]) => {
-            if (param === 'discount') {
-                acc.sort = 'discount'
-            } else if (param === 'featured') {
-                acc.isFeatured = true
-            } else {
-                acc[param] = value
-            }
+            acc[param] = value
             return acc
         },
         {}
     )
 
-    // Fetch all products without pagination (modify the query to fetch all)
-    const { data: products, isLoading } = useGetProductsQuery(filters)
-
-    useEffect(() => {
-        if (isLoading) {
-            setLoading(true)
-        } else setLoading(false)
-    }, [products, isLoading, searchParams])
+    const { data: products, isFetching: isFetchingProducts } =
+        useGetProductsQuery({
+            ...filters,
+            page: currentPage + 1, // API expects 1-based indexing
+            limit: rowsPerPage,
+        })
 
     // Calculate total products and pagination
-    const totalProducts = products?.results || 0 // Get total number of products from the fetched data
+    const totalProducts = products?.results || 0
 
     // Calculate the starting index of the products to display on the current page
     const startIndex = currentPage * rowsPerPage
     const currentProducts =
-        products?.doc?.slice(startIndex, startIndex + rowsPerPage) || [] // Slice products based on current page
+        products?.doc?.slice(startIndex, startIndex + rowsPerPage) || []
 
     // Handle page change
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (_, newPage) => {
         setCurrentPage(newPage)
+        setSearchParams({ query, page: newPage + 1 }) // Sync with URL (1-based indexing)
+        // Scroll to the top of the page
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
     }
-
     // Handle rows per page change
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10))
         setCurrentPage(0) // Reset to the first page when changing rows per page
     }
 
-    console.log(currentProducts)
-
-    return loading || isLoading ? (
+    return isFetchingProducts ? (
         <Loader />
     ) : products ? (
         <>
             <div className="mt-4 w-full mx-auto py-4">
-                <BrandHeader filters={filters} products={products} />
+                <ProductsHeader
+                    title={'Products'}
+                    totalItems={products?.totalDocs}
+                />
                 <div className="flex justify-between items-start gap-4 my-4">
                     <FilterSidebar filters={filters} />
                     {currentProducts?.length ? (
@@ -93,6 +92,7 @@ export const ProductsPage = () => {
                         onPageChange={handleChangePage}
                         rowsPerPage={rowsPerPage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        rowsPerPageOptions={[12, 24, 36, 60]} // You can customize this
                     />
                 )}
             </div>
