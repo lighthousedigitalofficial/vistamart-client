@@ -26,13 +26,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         }),
         getProductDetails: builder.query({
             query: (id) => ({
-                url: `${PRODUCTS_URL}/${id}`,
+                url: `${PRODUCTS_URL}/${id}?status=approved`,
             }),
             keepUnusedDataFor: 5,
         }),
         getProductBySlug: builder.query({
             query: (slug) => ({
-                url: `${PRODUCTS_URL}/slug/${slug}`,
+                url: `${PRODUCTS_URL}/slug/${slug}?status=approved`,
             }),
             keepUnusedDataFor: 5,
         }),

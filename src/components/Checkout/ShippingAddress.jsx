@@ -2,6 +2,9 @@
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
+import './../../styles/customPhoneInput.css'
 
 // eslint-disable-next-line react/prop-types
 const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
@@ -70,21 +73,18 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 </p>
                             )}
                         </div>
-                        <div>
+                        <div className="mb-4">
                             <label className="input-label">Phone Number</label>
-                            <input
-                                type="text"
-                                {...register('phoneNumber', {
-                                    required: 'Phone Number is required',
-                                })}
-                                className={`input ${
-                                    errors.phoneNumber
-                                        ? 'border-red-500'
-                                        : 'border-gray-300'
+                            <PhoneInput
+                                defaultCountry="pk"
+                                {...register('phoneNumber')}
+                                className={`custom-phone-input ${
+                                    errors.phoneNumber ? 'border-red-500' : ''
                                 }`}
+                                inputClassName="custom-phone-input"
                             />
                             {errors.phoneNumber && (
-                                <p className="text-red-500 text-xs mt-1">
+                                <p className="text-red-500 text-xs italic">
                                     {errors.phoneNumber.message}
                                 </p>
                             )}

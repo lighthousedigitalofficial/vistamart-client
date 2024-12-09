@@ -55,7 +55,7 @@ const OrderSummaryPage = () => {
                     price: item.price,
                     discountAmount: item.discountAmount || 0, // Ensure discountAmount is present
                     shippingCost: item.shippingCost || 0, // Ensure shippingCost is present
-                    taxAmount: item.taxAmount || 0, // Ensure taxAmount is present
+                    taxAmount: item.taxIncluded ? item.taxAmount * item.qty : 0, // Ensure taxAmount is present
                     quantity: item.qty,
                 })
                 return acc
@@ -67,11 +67,9 @@ const OrderSummaryPage = () => {
                     (total, product) =>
                         total +
                         product.price * product.quantity - // Base price
-                        (product.discountAmount || 0) + // Add discount
-                        (product.taxIncluded
-                            ? product.taxAmount * product.quantity
-                            : 0) + // Add tax if included
-                        product.shippingCost, // Add shipping
+                        (product.discountAmount || 0) +
+                        (product.taxAmount || 0) +
+                        product.shippingCost,
                     0
                 )
 
@@ -90,6 +88,11 @@ const OrderSummaryPage = () => {
                     0
                 )
 
+                const totalTaxAmount = vendorOrder.products.reduce(
+                    (total, product) => total + product.taxAmount,
+                    0
+                )
+
                 return {
                     vendor: vendorId,
                     products: vendorOrder.products,
@@ -100,10 +103,13 @@ const OrderSummaryPage = () => {
                     totalAmount,
                     totalDiscount,
                     totalShippingCost,
+                    totalTaxAmount,
                     totalQty,
                     paymentStatus: cart?.paymentStatus,
                 }
             })
+
+            console.log(orders)
 
             if (orders.length !== 0) {
                 // Submit each order separately

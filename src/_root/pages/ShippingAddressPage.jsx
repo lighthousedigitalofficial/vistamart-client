@@ -18,10 +18,7 @@ const shippingAddressSchema = z.object({
             /^[a-zA-Z\s]+$/,
             'Name must not contain numbers or special characters'
         ),
-    phoneNumber: z
-        .string()
-        .min(10, 'Phone Number must be at least 10 digits')
-        .max(20, 'Phone Number cannot exceed 15 digits'),
+    phoneNumber: z.string().min(10, 'Phone number is required'),
     country: z
         .string()
         .min(1, 'Country is required')

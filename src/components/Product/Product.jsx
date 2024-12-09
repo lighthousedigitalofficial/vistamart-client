@@ -56,6 +56,8 @@ const Product = ({ product }) => {
             )
     }
 
+    console.log(product)
+
     return (
         <div className="flex flex-col w-full p-4 rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
@@ -134,8 +136,8 @@ const Product = ({ product }) => {
                         </p>
                         <span className="mx-2 px-1 text-xs">
                             {product.taxIncluded
-                                ? '(Tax: incl.)'
-                                : `(Tax: Rs. ${product.taxAmount || 0})`}
+                                ? `(Tax: Rs. ${product.taxAmount || 0})`
+                                : '(Tax: incl.)'}
                         </span>
                     </div>
                     <div className="flex gap-6 w-full">

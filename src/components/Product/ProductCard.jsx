@@ -12,6 +12,8 @@ const ProductCard = ({ data: product }) => {
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
+    console.log(keys.ADMIN_COMMISSION)
+
     const handleProductClick = (product) => {
         setSelectedProduct(product)
         setIsDialogOpen(true)
