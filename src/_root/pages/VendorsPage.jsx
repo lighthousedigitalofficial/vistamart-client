@@ -108,23 +108,23 @@ const VendorsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const [currentPage, setCurrentPage] = useState(
-        parseInt(searchParams.get('page'), 10) - 1 || 0
+        parseInt(searchParams.get('page'), 12) - 1 || 0
     ) // Sync with URL, 0-based index
-    const [rowsPerPage, setRowsPerPage] = useState(12)
+    const [rowsPerPage, setRowsPerPage] = useState(20)
 
     const { data, isFetching } = useGetVendorsQuery({
         page: currentPage + 1, // API expects 1-based indexing
         limit: rowsPerPage,
     })
 
-    const handleInputChange = (e) => {
-        const newKeywords = e.target.value
-        setKeywords(newKeywords)
-        setCurrentPage(0) // Reset to first page when searching
-        setSearchParams({
-            page: 1, // Reset page to 1
-        })
-    }
+    // const handleInputChange = (e) => {
+    //     const newKeywords = e.target.value
+    //     setKeywords(newKeywords)
+    //     setCurrentPage(0) // Reset to first page when searching
+    //     setSearchParams({
+    //         page: 1, // Reset page to 1
+    //     })
+    // }
 
     const handleChangePage = (_, newPage) => {
         setCurrentPage(newPage)
@@ -191,7 +191,7 @@ const VendorsPage = () => {
                             onPageChange={handleChangePage}
                             rowsPerPage={rowsPerPage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
-                            rowsPerPageOptions={[12, 24, 36, 60]}
+                            rowsPerPageOptions={[20, 40, 100]}
                         />
                     )}
                 </div>

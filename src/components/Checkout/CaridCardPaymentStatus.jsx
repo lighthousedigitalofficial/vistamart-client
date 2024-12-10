@@ -19,7 +19,7 @@ const CardPaymentStatus = () => {
         const paymentStatus = params.get('paymentStatus')
 
         if (paymentStatus === 'Successful') {
-            dispatch(savePaymentMethod('credit_card'))
+            dispatch(savePaymentMethod('JazzCash'))
             dispatch(updatePaymentStatus('Paid'))
         }
 

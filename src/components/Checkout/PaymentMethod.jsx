@@ -9,12 +9,7 @@ import JazzCashCard from './JazzCashCard'
 
 const PaymentMethod = ({ onSubmit, setPaymentMethod }) => {
     // Initialize useForm for this component
-    const {
-        register,
-        setValue,
-        trigger,
-        formState: { errors },
-    } = useForm({
+    const { register, setValue, trigger } = useForm({
         defaultValues: {
             paymentMethod: '',
         },
@@ -35,7 +30,7 @@ const PaymentMethod = ({ onSubmit, setPaymentMethod }) => {
 
         if (value === 'jazzCash') {
             setIsModalOpen(true)
-        } else if (value === 'cash_on_delivery') {
+        } else if (value === 'COD') {
             setIsPaid(true) // For 'Cash on Delivery', mark as paid without further checks
             await trigger('paymentMethod') // Validate selection
         }
@@ -79,11 +74,11 @@ const PaymentMethod = ({ onSubmit, setPaymentMethod }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div
                         className={`flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
-                            selectedMethod === 'cash_on_delivery'
+                            selectedMethod === 'COD'
                                 ? 'border-primary-500 bg-primary-50'
                                 : 'border-gray-200'
                         } hover:shadow-md`}
-                        onClick={() => handleSelectMethod('cash_on_delivery')}
+                        onClick={() => handleSelectMethod('COD')}
                     >
                         <input
                             type="radio"
@@ -94,11 +89,9 @@ const PaymentMethod = ({ onSubmit, setPaymentMethod }) => {
                                     isPaid ||
                                     'Payment must be completed to proceed',
                             })}
-                            value="cash_on_delivery"
-                            checked={selectedMethod === 'cash_on_delivery'}
-                            onChange={() =>
-                                handleSelectMethod('cash_on_delivery')
-                            }
+                            value="COD"
+                            checked={selectedMethod === 'COD'}
+                            onChange={() => handleSelectMethod('COD')}
                             className="mr-3 cursor-pointer"
                         />
                         <img

@@ -8,7 +8,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import keys from '../../../config/keys'
 import { FcApproval } from 'react-icons/fc'
 
-const VanderCard = ({ vendorId }) => {
+const VendorCard = ({ vendorId }) => {
     const { data: vendor, isLoading } = useGetVendorDetailsQuery(vendorId, {
         skip: !vendorId,
     })
@@ -49,11 +49,11 @@ const VanderCard = ({ vendorId }) => {
                 <div className="flex text-gray-600 mx-auto justify-center items-center">
                     <div className="flex flex-col gap-2 justify-center items-center pr-4 border-r border-gray-300">
                         <FaStar className="text-yellow-800 text-lg" />{' '}
-                        {vendor?.doc?.reviews.length || 0} Reviews
+                        {vendor?.doc?.totalReviews || 0} Reviews
                     </div>
                     <div className="flex flex-col gap-2 justify-center items-center pl-4">
                         <FaBoxOpen className="text-green-800 text-lg" />{' '}
-                        {vendor?.doc?.totalProducts || 0} Products
+                        {vendor?.doc?.approvedProducts || 0} Products
                     </div>
                 </div>
             </div>
@@ -69,8 +69,8 @@ const VanderCard = ({ vendorId }) => {
     ) : null
 }
 
-VanderCard.propTypes = {
+VendorCard.propTypes = {
     vendor: PropTypes.object,
 }
 
-export default VanderCard
+export default VendorCard

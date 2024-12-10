@@ -120,7 +120,7 @@ const JazzCashCard = ({ totalPrice }) => {
                 className="flex items-center gap-2 bg-primary-50 py-3 px-6"
             >
                 <img src={jazzCashLogo} alt="Jazz Cash" className="h-4" />
-                {isLoading ? 'Loading...' : 'Credit Card'}
+                {isLoading ? 'Loading...' : 'Debit or Credit Card'}
             </button>
         </>
     )
