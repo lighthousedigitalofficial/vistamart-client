@@ -27,7 +27,11 @@ export const updateCart = (state) => {
 
     // Calculate the tax price
     state.taxPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.taxAmount, 0)
+        state.cartItems.reduce(
+            (acc, item) =>
+                acc + (item.taxIncluded ? item.taxAmount * item.qty : 0),
+            0
+        )
     )
 
     // Calculate the total price

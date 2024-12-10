@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
-import Loader from '../Loader'
-import VanderCard from '../Product/subcomponent/VanderCard'
-import MoreStoreProducts from '../Product/subcomponent/MoreStoreProducts'
+// import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
+// import Loader from '../Loader'
+import VendorCard from './../Product/subcomponent/VendorCard'
+// import MoreStoreProducts from '../Product/subcomponent/MoreStoreProducts'
 import FeatureCard from '../Product/subcomponent/FeatureCard'
 import {
     FaCertificate,
@@ -19,36 +19,25 @@ const features = [
 ]
 
 const VendorRightBar = ({ vendorId }) => {
-    const { data: vendorProducts, isLoading: isLoading } = useGetProductsQuery(
-        {
-            userId: vendorId,
-            limit: 4,
-        },
-        { skip: !vendorId }
-    )
+    // const { data: vendorProducts, isFetching } = useGetProductsQuery(
+    //     {
+    //         userId: vendorId,
+    //         limit: 4,
+    //     },
+    //     { skip: !vendorId }
+    // )
 
-    console.log(vendorProducts)
-
-    return isLoading ? (
-        <Loader />
-    ) : 
+    return (
         <div className="flex flex-col gap-4">
+            <VendorCard vendorId={vendorId} />
             <FeatureCard features={features} />
-            {vendorProducts && vendorProducts.length ? (
+            {/* {vendorProducts && vendorProducts.results > 1 ? (
                 <div className="flex flex-col gap-6">
-                    
-                    <VanderCard
-                        vendorId={vendorId}
-                        totalProducts={vendorProducts?.doc?.results}
-                    />
-                    <MoreStoreProducts
-                        vendorId={vendorId}
-                        products={vendorProducts}
-                    />
+                    <MoreStoreProducts products={vendorProducts?.doc} />
                 </div>
-            ) : null}
+            ) : null} */}
         </div>
-    
+    )
 }
 
 export default VendorRightBar

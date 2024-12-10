@@ -13,7 +13,7 @@ const reviewSchema = z.object({
         .number()
         .min(1, 'Please give a rating')
         .max(5, 'Rating must be between 1 and 5'),
-    comment: z.string().min(4, 'Review must be at least 4 characters long'),
+    comment: z.string(),
 })
 
 const AddReview = ({ productId, refetch }) => {
@@ -93,7 +93,7 @@ const AddReview = ({ productId, refetch }) => {
                 <div className="flex justify-end">
                     <button
                         type="submit"
-                        className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="btn primary-btn"
                         disabled={isLoading} // Disable the button while loading
                     >
                         {isLoading ? 'Submitting...' : 'Submit Review'}

@@ -1,4 +1,9 @@
-import { FLASHDEALS_URL, PRODUCT_REVIEW_URL, PRODUCTS_URL } from '../constants'
+import {
+    FLASHDEALS_URL,
+    PRODUCT_REVIEW_URL,
+    PRODUCTS_URL,
+    SEARCH_URL,
+} from '../constants'
 import { apiSlice } from './apiSlice'
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -6,20 +11,28 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         getProducts: builder.query({
             query: (query) => {
                 return {
-                    url: PRODUCTS_URL,
+                    url: `${PRODUCTS_URL}?status=approved`,
+                    params: query,
+                }
+            },
+        }),
+        getDiscountedProducts: builder.query({
+            query: (query) => {
+                return {
+                    url: `${PRODUCTS_URL}?status=approved&discountAmount[gt]=0`,
                     params: query,
                 }
             },
         }),
         getProductDetails: builder.query({
             query: (id) => ({
-                url: `${PRODUCTS_URL}/${id}`,
+                url: `${PRODUCTS_URL}/${id}?status=approved`,
             }),
             keepUnusedDataFor: 5,
         }),
         getProductBySlug: builder.query({
             query: (slug) => ({
-                url: `${PRODUCTS_URL}/slug/${slug}`,
+                url: `${PRODUCTS_URL}/slug/${slug}?status=approved`,
             }),
             keepUnusedDataFor: 5,
         }),
@@ -61,24 +74,34 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             invalidatesTags: ['Product'],
         }),
         getTopRatedProducts: builder.query({
-            query: () => {
+            query: (query) => {
                 return {
-                    url: PRODUCTS_URL,
-                    params: `sort=-rating&limit=20`,
+                    url: `${PRODUCTS_URL}?sort=-numOfReviews&rating[gte]=4&status=approved`,
+                    params: query,
+                }
+            },
+            keepUnusedDataFor: 5,
+        }),
+        getBestSellingProducts: builder.query({
+            query: (query) => {
+                return {
+                    url: `${PRODUCTS_URL}?sort=-sold&status=approved`,
+                    params: query,
                 }
             },
             keepUnusedDataFor: 5,
         }),
         getLatestProducts: builder.query({
-            query: () => `${PRODUCTS_URL}?sort=-createdAt`,
+            query: () =>
+                `${PRODUCTS_URL}?sort=-createdAt&status=approved&limit=8`,
             keepUnusedDataFor: 5,
         }),
         getFeaturedProducts: builder.query({
-            query: () => `${PRODUCTS_URL}?isFeatured=true`,
+            query: () => `${PRODUCTS_URL}?isFeatured=true&status=approved`,
             keepUnusedDataFor: 5,
         }),
         getFeaturedDeals: builder.query({
-            query: () => `/feature-deals`,
+            query: () => `/admin/featured-deals?status=active`,
             keepUnusedDataFor: 5,
         }),
         getProductSuggestions: builder.query({
@@ -89,14 +112,20 @@ export const productsApiSlice = apiSlice.injectEndpoints({
             query: () => `${FLASHDEALS_URL}`,
             keepUnusedDataFor: 5,
         }),
-        searchProducts: builder.query({
-            query: ({ query, page = 1, limit = 10 }) =>
-                `/api/search?query=${query}&page=${page}&limit=${limit}`,
+        getDealOfTheDay: builder.query({
+            query: () => `/admin/deal-of-day/latest`,
+            keepUnusedDataFor: 5,
         }),
-        getAllProducts: builder.query({
-            query: () => ({
-                url: PRODUCTS_URL,
+        // searchProducts: builder.query({
+        //     query: ({ query, page = 1, limit = 10 }) =>
+        //         `/api/search?query=${query}&page=${page}&limit=${limit}`,
+        // }),
+        searchProducts: builder.query({
+            query: (queryParams) => ({
+                url: `${SEARCH_URL}/products`,
+                params: queryParams,
             }),
+            keepUnusedDataFor: 5,
         }),
     }),
 })
@@ -115,7 +144,9 @@ export const {
     useGetLatestProductsQuery,
     useGetProductSuggestionsQuery,
     useGetFlashDealsQuery,
-    useSearchProductsQuery,
-    useGetAllProductsQuery,
     useGetProductBySlugQuery,
+    useGetDiscountedProductsQuery,
+    useGetBestSellingProductsQuery,
+    useGetDealOfTheDayQuery,
+    useSearchProductsQuery,
 } = productsApiSlice

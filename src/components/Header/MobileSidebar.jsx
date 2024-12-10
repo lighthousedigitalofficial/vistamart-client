@@ -114,13 +114,13 @@ const MobileSidebar = () => {
                             <AccordionBody className="py-1">
                                 <List className="p-0">
                                     <Link
-                                        to="/vendor/auth/registration"
+                                        to="/auth/vendor/registration"
                                         onClick={handleLinkClick}
                                     >
                                         <ListItem>Become a Vendor</ListItem>
                                     </Link>
                                     <Link
-                                        to="/vendor/auth/login"
+                                        to="http://seller.vistamart.biz"
                                         onClick={handleLinkClick}
                                     >
                                         <ListItem>Vendor Login</ListItem>
@@ -137,4 +137,3 @@ const MobileSidebar = () => {
 }
 
 export default MobileSidebar
-		
