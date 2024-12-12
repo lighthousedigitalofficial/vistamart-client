@@ -521,9 +521,9 @@ const OrderView = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {/* <td className="border border-gray-300 p-2">
-                        {orderDetails.vendor.firstName}
-                    </td> */}
+                    <td className="border border-gray-300 p-2">
+                        {orderDetails.doc.vendor.firstName}
+                    </td>
                 </tbody>
             </table>
             </div>
