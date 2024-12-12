@@ -63,34 +63,29 @@ const OrderSummaryPage = () => {
 
             const orders = Object.keys(groupedOrders).map((vendorId) => {
                 const vendorOrder = groupedOrders[vendorId]
-                const totalAmount = vendorOrder.products.reduce(
-                    (total, product) =>
-                        total +
-                        product.price * product.quantity - // Base price
-                        (product.discountAmount || 0) +
-                        (product.taxAmount || 0) +
-                        product.shippingCost,
-                    0
-                )
 
-                const totalDiscount = vendorOrder.products.reduce(
-                    (total, product) => total + product.discountAmount,
-                    0
-                )
+                // Calculate all totals in one pass
+                const totals = vendorOrder.products.reduce(
+                    (acc, product) => {
+                        acc.totalAmount +=
+                            product.price * product.quantity -
+                            (product.discountAmount || 0) +
+                            (product.taxAmount || 0) +
+                            product.shippingCost
+                        acc.totalDiscount += product.discountAmount || 0
+                        acc.totalShippingCost += product.shippingCost || 0
+                        acc.totalQty += product.quantity
+                        acc.totalTaxAmount += product.taxAmount || 0 // Ensure taxAmount is handled even if missing
 
-                const totalShippingCost = vendorOrder.products.reduce(
-                    (total, product) => total + product.shippingCost,
-                    0
-                )
-
-                const totalQty = vendorOrder.products.reduce(
-                    (total, product) => total + product.quantity,
-                    0
-                )
-
-                const totalTaxAmount = vendorOrder.products.reduce(
-                    (total, product) => total + product.taxAmount,
-                    0
+                        return acc
+                    },
+                    {
+                        totalAmount: 0,
+                        totalDiscount: 0,
+                        totalShippingCost: 0,
+                        totalQty: 0,
+                        totalTaxAmount: 0,
+                    }
                 )
 
                 return {
@@ -100,16 +95,14 @@ const OrderSummaryPage = () => {
                     shippingAddress: cart?.shippingAddress,
                     billingAddress: cart?.billingAddress,
                     paymentMethod: cart?.paymentMethod,
-                    totalAmount,
-                    totalDiscount,
-                    totalShippingCost,
-                    totalTaxAmount,
-                    totalQty,
+                    totalAmount: totals.totalAmount,
+                    totalDiscount: totals.totalDiscount,
+                    totalShippingCost: totals.totalShippingCost,
+                    totalTaxAmount: totals.totalTaxAmount,
+                    totalQty: totals.totalQty,
                     paymentStatus: cart?.paymentStatus,
                 }
             })
-
-            console.log(orders)
 
             if (orders.length !== 0) {
                 // Submit each order separately
@@ -147,13 +140,14 @@ const OrderSummaryPage = () => {
                     <div className="w-1/2">
                         {/* Savings Info */}
                         {cart?.totalDiscount > 0 && (
-                            <div className="bg-yellow-100 text-yellow-900 p-4 rounded-lg mb-4">
+                            <div className="bg-green-50 text-green-500 p-4 rounded-lg mb-4">
                                 <h2 className="text-lg font-semibold flex items-center justify-center gap-2">
                                     <MdOutlineCelebration className="w-6 h-6" />
-                                    <span>
-                                        You saved Rs.{' '}
+                                    You saved
+                                    <p>
+                                        <span className="text-xs">Rs.</span>
                                         {formatPrice(cart?.totalDiscount)}!
-                                    </span>
+                                    </p>
                                 </h2>
                             </div>
                         )}
@@ -164,19 +158,21 @@ const OrderSummaryPage = () => {
                                 <div className="order__price-box">
                                     <span>Sub Total</span>
                                     <span>
-                                        Rs.{formatPrice(cart?.subTotal || 0)}
+                                        <span className="text-xs">Rs.</span>
+                                        {formatPrice(cart?.subTotal || 0)}
                                     </span>
                                 </div>
                                 <div className="order__price-box">
                                     <span>Tax</span>
                                     <span>
-                                        Rs.{formatPrice(cart?.taxPrice || 0)}
+                                        <span className="text-xs">Rs.</span>
+                                        {formatPrice(cart?.taxPrice || 0)}
                                     </span>
                                 </div>
                                 <div className="order__price-box">
                                     <span>Shipping</span>
                                     <span>
-                                        Rs.
+                                        <span className="text-xs">Rs.</span>
                                         {formatPrice(
                                             cart?.totalShippingPrice || 0
                                         )}
@@ -185,7 +181,7 @@ const OrderSummaryPage = () => {
                                 <div className="order__price-box">
                                     <span>Discount</span>
                                     <span>
-                                        -Rs.
+                                        - <span className="text-xs">Rs.</span>
                                         {formatPrice(cart?.totalDiscount || 0)}
                                     </span>
                                 </div>
@@ -214,7 +210,8 @@ const OrderSummaryPage = () => {
                                         Total
                                     </span>
                                     <span className="text-xl font-bold">
-                                        Rs.{formatPrice(cart?.totalPrice || 0)}
+                                        <span className="text-xs">Rs.</span>
+                                        {formatPrice(cart?.totalPrice || 0)}
                                     </span>
                                 </div>
                             </div>

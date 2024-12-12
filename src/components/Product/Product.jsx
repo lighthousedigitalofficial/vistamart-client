@@ -25,6 +25,11 @@ const Product = ({ product }) => {
     }, [product, qty])
 
     const oldPrice = product?.price + product?.discountAmount || 0
+    const discountAmount = product?.discountAmount || 0
+
+    // Avoid division by zero by ensuring oldPrice is greater than 0
+    const percentageDiscount =
+        oldPrice > 0 ? Math.round((discountAmount / oldPrice) * 100) : 0
 
     const { cartItems } = useSelector((state) => state.cart)
 
@@ -92,12 +97,20 @@ const Product = ({ product }) => {
                     </div>
                     <div className="flex items-center gap-2">
                         <p className="text-xl font-bold text-primary-400">
-                            Rs.{formatPrice(product.price)}
+                            <span className="text-xs">Rs.</span>
+                            {formatPrice(product.price)}
                         </p>
                         {oldPrice > product.price && (
-                            <p className="text-sm font-semibold line-through text-gray-500">
-                                Rs.{formatPrice(oldPrice)}
+                            <p className="text-sm line-through text-gray-500">
+                                {formatPrice(oldPrice)}
                             </p>
+                        )}
+                        {percentageDiscount > 0 && (
+                            <div className=" text-primary-500 border border-primary-500 py-1 px-2">
+                                <p className="font-semibold text-xs">
+                                    - {percentageDiscount}% of Discount
+                                </p>
+                            </div>
                         )}
                     </div>
                     <div className="flex items-center">
@@ -132,7 +145,8 @@ const Product = ({ product }) => {
                             Total Price:
                         </h3>
                         <p className="text-xl font-bold text-primary-400 transition-all duration-100 ease-in">
-                            Rs.{formatPrice(totalPrice)}
+                            <span className="text-xs">Rs.</span>
+                            {formatPrice(totalPrice)}
                         </p>
                         <span className="mx-2 px-1 text-xs">
                             {product.taxIncluded

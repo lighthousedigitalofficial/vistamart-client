@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { FaRegCopy } from 'react-icons/fa'
 import toast from 'react-hot-toast'
+import { Link } from 'react-router-dom'
 
 const MyOrders = () => {
     const { user } = useSelector((state) => state.auth.userInfo)
@@ -100,6 +101,9 @@ const MyOrders = () => {
                                 <TableCell align="right">
                                     <strong>Total (Rs.)</strong>
                                 </TableCell>
+                                <TableCell align="right">
+                                    <strong>View</strong>
+                                </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -168,6 +172,13 @@ const MyOrders = () => {
                                         {order.totalAmount
                                             ? order.totalAmount.toFixed(2)
                                             : '0.00'}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Link
+                                            to={`/profile/orders/details/${order.orderId}`}
+                                        >
+                                            View
+                                        </Link>
                                     </TableCell>
                                 </TableRow>
                             ))}

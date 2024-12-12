@@ -1,10 +1,10 @@
 import ProfilePage from '../_root/pages/ProfilePage'
-import OrderView from '../components/Product/OrderView'
+import OrderView from '../components/Profile/Order/OrderView'
 import Coupons from '../components/Profile/Coupons'
 import Inbox from '../components/Profile/Inbox'
 import MyAddress from '../components/Profile/MyAddress'
 import MyloyaltyPoint from '../components/Profile/MyLoyaltyPoint'
-import MyOrders from '../components/Profile/MyOrder'
+import MyOrders from '../components/Profile/MyOrders'
 import MyWallet from '../components/Profile/MyWallet'
 import OrderDetail from '../components/Profile/Order/OrderDetail'
 import TrackOrder from '../components/Profile/Order/TrackOrder'
@@ -31,7 +31,7 @@ const profileRoutes = [
                 element: <OrderDetail />,
             },
             {
-                path: 'order-view/:id',
+                path: 'orders/details/:orderId',
                 element: <OrderView />,
             },
             {

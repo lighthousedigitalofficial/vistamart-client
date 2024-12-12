@@ -114,6 +114,8 @@ const NavbarSticky = () => {
                                 </IconButton>
                             </Link>
                         </Badge>
+                        <CartIcon />
+
                         <div
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
@@ -154,7 +156,6 @@ const NavbarSticky = () => {
                                 </Menu>
                             )}
                         </div>
-                        <CartIcon />
                     </div>
                 </div>
                 {isSearchOpen && (

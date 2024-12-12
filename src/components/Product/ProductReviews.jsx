@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { FaShieldAlt } from 'react-icons/fa'
 import { timeAgo } from '../../utils'
 import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
@@ -19,6 +20,15 @@ const ProductReviews = ({ product }) => {
 
     return (
         <div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
+            <div className="bg-green-50 p-2 mb-4">
+                <div className="flex items-center text-green-500">
+                    <FaShieldAlt className="mr-2" />{' '}
+                    <p>
+                        All reviews are from customers who have purchased this
+                        item from Vista Mart.
+                    </p>
+                </div>
+            </div>
             <div className="text-center mb-4">
                 <h1 className="text-3xl font-bold">
                     {product.rating || 0} / 5

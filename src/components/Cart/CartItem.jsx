@@ -62,7 +62,8 @@ const CartItem = ({ item }) => {
                         variant="paragraph"
                         className="text-sm text-gray-600"
                     >
-                        Price: Rs.{formatPrice(item.price)}
+                        <span className="text-xs">Price: Rs.</span>
+                        {formatPrice(item.price)}
                     </Typography>
                 </div>
             </div>
@@ -80,7 +81,7 @@ const CartItem = ({ item }) => {
                     variant="paragraph"
                     className="font-bold align-middle text-base"
                 >
-                    Total: Rs.
+                    <span className="text-xs">Total: Rs.</span>
                     {formatPrice(item.qty * item.price)}
                 </Typography>
             </div>

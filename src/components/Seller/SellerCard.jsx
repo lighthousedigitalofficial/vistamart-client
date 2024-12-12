@@ -26,7 +26,7 @@ const SellerCard = ({ data: seller }) => {
 
                     <div className="p-4 flex-col items-center">
                         <div className="flex flex-row gap-2">
-                            <LazyLoadImage
+                            <img
                                 src={
                                     seller.logo
                                         ? seller.logo.startsWith('vendors')
@@ -34,9 +34,8 @@ const SellerCard = ({ data: seller }) => {
                                             : seller.logo
                                         : keys.DEFAULT_IMG
                                 }
-                                effect="blur" // You can use "blur" or "opacity" as lazy load effect
                                 alt={seller.shopName}
-                                className="w-16 h-16 bg-white rounded-full object-cover -mt-8 border-2 border-primary-300 shadow-md transform transition duration-300 ease-in-out hover:scale-105"
+                                className="w-16 h-16 object-cover bg-white rounded-full -mt-8 border-2 border-primary-300 shadow-md transform transition duration-300 ease-in-out hover:scale-105"
                             />
 
                             <div className="flex flex-col -mt-2 ">

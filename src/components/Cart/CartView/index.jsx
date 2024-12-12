@@ -29,13 +29,13 @@ const CartView = () => {
                 <div>
                     {cart && cart?.totalQty > 0 ? (
                         <>
-                            <h2 className="text-base text-primary-400 flex justify-center items-center gap-2 text-center font-semibold mb-2">
+                            <p className="text-sm text-primary-400 flex justify-center items-center gap-2 text-center font-semibold mb-2">
                                 <MdOutlineCelebration className="w-6 h-6" />
                                 <span>
                                     You have Saved Rs.
                                     {formatPrice(cart?.totalDiscount)}!
                                 </span>
-                            </h2>
+                            </p>
                             <div
                                 className={`flex flex-col justify-between  ${
                                     cart?.totalQty > 3
@@ -64,7 +64,8 @@ const CartView = () => {
                                         Subtotal:
                                     </span>
                                     <span className="font-semibold text-lg text-primary-400">
-                                        Rs.{formatPrice(cart?.totalPrice)}
+                                        <span className="text-xs">Rs.</span>
+                                        {formatPrice(cart?.totalPrice)}
                                     </span>
                                 </div>
                                 <Link

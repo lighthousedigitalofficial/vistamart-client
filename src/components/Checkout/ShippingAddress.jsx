@@ -76,7 +76,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                         <div className="mb-4">
                             <label className="input-label">Phone Number</label>
                             <PhoneInput
-                                defaultCountry="pk"
+                                defaultCountry={'pk'}
                                 {...register('phoneNumber')}
                                 className={`custom-phone-input ${
                                     errors.phoneNumber ? 'border-red-500' : ''

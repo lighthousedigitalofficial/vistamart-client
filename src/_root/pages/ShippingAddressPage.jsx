@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import useAuth from '../../hooks/useAuth'
 import { z } from 'zod'
+import { phoneValidation } from '../../utils'
 
 const shippingAddressSchema = z.object({
     name: z
@@ -18,7 +19,7 @@ const shippingAddressSchema = z.object({
             /^[a-zA-Z\s]+$/,
             'Name must not contain numbers or special characters'
         ),
-    phoneNumber: z.string().min(10, 'Phone number is required'),
+    phoneNumber: phoneValidation,
     country: z
         .string()
         .min(1, 'Country is required')

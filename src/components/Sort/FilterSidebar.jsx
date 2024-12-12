@@ -40,9 +40,6 @@ const FilterSidebar = () => {
     const priceRangeHandler = (e) => {
         e.preventDefault()
 
-        console.log('first')
-        console.log({ minPrice, maxPrice })
-
         if (Number(minPrice) > Number(maxPrice)) {
             return toast.error('The min price is greater than max price.')
         }
@@ -64,10 +61,28 @@ const FilterSidebar = () => {
         setFilterBrands(filteredItems)
     }
 
+    const resetFilters = () => {
+        // Clear search params
+        setSearchParams({})
+        // Reset states
+        setMinPrice(0)
+        setMaxPrice(null)
+        setSearchItem('')
+        setFilterBrands(brands?.doc || [])
+    }
+
     return (
         <div className="mb-2 mt-2 bg-white p-6 rounded-lg shadow-lg w-full max-w-xs hidden lg:block">
             <h2 className="text-xl font-semibold mb-4">Filter</h2>
-
+            {/* Reset Button */}
+            <div className="mt-4">
+                <button
+                    onClick={resetFilters}
+                    className="bg-gray-200 text-gray-800 rounded-lg px-4 py-2 w-full"
+                >
+                    Reset
+                </button>
+            </div>
             <div className="border-b-2 py-4">
                 <h3 className="text-lg font-medium">Price</h3>
                 <form onSubmit={priceRangeHandler}>

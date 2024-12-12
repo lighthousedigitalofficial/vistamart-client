@@ -36,7 +36,11 @@ const CartIcon = () => {
             onMouseLeave={handleMouseLeave}
             className="outline-none border-none"
         >
-            <Menu open={openMenu} handler={setOpenMenu}>
+            <Menu
+                open={openMenu}
+                handler={setOpenMenu}
+                className="outline-none"
+            >
                 <MenuHandler>
                     <Link
                         to="/cart"
@@ -51,13 +55,13 @@ const CartIcon = () => {
                                 <FaShoppingCart className="h-5 w-5 text-primary-500" />
                             </IconButton>
                         </Badge>
-                        <button className="hidden md:block text-center w-24 border-none lg:flex flex-col text-sm items-center justify-center">
+                        {/* <button className="hidden md:block text-center w-24 border-none lg:flex flex-col text-sm items-center justify-center">
                             <span className="text-gray-600">My cart</span>
                             <div className="text-gray-900 flex-center gap-2 font-bold">
                                 <span>Rs. {totalPrice.toLocaleString()}</span>
                                 <MdArrowDropDown />
                             </div>
-                        </button>
+                        </button> */}
                     </Link>
                 </MenuHandler>
                 <MenuList className="overflow-visible md:grid shadow-md">

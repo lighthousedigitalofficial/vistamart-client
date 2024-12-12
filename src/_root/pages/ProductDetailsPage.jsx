@@ -12,18 +12,15 @@ import ProductCarousel from '../../components/shared/ProductCarousel'
 import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
-import AddReview from '../../components/Product/AddReview'
+// import AddReview from '../../components/Product/AddReview'
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
 
-    const {
-        data: product,
-        isFetching: isProductFetching,
-        refetch,
-    } = useGetProductBySlugQuery(slug, {
-        skip: !slug,
-    })
+    const { data: product, isFetching: isProductFetching } =
+        useGetProductBySlugQuery(slug, {
+            skip: !slug,
+        })
 
     const { data: products, isFetching: isProductsLoading } =
         useGetProductsQuery(
@@ -45,10 +42,10 @@ const ProductDetailsPage = () => {
                         <div className="flex flex-col w-full lg:w-3/4">
                             <Overview product={product?.doc} />
                             <ProductReviews product={product?.doc} />
-                            <AddReview
+                            {/* <AddReview
                                 productId={product?.doc._id}
                                 refetch={refetch}
-                            />
+                            /> */}
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
                             <VendorRightBar

@@ -1,21 +1,17 @@
-import { useEffect } from 'react'
-import { useGetOrderDetailsQuery } from '../../redux/slices/ordersApiSlice'
+import { useGetOrderDetailsQuery } from '../../../redux/slices/ordersApiSlice'
 import { useParams } from 'react-router-dom'
-import Loader from '../Loader'
+import Loader from '../../Loader'
 
 const OrderView = () => {
     // Get the order ID from the URL parameters
-    const { id } = useParams()
+    const { orderId } = useParams()
 
     // Use the query to fetch order details with the order ID
-    const { data: orderDetails, error, isLoading } = useGetOrderDetailsQuery(id)
-
-    // Log the loading state
-    useEffect(() => {
-        if (isLoading) {
-            // console.log('Loading order details...')
-        }
-    }, [isLoading])
+    const {
+        data: orderDetails,
+        error,
+        isLoading,
+    } = useGetOrderDetailsQuery(orderId)
 
     // Handle error state
     if (error) {
@@ -26,7 +22,7 @@ const OrderView = () => {
         )
     }
 
-    // console.log(orderDetails)
+    console.log(orderDetails)
 
     return isLoading ? (
         <Loader />
@@ -160,7 +156,7 @@ const OrderView = () => {
                             Order Status
                         </td>
                         <td className="border border-gray-300 p-2">
-                            {orderDetails.doc.orderStatus}
+                            {orderDetails.doc.status}
                         </td>
                     </tr>
                     <tr>
@@ -193,7 +189,7 @@ const OrderView = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orderDetails.doc.products.map((product) => (
+                    {orderDetails.doc.products?.map((product) => (
                         <tr key={product._id}>
                             <td className="border border-gray-300 p-2">
                                 {product.name}
@@ -216,13 +212,9 @@ const OrderView = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orderDetails.doc.vendors.map((vendor) => (
-                        <tr key={vendor._id}>
-                            <td className="border border-gray-300 p-2">
-                                {vendor.name}
-                            </td>
-                        </tr>
-                    ))}
+                    {/* <td className="border border-gray-300 p-2">
+                        {orderDetails.vendor.firstName}
+                    </td> */}
                 </tbody>
             </table>
         </div>

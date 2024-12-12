@@ -33,7 +33,8 @@ const CartViewItem = ({ item }) => {
             <div className="flex-grow">
                 <div className="font-semibold truncate w-24">{item.name}</div>
                 <div className="text-gray-700">
-                    Rs.{formatPrice(item?.price)}
+                    <span className="text-xs">Rs.</span>
+                    {formatPrice(item?.price)}
                 </div>
             </div>
             <div className="flex flex-col justify-between gap-4 py-2">
