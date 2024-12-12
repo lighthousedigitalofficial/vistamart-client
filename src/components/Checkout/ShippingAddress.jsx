@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useEffect } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { PhoneInput } from 'react-international-phone'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
+import CityInput from './Shipping/CityInput'
 
-// eslint-disable-next-line react/prop-types
 const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
     const methods = useForm({
         resolver: zodResolver(shippingAddressSchema),
@@ -73,22 +73,40 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 </p>
                             )}
                         </div>
+
                         <div className="mb-4">
                             <label className="input-label">Phone Number</label>
-                            <PhoneInput
-                                defaultCountry={'pk'}
+                            <Controller
+                                name="phoneNumber"
+                                control={methods.control}
+                                render={({ field }) => (
+                                    <PhoneInput
+                                        {...field}
+                                        country="pk"
+                                        className={`custom-phone-input ${
+                                            errors.phoneNumber
+                                                ? 'border-red-500'
+                                                : ''
+                                        }`}
+                                        inputClassName="custom-phone-input"
+                                    />
+                                )}
+                            />
+                            {/* <PhoneInput
+                                defaultCountry="pk"
                                 {...register('phoneNumber')}
                                 className={`custom-phone-input ${
                                     errors.phoneNumber ? 'border-red-500' : ''
                                 }`}
                                 inputClassName="custom-phone-input"
-                            />
+                            /> */}
                             {errors.phoneNumber && (
-                                <p className="text-red-500 text-xs italic">
+                                <p className="text-red-500 text-xs mt-1">
                                     {errors.phoneNumber.message}
                                 </p>
                             )}
                         </div>
+
                         <div>
                             <label className="input-label">Country</label>
                             <input
@@ -108,25 +126,9 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 </p>
                             )}
                         </div>
-                        <div>
-                            <label className="input-label">City</label>
-                            <input
-                                type="text"
-                                {...register('city', {
-                                    required: 'City is required',
-                                })}
-                                className={`input ${
-                                    errors.city
-                                        ? 'border-red-500'
-                                        : 'border-gray-300'
-                                }`}
-                            />
-                            {errors.city && (
-                                <p className="text-red-500 text-xs mt-1">
-                                    {errors.city.message}
-                                </p>
-                            )}
-                        </div>
+
+                        <CityInput register={register} errors={errors} />
+
                         <div>
                             <label className="input-label">State</label>
                             <input
@@ -146,6 +148,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 </p>
                             )}
                         </div>
+
                         <div>
                             <label className="input-label">Zip Code</label>
                             <input
@@ -165,6 +168,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 </p>
                             )}
                         </div>
+
                         <div className="lg:col-span-2 col-span-1">
                             <label className="input-label">Address</label>
                             <input
@@ -186,6 +190,8 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                         </div>
                     </div>
                 </div>
+
+                {/* Disable the submit button if the form is invalid */}
                 <button type="submit" className="btn primary-btn mt-4">
                     Submit
                 </button>
