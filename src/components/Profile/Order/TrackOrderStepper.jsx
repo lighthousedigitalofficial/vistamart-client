@@ -20,6 +20,28 @@ const TrackOrderStepper = ({ currentStatus }) => {
         (status) => status.key === currentStatus
     )
 
+    // Handle canceled or failed statuses
+    if (currentStatus === 'canceled') {
+        return (
+            <div className="flex flex-col items-center my-8 w-full">
+                <p className="text-lg font-semibold text-red-500">
+                    Unfortunately, this order has been canceled. If you have any
+                    questions, please contact support.
+                </p>
+            </div>
+        )
+    } else if (currentStatus === 'failed_to_deliver') {
+        return (
+            <div className="flex flex-col items-center my-8 w-full">
+                <p className="text-lg font-semibold text-red-500">
+                    We regret to inform you that the delivery attempt was
+                    unsuccessful. Please check your email or contact support for
+                    assistance.
+                </p>
+            </div>
+        )
+    }
+
     return (
         <div className="relative flex flex-col md:flex-row justify-between items-center my-8 w-full">
             {/* Connector Line */}

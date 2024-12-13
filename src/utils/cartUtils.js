@@ -11,14 +11,6 @@ export const addDecimals = (num) => {
 }
 
 export const updateCart = (state) => {
-    // Calculate the items price
-    state.subTotal = addDecimals(
-        state.cartItems.reduce(
-            (acc, item) => acc + (item.price || 0) * (item.qty || 0),
-            0
-        )
-    )
-
     // Handle the discount calculation with a fallback to 0
     state.totalDiscount = addDecimals(
         state.cartItems.reduce(
@@ -53,6 +45,16 @@ export const updateCart = (state) => {
         )
     )
 
+    // Calculate the items price
+    state.subTotal = addDecimals(
+        state.cartItems.reduce(
+            (acc, item) =>
+                acc +
+                (item.price || 0) *
+                    (item.qty || 0 + Number(state.totalDiscount)),
+            0
+        )
+    )
     // Calculate the total price (subTotal + shipping + tax - discount)
     state.totalPrice = addDecimals(
         Number(state.subTotal) +

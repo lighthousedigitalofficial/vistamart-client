@@ -28,14 +28,7 @@ const shippingAddressSchema = z.object({
             /^[a-zA-Z\s]+$/,
             'Country must not contain numbers or special characters'
         ),
-    city: z
-        .string()
-        .min(1, 'City is required')
-        .max(50, 'City cannot exceed 50 characters')
-        .regex(
-            /^[a-zA-Z\s]+$/,
-            'City must not contain numbers or special characters'
-        ),
+    city: z.string().min(1, 'City is required'),
     state: z
         .string()
         .min(1, 'State is required')
@@ -71,8 +64,22 @@ const ShippingAddressPage = () => {
     }, [cart, navigate, user])
 
     const handleSubmit = (data) => {
-        dispatch(saveShippingAddress(data))
-        dispatch(saveBillingAddress(data))
+        const { city } = data
+        const { cityId, cityName } = JSON.parse(city)
+
+        const addressData = {
+            name: data.name,
+            phoneNumber: data.phoneNumber,
+            address: data.address,
+            city: cityName,
+            cityId: cityId,
+            state: data.state,
+            zipCode: data.zipCode,
+            country: data.country,
+        }
+
+        dispatch(saveShippingAddress(addressData))
+        dispatch(saveBillingAddress(addressData))
 
         navigate('/checkout/payment-methods')
     }
