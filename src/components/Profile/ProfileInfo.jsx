@@ -13,8 +13,7 @@ import Loader from '../Loader'
 import { getUploadUrl, uploadImageToS3 } from '../../utils/helpers'
 import useAuth from './../../hooks/useAuth'
 import { useDeleteUploadedImageMutation } from '../../redux/slices/uploadApiSlice'
-
-import PasswordUpdate from './subcomponenets/passwordUpdate'
+import PasswordUpdate from './subcomponenets/PasswordUpdate'
 
 const profileSchema = z.object({
     firstName: z
@@ -43,14 +42,12 @@ const profileSchema = z.object({
             /^\+?[1-9]\d{1,14}$/,
             'Invalid phone number. Must be in int1ernational format, e.g., +123456789'
         )
-        .optional(), // `.optional()` comes after `.regex()`
+        .optional(),
     image: z.any().optional(),
 })
 
 const ProfileInfo = () => {
     const user = useAuth()
-
-   
 
     const {
         data: userData,
@@ -60,8 +57,7 @@ const ProfileInfo = () => {
         skip: !user?._id,
     })
 
-    const [deleteUploadedImage, { isLoading, error }] =
-        useDeleteUploadedImageMutation()
+    const [deleteUploadedImage] = useDeleteUploadedImageMutation()
 
     const [selectedImage, setSelectedImage] = useState(null)
 
@@ -110,7 +106,6 @@ const ProfileInfo = () => {
     const onSubmit = async (data) => {
         try {
             let imageConfig
-            console.log(data.image)
             let updatedData = {
                 customerId: user?._id,
                 firstName: data.firstName,
@@ -119,20 +114,16 @@ const ProfileInfo = () => {
             }
             // Check if an image file is selected and the FileList length is greater than 0
             if (data.image && data.image.name) {
-                console.log('upload')
                 imageConfig = await getUploadUrl(data.image.type, 'customers')
 
                 await uploadImage(imageConfig, data.image)
 
                 if (userData?.doc?.image) {
-                    console.log(userData?.doc?.image)
                     await deleteUploadedImage(userData?.doc?.image)
                 }
 
                 updatedData = { ...updatedData, image: imageConfig?.key }
             }
-
-            console.log(updatedData)
 
             await updateCustomer(updatedData).unwrap()
             toast.success('Customer Update successfully')
@@ -145,122 +136,123 @@ const ProfileInfo = () => {
 
     return (
         <>
-        <div className="p-8 xl:w-full xl:mx-auto bg-white rounded-lg shadow-sm shadow-primary-100">
-            <h2 className="text-2xl font-bold mb-6">Profile Info</h2>
-            {customerLoading ? (
-                <Loader />
-            ) : user && userData.doc ? (
-                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                    <div className="relative h-full flex items-center justify-center mb-6">
-                        <div className="relative">
-                            {selectedImage ? (
-                                <img
-                                    src={selectedImage}
-                                    alt="Uploaded"
-                                    className="w-36 h-36 object-cover rounded-full border border-gray-300"
-                                />
-                            ) : (
-                                <FaUserCircle className="text-9xl text-primary-100" />
-                            )}
+            <div className="p-8 xl:w-full xl:mx-auto bg-white rounded-lg shadow-sm shadow-primary-100">
+                <h2 className="text-2xl font-bold mb-6">Profile Info</h2>
+                {customerLoading ? (
+                    <Loader />
+                ) : user && userData.doc ? (
+                    <form
+                        className="space-y-4"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
+                        <div className="relative h-full flex items-center justify-center mb-6">
+                            <div className="relative">
+                                {selectedImage ? (
+                                    <img
+                                        src={selectedImage}
+                                        alt="Uploaded"
+                                        className="w-36 h-36 object-cover rounded-full border border-gray-300"
+                                    />
+                                ) : (
+                                    <FaUserCircle className="text-9xl text-primary-100" />
+                                )}
 
-                            {/* Image Upload Section */}
-                            <div className="absolute bottom-0 right-0 w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center">
-                                <input
-                                    type="file"
-                                    id="imageUpload"
-                                    hidden
-                                    {...register('image')}
-                                    onChange={handleImageChange}
-                                    accept="image/*"
-                                />
-                                <label
-                                    htmlFor="imageUpload"
-                                    className="cursor-pointer"
-                                >
-                                    <FaCamera className="w-6 h-6 text-primary-400" />
-                                </label>
+                                {/* Image Upload Section */}
+                                <div className="absolute bottom-0 right-0 w-12 h-12 bg-white border border-gray-300 rounded-full flex items-center justify-center">
+                                    <input
+                                        type="file"
+                                        id="imageUpload"
+                                        hidden
+                                        {...register('image')}
+                                        onChange={handleImageChange}
+                                        accept="image/*"
+                                    />
+                                    <label
+                                        htmlFor="imageUpload"
+                                        className="cursor-pointer"
+                                    >
+                                        <FaCamera className="w-6 h-6 text-primary-400" />
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label className="input-label">
+                                    First Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className={`input ${
+                                        errors.firstName ? 'input-error' : ''
+                                    }`}
+                                    {...register('firstName')}
+                                />
+                                {errors.firstName && (
+                                    <p className="text-red-500">
+                                        {errors.firstName.message}
+                                    </p>
+                                )}
+                            </div>
+                            <div>
+                                <label className="input-label">Last Name</label>
+                                <input
+                                    type="text"
+                                    className={`input ${
+                                        errors.lastName ? 'input-error' : ''
+                                    }`}
+                                    {...register('lastName')}
+                                />
+                                {errors.lastName && (
+                                    <p className="text-red-500">
+                                        {errors.lastName.message}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
                         <div>
-                            <label className="input-label">First Name</label>
+                            <label className="input-label">Phone Number</label>
                             <input
                                 type="text"
                                 className={`input ${
-                                    errors.firstName ? 'input-error' : ''
+                                    errors.phoneNumber ? 'input-error' : ''
                                 }`}
-                                {...register('firstName')}
+                                {...register('phoneNumber')}
                             />
-                            {errors.firstName && (
+                            {errors.phoneNumber && (
                                 <p className="text-red-500">
-                                    {errors.firstName.message}
+                                    {errors.phoneNumber.message}
                                 </p>
                             )}
                         </div>
                         <div>
-                            <label className="input-label">Last Name</label>
+                            <label className="input-label">Email</label>
                             <input
-                                type="text"
+                                type="email"
                                 className={`input ${
-                                    errors.lastName ? 'input-error' : ''
+                                    errors.email ? 'input-error' : ''
                                 }`}
-                                {...register('lastName')}
+                                {...register('email')}
                             />
-                            {errors.lastName && (
+                            {errors.email && (
                                 <p className="text-red-500">
-                                    {errors.lastName.message}
+                                    {errors.email.message}
                                 </p>
                             )}
                         </div>
-                    </div>
-                    <div>
-                        <label className="input-label">Phone Number</label>
-                        <input
-                            type="text"
-                            className={`input ${
-                                errors.phoneNumber ? 'input-error' : ''
-                            }`}
-                            {...register('phoneNumber')}
-                        />
-                        {errors.phoneNumber && (
-                            <p className="text-red-500">
-                                {errors.phoneNumber.message}
-                            </p>
-                        )}
-                    </div>
-                    <div>
-                        <label className="input-label">Email</label>
-                        <input
-                            type="email"
-                            className={`input ${
-                                errors.email ? 'input-error' : ''
-                            }`}
-                            {...register('email')}
-                        />
-                        {errors.email && (
-                            <p className="text-red-500">
-                                {errors.email.message}
-                            </p>
-                        )}
-                    </div>
 
-                    <div className="flex justify-end">
-                        <button type="submit" className="btn primary-btn">
-                            {customerUpdating ? 'is Updating...' : 'Update'}
-                        </button>
-                    </div>
-                </form>
-            ) : (
-                <p>User details not found!</p>
-            )}
-
-        </div>
-        <form onSubmit={handleSubmit(onSubmit)} >
+                        <div className="flex justify-end">
+                            <button type="submit" className="btn primary-btn">
+                                {customerUpdating ? 'is Updating...' : 'Update'}
+                            </button>
+                        </div>
+                    </form>
+                ) : (
+                    <p>User details not found!</p>
+                )}
+            </div>
             <PasswordUpdate register={register} errors={errors} />
-            
-        </form>
         </>
     )
 }

@@ -45,6 +45,13 @@ export const customerApiSlice = apiSlice.injectEndpoints({
                 body: email,
             }),
         }),
+        customerUpdatePassword: builder.mutation({
+            query: (data) => ({
+                url: `${CUSTOMERS_URL}/update-password`,
+                method: 'PUT',
+                body: data,
+            }),
+        }),
         customerResetPassword: builder.mutation({
             query: ({ data, hash }) => ({
                 url: `${CUSTOMERS_URL}/reset-password/${hash}`,
@@ -114,4 +121,5 @@ export const {
     useCustomerSubscribeMutation,
     useCustomerForgotPasswordMutation,
     useCustomerResetPasswordMutation,
+    useCustomerUpdatePasswordMutation,
 } = customerApiSlice

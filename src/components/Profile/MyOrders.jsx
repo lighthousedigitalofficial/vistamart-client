@@ -77,12 +77,18 @@ const MyOrders = () => {
 
     return (
         <div style={{ padding: '16px' }}>
-            <h1 className="text-2xl font-semibold mb-5">My Orders</h1>
+            <Typography variant="h4" gutterBottom>
+                My Orders
+            </Typography>
 
             {isLoading ? (
                 <Loader />
             ) : orders && orders.doc && orders.doc.length > 0 ? (
-                <TableContainer component={Paper} elevation={3}>
+                <TableContainer
+                    component={Paper}
+                    elevation={3}
+                    sx={{ borderRadius: 2 }}
+                >
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -104,17 +110,15 @@ const MyOrders = () => {
                                 <TableCell align="right">
                                     <strong>Total (Rs.)</strong>
                                 </TableCell>
-                                <TableCell align="right">
-                                    <strong>View</strong>
+                                <TableCell align="center">
+                                    <strong>Actions</strong>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {orders.doc.map((order, index) => (
                                 <TableRow key={order._id} hover>
-                                    <TableCell align="right">
-                                        {1 + index}
-                                    </TableCell>
+                                    <TableCell>{index + 1}</TableCell>
                                     <TableCell>
                                         <div
                                             style={{
@@ -131,9 +135,7 @@ const MyOrders = () => {
                                                             order.orderId
                                                         )
                                                     }
-                                                    style={{
-                                                        marginLeft: '8px',
-                                                    }}
+                                                    sx={{ ml: 1 }}
                                                 >
                                                     <FaRegCopy />
                                                 </IconButton>
@@ -160,7 +162,6 @@ const MyOrders = () => {
                                             {order.paymentStatus}
                                         </span>
                                     </TableCell>
-
                                     <TableCell>
                                         <span
                                             style={{
@@ -182,9 +183,18 @@ const MyOrders = () => {
                                     <TableCell align="center">
                                         <Link
                                             to={`/profile/orders/details/${order.orderId}`}
-                                            className="text-center"
+                                            style={{
+                                                textDecoration: 'none',
+                                                color: '#3f51b5',
+                                            }}
                                         >
-                                            <FaRegEye className="text-primary-500 text-center w-full hover:text-primary-400 ease-in translate-all" />
+                                            <Tooltip title="View Order">
+                                                <FaRegEye
+                                                    style={{
+                                                        fontSize: '1.25rem',
+                                                    }}
+                                                />
+                                            </Tooltip>
                                         </Link>
                                     </TableCell>
                                 </TableRow>
@@ -197,7 +207,7 @@ const MyOrders = () => {
                     variant="body1"
                     color="textSecondary"
                     align="center"
-                    style={{ marginTop: '20px' }}
+                    sx={{ mt: 3 }}
                 >
                     No orders found!
                 </Typography>

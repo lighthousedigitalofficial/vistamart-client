@@ -65,27 +65,65 @@ const OrderSummaryPage = () => {
                 const vendorOrder = groupedOrders[vendorId]
 
                 // Calculate all totals in one pass
+                // const totals = vendorOrder.products.reduce(
+                //     (acc, product) => {
+                //         acc.totalAmount +=
+                //             product.price * product.quantity -
+                //             (product.discountAmount || 0) +
+                //             ((product.taxIncluded && product.taxAmount) || 0) +
+                //             product.shippingCost
+
+                //         acc.totalDiscount += product.discountAmount || 0
+                //         acc.totalShippingCost += product.shippingCost || 0
+                //         acc.totalQty += product.quantity
+                //         acc.totalTaxAmount +=
+                //             (product.taxIncluded && product.taxAmount) || 0 // Ensure taxAmount is handled even if missing
+
+                //         return acc
+                //     },
+                //     {
+                //         totalAmount: 0,
+                //         totalDiscount: 0,
+                //         totalShippingCost: 0,
+                //         totalQty: 0,
+                //         totalTaxAmount: 0,
+                //     }
+                // )
+
                 const totals = vendorOrder.products.reduce(
                     (acc, product) => {
-                        acc.totalAmount +=
-                            product.price * product.quantity -
-                            (product.discountAmount || 0) +
-                            ((product.taxIncluded && product.taxAmount) || 0) +
-                            product.shippingCost
-                        acc.totalDiscount += product.discountAmount || 0
-                        acc.totalShippingCost += product.shippingCost || 0
-                        acc.totalQty += product.quantity
-                        acc.totalTaxAmount +=
-                            (product.taxIncluded && product.taxAmount) || 0 // Ensure taxAmount is handled even if missing
+                        // Ensure all values are defined and use defaults if not
+                        const price = product.price || 0
+                        const quantity = product.quantity || 0
+                        const discount = product.discountAmount * quantity || 0
+                        const shippingCost =
+                            product.shippingCost * quantity || 0
+                        const taxAmount = product.taxIncluded
+                            ? product.taxAmount * quantity || 0
+                            : 0
 
-                        return acc
+                        // Calculate total amount for this product
+                        const productTotal =
+                            price * quantity -
+                            discount +
+                            taxAmount +
+                            shippingCost
+
+                        // Update accumulator with current product values
+                        acc.totalAmount += productTotal // Add this product's total to the overall amount
+                        acc.totalDiscount += discount // Multiply discount by quantity for total discount
+                        acc.totalShippingCost += shippingCost // Multiply shipping cost by quantity
+                        acc.totalQty += quantity // Add this product's quantity to the total quantity
+                        acc.totalTaxAmount += taxAmount // Add tax amount per quantity to total tax
+
+                        return acc // Return the updated accumulator
                     },
                     {
-                        totalAmount: 0,
-                        totalDiscount: 0,
-                        totalShippingCost: 0,
-                        totalQty: 0,
-                        totalTaxAmount: 0,
+                        totalAmount: 0, // Starting total amount
+                        totalDiscount: 0, // Starting total discount
+                        totalShippingCost: 0, // Starting total shipping cost
+                        totalQty: 0, // Starting total quantity
+                        totalTaxAmount: 0, // Starting total tax amount
                     }
                 )
 
