@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const StickyIcons = () => {
     const [showScroll, setShowScroll] = useState(false)
-    const contact = '+923328306977'
+    const contact = '+923268163279'
 
     const checkScrollTop = () => {
         if (!showScroll && window.scrollY > 300) {
