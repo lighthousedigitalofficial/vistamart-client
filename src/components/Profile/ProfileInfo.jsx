@@ -13,6 +13,7 @@ import Loader from '../Loader'
 import { getUploadUrl, uploadImageToS3 } from '../../utils/helpers'
 import useAuth from './../../hooks/useAuth'
 import { useDeleteUploadedImageMutation } from '../../redux/slices/uploadApiSlice'
+import PasswordUpdate from './subcomponenets/passwordUpdate'
 
 // Zod schema for form validation
 const profileSchema = z.object({
@@ -25,6 +26,8 @@ const profileSchema = z.object({
 
 const ProfileInfo = () => {
     const user = useAuth()
+
+   
 
     const {
         data: userData,
@@ -118,6 +121,7 @@ const ProfileInfo = () => {
     }
 
     return (
+        <>
         <div className="p-8 xl:w-full xl:mx-auto bg-white rounded-lg shadow-sm shadow-primary-100">
             <h2 className="text-2xl font-bold mb-6">Profile Info</h2>
             {customerLoading ? (
@@ -228,7 +232,13 @@ const ProfileInfo = () => {
             ) : (
                 <p>User details not found!</p>
             )}
+
         </div>
+        <form onSubmit={handleSubmit(onSubmit)} >
+            <PasswordUpdate register={register} errors={errors} />
+            
+        </form>
+        </>
     )
 }
 
