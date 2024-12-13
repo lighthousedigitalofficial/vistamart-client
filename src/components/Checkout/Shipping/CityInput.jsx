@@ -25,7 +25,7 @@ const useCities = () => {
             } else {
                 try {
                     const { data } = await axios.get(
-                        'http://app.sonic.pk/api/cities',
+                        'https://app.sonic.pk/api/cities',
                         {
                             headers: {
                                 Authorization: keys.TRAX_AUTH,
