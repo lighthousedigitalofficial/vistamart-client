@@ -13,13 +13,34 @@ import Loader from '../Loader'
 import { getUploadUrl, uploadImageToS3 } from '../../utils/helpers'
 import useAuth from './../../hooks/useAuth'
 import { useDeleteUploadedImageMutation } from '../../redux/slices/uploadApiSlice'
-
-// Zod schema for form validation
 const profileSchema = z.object({
-    firstName: z.string().min(1, 'First name is required'),
-    lastName: z.string().min(1, 'Last name is required'),
-    email: z.string().email('Invalid email address'),
-    phoneNumber: z.string().optional(),
+    firstName: z
+        .string()
+        .min(2, 'First name must be at least 2 characters')
+        .max(50, 'First name cannot exceed 50 characters')
+        .regex(
+            /^[a-zA-Z\s]+$/,
+            'First name can only contain alphabets and spaces'
+        ),
+    lastName: z
+        .string()
+        .min(2, 'Last name must be at least 2 characters')
+        .max(50, 'Last name cannot exceed 50 characters')
+        .regex(
+            /^[a-zA-Z\s]+$/,
+            'Last name can only contain alphabets and spaces'
+        ),
+    email: z
+        .string()
+        .email('Invalid email address')
+        .max(100, 'Email cannot exceed 100 characters'),
+    phoneNumber: z
+        .string()
+        .regex(
+            /^\+?[1-9]\d{1,14}$/,
+            'Invalid phone number. Must be in int1ernational format, e.g., +123456789'
+        )
+        .optional(), // `.optional()` comes after `.regex()`
     image: z.any().optional(),
 })
 

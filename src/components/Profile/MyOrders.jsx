@@ -14,7 +14,7 @@ import {
     Tooltip,
     IconButton,
 } from '@mui/material'
-import { FaRegCopy } from 'react-icons/fa'
+import { FaRegCopy, FaRegEye } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { Link } from 'react-router-dom'
 
@@ -87,6 +87,9 @@ const MyOrders = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>
+                                    <strong>No.</strong>
+                                </TableCell>
+                                <TableCell>
                                     <strong>Order ID</strong>
                                 </TableCell>
                                 <TableCell>
@@ -107,8 +110,11 @@ const MyOrders = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {orders.doc.map((order) => (
+                            {orders.doc.map((order, index) => (
                                 <TableRow key={order._id} hover>
+                                    <TableCell align="right">
+                                        {1 + index}
+                                    </TableCell>
                                     <TableCell>
                                         <div
                                             style={{
@@ -176,8 +182,9 @@ const MyOrders = () => {
                                     <TableCell align="center">
                                         <Link
                                             to={`/profile/orders/details/${order.orderId}`}
+                                            className="text-center"
                                         >
-                                            View
+                                            <FaRegEye className="text-primary-500 text-center w-full hover:text-primary-400 ease-in translate-all" />
                                         </Link>
                                     </TableCell>
                                 </TableRow>

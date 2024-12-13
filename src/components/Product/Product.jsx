@@ -17,19 +17,21 @@ const Product = ({ product }) => {
     const [images, setImages] = useState([])
 
     useEffect(() => {
-        if (!product?.taxIncluded) {
-            setTotalPrice((product?.price + product.taxAmount) * qty)
+        if (product?.discountAmount > 0) {
+            const total = product?.price - product?.discountAmount
+            setTotalPrice(total * qty)
         } else setTotalPrice(product.price * qty)
 
         setImages([...product.images, product?.thumbnail])
     }, [product, qty])
 
-    const oldPrice = product?.price + product?.discountAmount || 0
     const discountAmount = product?.discountAmount || 0
 
     // Avoid division by zero by ensuring oldPrice is greater than 0
     const percentageDiscount =
-        oldPrice > 0 ? Math.round((discountAmount / oldPrice) * 100) : 0
+        product.price > 0
+            ? Math.round((discountAmount / product.price) * 100)
+            : 0
 
     const { cartItems } = useSelector((state) => state.cart)
 
@@ -98,11 +100,15 @@ const Product = ({ product }) => {
                     <div className="flex items-center gap-2">
                         <p className="text-xl font-bold text-primary-400">
                             <span className="text-xs">Rs.</span>
-                            {formatPrice(product.price)}
+                            {product.discountAmount > 0
+                                ? formatPrice(
+                                      product?.price - product.discountAmount
+                                  )
+                                : formatPrice(product?.price)}
                         </p>
-                        {oldPrice > product.price && (
+                        {product.discountAmount > 0 && product.price && (
                             <p className="text-sm line-through text-gray-500">
-                                {formatPrice(oldPrice)}
+                                {formatPrice(product.price)}
                             </p>
                         )}
                         {percentageDiscount > 0 && (
