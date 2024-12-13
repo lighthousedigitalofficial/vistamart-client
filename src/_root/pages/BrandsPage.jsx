@@ -18,14 +18,16 @@ const BrandsPage = () => {
                 </p>
             </div>
             <div className="p-8">
-                {brands && brands?.doc ? (
+                {brands && brands?.doc?.length ? (
                     <div className="flex flex-wrap gap-4">
                         {brands?.doc?.map((item, index) => (
                             <BrandItem key={index} brand={item} />
                         ))}
                     </div>
                 ) : (
-                    <p>Brands not found!</p>
+                    <p className="text-center text-gray-700 text-lg p-4">
+                        Brands not found!
+                    </p>
                 )}
             </div>
         </div>

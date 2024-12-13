@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { FaShieldAlt } from 'react-icons/fa'
 import { timeAgo } from '../../utils'
 import keys from './../../config/keys'
 import Rating from '@mui/material/Rating'
@@ -19,8 +20,19 @@ const ProductReviews = ({ product }) => {
 
     return (
         <div className="w-full mx-auto p-4 bg-white rounded-md shadow-gray-50 shadow-md mb-8">
+            <div className="bg-green-50 p-2 mb-4">
+                <div className="flex items-center text-green-500">
+                    <FaShieldAlt className="mr-2" />{' '}
+                    <p>
+                        All reviews are from customers who have purchased this
+                        item from Vista Mart.
+                    </p>
+                </div>
+            </div>
             <div className="text-center mb-4">
-                <h1 className="text-3xl font-bold">{product.rating || 0}</h1>
+                <h1 className="text-3xl font-bold">
+                    {product.rating || 0} / 5
+                </h1>
                 <Rating
                     name="half-rating-read"
                     defaultValue={0}
@@ -29,7 +41,7 @@ const ProductReviews = ({ product }) => {
                     readOnly
                 />
                 <p className="text-gray-600">
-                    {product.numOfReviews || 0} Ratings
+                    {product.numOfReviews || 0} Reviews
                 </p>
             </div>
             <div className="mb-4 px-8">
@@ -68,41 +80,46 @@ const ProductReviews = ({ product }) => {
                 </h2>
                 {reviews && reviews.length ? (
                     reviews.map((review) => {
-                        // console.log(review)
                         return (
                             <div
                                 key={review._id}
-                                className="flex justify-between items-start mb-4 py-2 border-b"
+                                className="flex justify-between flex-col items-start mb-4 py-2 border-b"
                             >
-                                <div className="flex items-center gap-4">
-                                    <img
-                                        src={
-                                            review?.customer?.image
-                                                ? `${keys.BUCKET_URL}${review?.customer?.image}`
-                                                : 'https://shorturl.at/KREMs'
-                                        }
-                                        alt={`${review.customer.firstName} avatar`}
-                                        className="w-10 h-10 object-contain rounded-full"
-                                    />
-                                    <div>
-                                        <h3 className="font-bold">
-                                            {`${review.customer.firstName} ${review.customer.lastName}`}
-                                        </h3>
-                                        <Rating
-                                            name="half-rating-read"
-                                            defaultValue={0}
-                                            value={product?.rating}
-                                            precision={0.5}
-                                            readOnly
+                                <div className="flex items-center w-full justify-between gap-4">
+                                    <div className="flex gap-2">
+                                        <img
+                                            src={
+                                                review?.customer?.image
+                                                    ? `${keys.BUCKET_URL}${review?.customer?.image}`
+                                                    : 'https://shorturl.at/KREMs'
+                                            }
+                                            alt={`avatar`}
+                                            className="w-12 h-12 object-cover object-top rounded-full border-2 border-primary-300"
                                         />
+                                        <div>
+                                            <h3 className="font-bold">
+                                                {review?.customer
+                                                    ? review?.customer
+                                                          ?.firstName
+                                                    : 'Unkown'}
+                                            </h3>
+                                            <Rating
+                                                name="half-rating-read"
+                                                defaultValue={0}
+                                                value={product?.rating}
+                                                precision={0.5}
+                                                readOnly
+                                                size="small"
+                                            />
+                                        </div>
                                     </div>
+                                    <p className="text-gray-500 text-sm">
+                                        {timeAgo(review.updatedAt)}
+                                    </p>
                                 </div>
-                                <div className="w-1/2 text-left">
+                                <div className="w-1/2 text-left p-2 text-gray-800">
                                     <p>{review.review}</p>
                                 </div>
-                                <p className="text-gray-500 text-sm">
-                                    {timeAgo(review.updatedAt)}
-                                </p>
                             </div>
                         )
                     })

@@ -1,29 +1,40 @@
-import { FaArrowLeft, FaCheckCircle } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { FaArrowLeft, FaCheckCircle } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const OrderConfirmationPage = () => {
-	const { orderId } = useParams();
-	return (
-		<div className="max-w-6xl mx-auto p-8 text-center">
-			<div className="flex justify-center mb-4">
-				<FaCheckCircle className="text-green-500 text-5xl" />
-			</div>
-			<h2 className="text-2xl font-bold mb-2">Order Placed Successfully!</h2>
-			<p className="text-gray-700 mb-6">
-				Your payment has been successfully processed and your order -{" "}
-				<span className="font-semibold">{orderId}</span> has been placed.
-			</p>
-			<div className="flex flex-col justify-center items-center gap-4">
-				<Link to="/profile/my-orders" className="btn primary-btn">
-					Track Order
-				</Link>
-				<Link to="/" className="flex gap-2 text-primary-600 hover:underline">
-					<FaArrowLeft />
-					<span> Continue Shopping</span>
-				</Link>
-			</div>
-		</div>
-	);
-};
+    return (
+        <div className="max-w-6xl mx-auto p-8 text-center space-y-8">
+            {/* Icon Section */}
+            <div className="flex justify-center">
+                <FaCheckCircle className="text-green-500 text-6xl drop-shadow-md" />
+            </div>
 
-export default OrderConfirmationPage;
+            {/* Message Section */}
+            <div>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                    Order Placed Successfully!
+                </h2>
+                <p className="text-lg text-gray-600">
+                    Thank you for shopping with us! Your order has been
+                    successfully placed, and we’re processing it.
+                </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col items-center gap-4">
+                <Link to="/profile/my-orders" className="btn primary-btn">
+                    View My Orders
+                </Link>
+                <Link
+                    to="/"
+                    className="flex items-center text-primary-600 font-medium hover:underline"
+                >
+                    <FaArrowLeft className="mr-2" />
+                    Continue Shopping
+                </Link>
+            </div>
+        </div>
+    )
+}
+
+export default OrderConfirmationPage

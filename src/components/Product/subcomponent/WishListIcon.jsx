@@ -32,8 +32,7 @@ const WishListIcon = ({ productId, onClose }) => {
         }
 
         try {
-            const customerId = userInfo?.user?._id
-            await addWishList({ customerId, productId })
+            await addWishList({ productId })
             refetch()
         } catch (err) {
             toast.error(error?.data?.message)

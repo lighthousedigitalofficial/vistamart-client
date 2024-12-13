@@ -1,6 +1,11 @@
+import { z } from 'zod'
+
 export const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+export const phoneValidation = z.string().min(6, 'Phone number is required')
+// .regex(/^\+\d{1,4}\s\d{6,14}$/, 'Invalid phone number') // Regex to validate international numbers
 
 export const timeAgo = (date) => {
     const now = new Date()
