@@ -70,12 +70,13 @@ const OrderSummaryPage = () => {
                         acc.totalAmount +=
                             product.price * product.quantity -
                             (product.discountAmount || 0) +
-                            (product.taxAmount || 0) +
+                            ((product.taxIncluded && product.taxAmount) || 0) +
                             product.shippingCost
                         acc.totalDiscount += product.discountAmount || 0
                         acc.totalShippingCost += product.shippingCost || 0
                         acc.totalQty += product.quantity
-                        acc.totalTaxAmount += product.taxAmount || 0 // Ensure taxAmount is handled even if missing
+                        acc.totalTaxAmount +=
+                            (product.taxIncluded && product.taxAmount) || 0 // Ensure taxAmount is handled even if missing
 
                         return acc
                     },

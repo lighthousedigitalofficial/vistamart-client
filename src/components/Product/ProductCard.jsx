@@ -8,7 +8,6 @@ import { formatPrice } from '../../utils/helpers'
 import { Rating } from '@mui/material'
 
 const ProductCard = ({ data: product }) => {
-    const oldPrice = product?.price + product?.discountAmount || 0
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
@@ -78,11 +77,16 @@ const ProductCard = ({ data: product }) => {
                         <div className="flex items-center gap-2">
                             <p className="text-sm font-bold text-primary-400">
                                 <span className="text-xs">Rs.</span>
-                                {formatPrice(product?.price)}
+                                {product.discountAmount > 0
+                                    ? formatPrice(
+                                          product?.price -
+                                              product.discountAmount
+                                      )
+                                    : formatPrice(product?.price)}
                             </p>
-                            {oldPrice > product.price && (
+                            {product.discountAmount > 0 && product.price && (
                                 <p className="text-xs line-through text-gray-500">
-                                    {formatPrice(oldPrice)}
+                                    {formatPrice(product.price)}
                                 </p>
                             )}
                         </div>
