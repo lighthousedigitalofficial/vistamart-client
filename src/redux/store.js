@@ -19,7 +19,6 @@
 // });
 
 // export default store;
-
 import { configureStore } from '@reduxjs/toolkit'
 import { apiSlice } from './slices/apiSlice'
 import cartSliceReducer from './slices/cartSlice'
@@ -39,16 +38,15 @@ const persistConfig = {
         {
             in: (inboundState) => {
                 // Encrypt sensitive data before persisting
-                if (inboundState.auth.userInfo) {
+                if (inboundState.auth && inboundState.auth.userInfo) {
                     inboundState.auth.userInfo = encryptionManager.encrypt(
                         inboundState.auth.userInfo
                     )
                 }
-                if (inboundState.cart.cartItems) {
+                if (inboundState.cart && inboundState.cart.cartItems) {
                     inboundState.cart.cartItems =
                         inboundState.cart.cartItems.map((item) => ({
                             ...item,
-                            // Encrypt item data if needed
                             encryptedData: encryptionManager.encrypt(
                                 item.someSensitiveData
                             ),
@@ -58,17 +56,16 @@ const persistConfig = {
             },
             out: (outboundState) => {
                 // Decrypt data when reading from Redux
-                if (outboundState.auth.userInfo) {
+                if (outboundState.auth && outboundState.auth.userInfo) {
                     outboundState.auth.userInfo = encryptionManager.decrypt(
                         outboundState.auth.userInfo
                     )
                 }
-                if (outboundState.cart.cartItems) {
+                if (outboundState.cart && outboundState.cart.cartItems) {
                     outboundState.cart.cartItems =
                         outboundState.cart.cartItems.map((item) => ({
                             ...item,
-                            // Decrypt item data if needed
-                            decryptedData: encryptionManager.ecrypt(
+                            decryptedData: encryptionManager.decrypt(
                                 item.encryptedData
                             ),
                         }))
@@ -93,7 +90,15 @@ const store = configureStore({
         favoriteProducts: favoriteProductsReducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(apiSlice.middleware),
+        getDefaultMiddleware({
+            serializableCheck: {
+                // Ignore these action types to allow non-serializable values like functions
+                ignoredActions: [
+                    'REGISTER',
+                    'persist/PERSIST', // Ignore persist actions if needed
+                ],
+            },
+        }).concat(apiSlice.middleware),
     devTools: true,
 })
 
