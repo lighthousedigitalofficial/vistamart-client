@@ -7,7 +7,7 @@ export const wishlistsApiSlice = apiSlice.injectEndpoints({
             query: (userId) => ({
                 url: `${WISHLIST_URL}/${userId}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 300,
         }),
         addWishList: builder.mutation({
             query: (data) => ({

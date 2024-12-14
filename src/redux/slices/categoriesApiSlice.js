@@ -8,12 +8,13 @@ export const categoriesApiSlice = apiSlice.injectEndpoints({
                 url: `${CATEGORIES_URL}?sort=priority`,
                 params: query,
             }),
+            keepUnusedDataFor: 100,
         }),
         getCategoryDetails: builder.query({
             query: (id) => ({
                 url: `${CATEGORIES_URL}/${id}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 100,
         }),
         getCategoryBySlug: builder.query({
             query: (slug) => ({

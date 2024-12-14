@@ -68,7 +68,9 @@ const FooterMainSection = () => {
             toast.success('Subscription successful! Thank you for subscribing.')
         } catch (error) {
             console.error('Subscription failed:', error)
-            toast.error('Subscription failed. Please try again.')
+            toast.error(
+                error.data.message || 'Subscription failed. Please try again.'
+            )
         }
     }
 

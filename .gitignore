@@ -2,9 +2,9 @@
 node_modules/
 
 # Vite.js build output
-# dist/
-# .dist 
-# dist 
+dist/
+.dist 
+dist 
 
 # Misc
 uploads/
@@ -15,8 +15,7 @@ uploads/
 
 # Production
 /build
-.dist 
-/dist
+s
 
 # Environment files
 .env

@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useCreateOrderMutation } from '../../redux/slices/ordersApiSlice'
 import toast from 'react-hot-toast'
 import { clearCartItems } from '../../redux/slices/cartSlice'
-import { formatPrice } from '../../utils/helpers'
+import { formatPAKPhoneNumber, formatPrice } from '../../utils/helpers'
 import useAuth from './../../hooks/useAuth'
 
 const OrderSummaryPage = () => {
@@ -64,32 +64,6 @@ const OrderSummaryPage = () => {
             const orders = Object.keys(groupedOrders).map((vendorId) => {
                 const vendorOrder = groupedOrders[vendorId]
 
-                // Calculate all totals in one pass
-                // const totals = vendorOrder.products.reduce(
-                //     (acc, product) => {
-                //         acc.totalAmount +=
-                //             product.price * product.quantity -
-                //             (product.discountAmount || 0) +
-                //             ((product.taxIncluded && product.taxAmount) || 0) +
-                //             product.shippingCost
-
-                //         acc.totalDiscount += product.discountAmount || 0
-                //         acc.totalShippingCost += product.shippingCost || 0
-                //         acc.totalQty += product.quantity
-                //         acc.totalTaxAmount +=
-                //             (product.taxIncluded && product.taxAmount) || 0 // Ensure taxAmount is handled even if missing
-
-                //         return acc
-                //     },
-                //     {
-                //         totalAmount: 0,
-                //         totalDiscount: 0,
-                //         totalShippingCost: 0,
-                //         totalQty: 0,
-                //         totalTaxAmount: 0,
-                //     }
-                // )
-
                 const totals = vendorOrder.products.reduce(
                     (acc, product) => {
                         // Ensure all values are defined and use defaults if not
@@ -127,12 +101,25 @@ const OrderSummaryPage = () => {
                     }
                 )
 
+                const shippingAddress = {
+                    ...cart?.shippingAddress,
+                    phoneNumber: formatPAKPhoneNumber(
+                        cart?.shippingAddress?.phoneNumber
+                    ),
+                }
+                const billingAddress = {
+                    ...cart?.billingAddress,
+                    phoneNumber: formatPAKPhoneNumber(
+                        cart?.billingAddress?.phoneNumber
+                    ),
+                }
+
                 return {
                     vendor: vendorId,
                     products: vendorOrder.products,
                     customerId: user?._id,
-                    shippingAddress: cart?.shippingAddress,
-                    billingAddress: cart?.billingAddress,
+                    shippingAddress,
+                    billingAddress,
                     paymentMethod: cart?.paymentMethod,
                     totalAmount: totals.totalAmount,
                     totalDiscount: totals.totalDiscount,
@@ -142,6 +129,8 @@ const OrderSummaryPage = () => {
                     paymentStatus: cart?.paymentStatus,
                 }
             })
+
+            console.log(orders)
 
             if (orders.length !== 0) {
                 // Submit each order separately

@@ -2,10 +2,12 @@
 import { useEffect } from 'react'
 import { useForm, FormProvider, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import CityInput from './Shipping/CityInput'
+
 import { PhoneInput } from 'react-international-phone'
 import 'react-international-phone/style.css'
 import './../../styles/customPhoneInput.css'
-import CityInput from './Shipping/CityInput'
+import CountrySelect from './Shipping/CountrySelect'
 
 const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
     const methods = useForm({
@@ -25,6 +27,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
         register,
         handleSubmit,
         reset,
+        setValue,
         formState: { errors },
     } = methods
 
@@ -82,7 +85,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                 render={({ field }) => (
                                     <PhoneInput
                                         {...field}
-                                        country="pk"
+                                        defaultCountry="pk"
                                         className={`custom-phone-input ${
                                             errors.phoneNumber
                                                 ? 'border-red-500'
@@ -107,7 +110,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                             )}
                         </div>
 
-                        <div>
+                        {/* <div>
                             <label className="input-label">Country</label>
                             <input
                                 type="text"
@@ -125,8 +128,13 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                                     {errors.country.message}
                                 </p>
                             )}
-                        </div>
+                        </div> */}
 
+                        <CountrySelect
+                            register={register}
+                            setValue={setValue}
+                            errors={errors}
+                        />
                         <CityInput register={register} errors={errors} />
 
                         <div>

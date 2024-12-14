@@ -8,6 +8,7 @@ export const bannersApiSlice = apiSlice.injectEndpoints({
                 url: `${BANNERS_URL}?sort=-createdAt&publish=true`,
                 params,
             }),
+            keepUnusedDataFor: 300,
         }),
     }),
 })

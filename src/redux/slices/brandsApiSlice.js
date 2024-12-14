@@ -8,18 +8,19 @@ export const brandsApiSlice = apiSlice.injectEndpoints({
                 url: `${BRANDS_URL}?status=active`,
                 params: query,
             }),
+            keepUnusedDataFor: 100,
         }),
         getBrandDetails: builder.query({
             query: (id) => ({
                 url: `${BRANDS_URL}/${id}?status=active`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 100,
         }),
         getBrandBySlug: builder.query({
             query: (slug) => ({
                 url: `${BRANDS_URL}/slug/${slug}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 100,
         }),
         createBrand: builder.mutation({
             query: () => ({

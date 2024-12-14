@@ -39,7 +39,7 @@ export const vendorsApiSlice = apiSlice.injectEndpoints({
                 params: query,
             }),
             providesTags: ['Vendor'],
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 600,
         }),
         deleteVendor: builder.mutation({
             query: (vendorId) => ({

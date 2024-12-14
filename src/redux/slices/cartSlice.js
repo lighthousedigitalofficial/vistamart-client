@@ -1,21 +1,38 @@
 /* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 import { updateCart } from './../../utils/cartUtils'
+import encryptionManager from '../../utils/encryptionManager'
 
 let initialState = {}
 
 if (typeof localStorage !== 'undefined') {
-    initialState = localStorage.getItem('cart')
-        ? JSON.parse(localStorage.getItem('cart'))
-        : {
-              cartItems: [],
-              totalQty: 0,
-              shippingAddress: {},
-              billingAddress: {},
-              paymentMethod: '',
-              paymentStatus: 'Unpaid',
-              vendors: [],
-          }
+    const encryptedCart = localStorage.getItem('cart')
+    if (encryptedCart) {
+        try {
+            initialState = encryptionManager.decrypt(encryptedCart)
+        } catch (error) {
+            console.error('Failed to decrypt cart data:', error)
+            initialState = {
+                cartItems: [],
+                totalQty: 0,
+                shippingAddress: {},
+                billingAddress: {},
+                paymentMethod: '',
+                paymentStatus: 'Unpaid',
+                vendors: [],
+            }
+        }
+    } else {
+        initialState = {
+            cartItems: [],
+            totalQty: 0,
+            shippingAddress: {},
+            billingAddress: {},
+            paymentMethod: '',
+            paymentStatus: 'Unpaid',
+            vendors: [],
+        }
+    }
 }
 
 const cartSlice = createSlice({
@@ -62,19 +79,19 @@ const cartSlice = createSlice({
         },
         saveShippingAddress: (state, action) => {
             state.shippingAddress = action.payload
-            localStorage.setItem('cart', JSON.stringify(state))
+            saveEncryptedCart(state)
         },
         saveBillingAddress: (state, action) => {
             state.billingAddress = action.payload
-            localStorage.setItem('cart', JSON.stringify(state))
+            saveEncryptedCart(state)
         },
         savePaymentMethod: (state, action) => {
             state.paymentMethod = action.payload
-            localStorage.setItem('cart', JSON.stringify(state))
+            saveEncryptedCart(state)
         },
         updatePaymentStatus: (state, action) => {
             state.paymentStatus = action.payload
-            localStorage.setItem('cart', JSON.stringify(state))
+            saveEncryptedCart(state)
         },
         clearCartItems: (state, action) => {
             state.cartItems = []
@@ -82,23 +99,22 @@ const cartSlice = createSlice({
             state.paymentStatus = 'Unpaid'
             state.vendors = []
 
-            // Update localStorage with the cleared cart state
-            localStorage.setItem(
-                'cart',
-                JSON.stringify({
-                    cartItems: state.cartItems,
-                    totalQty: state.totalQty,
-                    paymentStatus: state.paymentStatus,
-                    vendors: state.vendors,
-                })
-            )
+            // Save cleared state to localStorage
+            saveEncryptedCart(state)
         },
 
-        // NOTE: here we need to reset state for when a user logs out so the next
-        // user doesn't inherit the previous users cart and shipping
         resetCart: (state) => (state = initialState),
     },
 })
+
+const saveEncryptedCart = (state) => {
+    try {
+        const encryptedCart = encryptionManager.encrypt(state)
+        localStorage.setItem('cart', encryptedCart)
+    } catch (error) {
+        console.error('Failed to encrypt cart data:', error)
+    }
+}
 
 export const {
     addToCart,

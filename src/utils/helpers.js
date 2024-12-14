@@ -72,3 +72,16 @@ export const formatPrice = (value) => {
               maximumFractionDigits: 2,
           })
 }
+
+export const formatPAKPhoneNumber = (phoneNumber) => {
+    // Remove the leading '+' and country code '92', then prepend '0'
+    const formattedNumber = phoneNumber.replace('+92', '0')
+
+    // Split the number into chunks: the first chunk for area code and the second for the rest of the number
+    const formattedWithDashes = formattedNumber.replace(
+        /(\d{4})(\d{7})/,
+        '$1-$2'
+    )
+
+    return formattedWithDashes
+}

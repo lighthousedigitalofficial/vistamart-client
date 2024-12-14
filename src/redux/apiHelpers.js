@@ -1,13 +1,18 @@
+import encryptionManager from '../utils/encryptionManager'
+
 export const setAuthHeader = (headers) => {
-	// Get accessToken from localStorage
-	const userInfo = localStorage.getItem("userInfo");
-	const user = JSON.parse(userInfo);
+    // Get encrypted userInfo from localStorage
+    const encryptedUserInfo = localStorage.getItem('userInfo')
 
-	// console.log(user?.accessToken);
-	// If accessToken exists, set it as a header
-	if (user && user?.accessToken) {
-		headers.set("Authorization", `Bearer ${userInfo?.accessToken}`);
-	}
+    if (encryptedUserInfo) {
+        // Decrypt userInfo
+        const user = encryptionManager.decrypt(encryptedUserInfo)
 
-	return headers || "";
-};
+        // If user and accessToken exist, set Authorization header
+        if (user?.accessToken) {
+            headers.set('Authorization', `Bearer ${user.accessToken}`)
+        }
+    }
+
+    return headers
+}

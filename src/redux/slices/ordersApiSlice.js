@@ -14,7 +14,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
             query: (orderId) => ({
                 url: `${ORDERS_URL}/details/${orderId}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 10,
         }),
         payOrder: builder.mutation({
             query: ({ orderId, details }) => ({
@@ -29,7 +29,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
             query: (id) => ({
                 url: `${ORDERS_URL}?customer=${id}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 10,
         }),
         getOrderStatus: builder.query({
             query: (id) => ({

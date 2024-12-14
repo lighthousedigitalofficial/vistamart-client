@@ -15,6 +15,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                     params: query,
                 }
             },
+            keepUnusedDataFor: 600,
         }),
         getDiscountedProducts: builder.query({
             query: (query) => {
@@ -80,7 +81,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                     params: query,
                 }
             },
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 300,
         }),
         getBestSellingProducts: builder.query({
             query: (query) => {
@@ -89,7 +90,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
                     params: query,
                 }
             },
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 300,
         }),
         getLatestProducts: builder.query({
             query: () =>
@@ -98,7 +99,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         }),
         getFeaturedProducts: builder.query({
             query: () => `${PRODUCTS_URL}?isFeatured=true&status=approved`,
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 600,
         }),
         getFeaturedDeals: builder.query({
             query: () => `/admin/featured-deals?status=active`,
