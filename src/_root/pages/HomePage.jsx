@@ -1,18 +1,27 @@
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
 
-import FeatureProducts from '../../components/Product/FeatureProducts'
-import Categories from '../../components/Categories'
+// import FlashDeal from '../../components/Deals/FlashDeal'
 // import FeaturedDeal from '../../components/Deals/FeaturedDeal'
-import LatestProducts from '../../components/Product/LatestProducts'
-import DealOfTheDay from '../../components/Deals/DealOfTheDay'
-import ProductsCategory from '../../components/Product/ProductsCategory'
-import FlashDeal from '../../components/Deals/FlashDeal'
-import ServicesList from '../../components/Services/ServicesList'
-import Loader from './../../components/Loader'
-import TopSeller from '../../components/Seller/TopSeller'
-import HeroSection from './../../components/Home/HeroSection'
-import Brands from '../../components/Brands'
-import TopProducts from '../../components/Home/TopProducts'
+// Lazy loading components
+const FeatureProducts = lazy(() =>
+    import('../../components/Product/FeatureProducts')
+)
+const Categories = lazy(() => import('../../components/Categories'))
+const LatestProducts = lazy(() =>
+    import('../../components/Product/LatestProducts')
+)
+const DealOfTheDay = lazy(() => import('../../components/Deals/DealOfTheDay'))
+const ProductsCategory = lazy(() =>
+    import('../../components/Product/ProductsCategory')
+)
+const ServicesList = lazy(() =>
+    import('../../components/Services/ServicesList')
+)
+const Loader = lazy(() => import('./../../components/Loader'))
+const TopSeller = lazy(() => import('../../components/Seller/TopSeller'))
+const HeroSection = lazy(() => import('./../../components/Home/HeroSection'))
+const Brands = lazy(() => import('../../components/Brands'))
+const TopProducts = lazy(() => import('../../components/Home/TopProducts'))
 
 // images
 import PromoSaleImage from './../../assets/banner/headphone-add.webp'
@@ -34,58 +43,56 @@ const HomePage = () => {
         <Loader />
     ) : (
         <main>
-            <HeroSection />
-
             <Suspense fallback={<Loader />}>
+                <HeroSection />
+
                 <section>
                     <Categories />
                 </section>
 
-                <section className="py-2 mb-4">
+                {/* <section className="py-2 mb-4">
                     <FlashDeal />
-                </section>
+                </section> */}
 
                 <section className="py-4 mb-4">
                     <FeatureProducts />
                 </section>
-            </Suspense>
 
-            <section className="py-4 mb-4">
-                <img
-                    src={PromoSaleImage}
-                    alt="Promo Sale Banner"
-                    className="rounded-lg"
-                    loading="lazy"
-                />
-            </section>
-
-            <TopSeller />
-
-            <section className="py-4 mb-4 flex flex-col items-center w-full lg:flex-row lg:items-start justify-around gap-4">
-                <DealOfTheDay />
-                <LatestProducts />
-            </section>
-
-            <section className="py-4">
-                <div className="flex justify-between items-center lg:flex-row flex-col gap-4 w-full">
+                <section className="py-4 mb-4">
                     <img
-                        src={MegaSaleBanner1}
-                        alt="Mega Sale 1"
-                        className="lg:w-1/2 w-full rounded-lg"
+                        src={PromoSaleImage}
+                        alt="Promo Sale Banner"
+                        className="rounded-lg"
                         loading="lazy"
                     />
-                    <img
-                        src={MegaSaleBanner2}
-                        alt="Mega Sale 2"
-                        className="lg:w-1/2 w-full rounded-lg"
-                        loading="lazy"
-                    />
-                </div>
-            </section>
+                </section>
 
-            <TopProducts />
+                <TopSeller />
 
-            <Suspense fallback={<Loader />}>
+                <section className="py-4 mb-4 flex flex-col items-center w-full lg:flex-row lg:items-start justify-around gap-4">
+                    <DealOfTheDay />
+                    <LatestProducts />
+                </section>
+
+                <section className="py-4">
+                    <div className="flex justify-between items-center lg:flex-row flex-col gap-4 w-full">
+                        <img
+                            src={MegaSaleBanner1}
+                            alt="Mega Sale 1"
+                            className="lg:w-1/2 w-full rounded-lg"
+                            loading="lazy"
+                        />
+                        <img
+                            src={MegaSaleBanner2}
+                            alt="Mega Sale 2"
+                            className="lg:w-1/2 w-full rounded-lg"
+                            loading="lazy"
+                        />
+                    </div>
+                </section>
+
+                <TopProducts />
+
                 <section>
                     <Brands />
                 </section>
@@ -101,7 +108,3 @@ const HomePage = () => {
 }
 
 export default HomePage
-
-//   <div className="flex justify-center items-center py-4 px-8 text-lg bg-red-100 text-red-500 my-8">
-//                 Something went wrong, Please try again!
-//             </div>
