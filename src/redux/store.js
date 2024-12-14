@@ -99,7 +99,7 @@ const store = configureStore({
                 ],
             },
         }).concat(apiSlice.middleware),
-    devTools: true,
+    devTools: false,
 })
 
 // Persistor to handle persisting the Redux store
