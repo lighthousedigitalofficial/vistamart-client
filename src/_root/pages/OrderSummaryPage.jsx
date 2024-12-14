@@ -5,7 +5,7 @@ import { MdOutlineCelebration } from 'react-icons/md'
 import { useEffect } from 'react'
 import { useCreateOrderMutation } from '../../redux/slices/ordersApiSlice'
 import toast from 'react-hot-toast'
-import { clearCartItems } from '../../redux/slices/cartSlice'
+import { resetCart } from '../../redux/slices/cartSlice'
 import { formatPAKPhoneNumber, formatPrice } from '../../utils/helpers'
 import useAuth from './../../hooks/useAuth'
 
@@ -130,8 +130,6 @@ const OrderSummaryPage = () => {
                 }
             })
 
-            console.log(orders)
-
             if (orders.length !== 0) {
                 // Submit each order separately
                 for (const order of orders) {
@@ -142,7 +140,9 @@ const OrderSummaryPage = () => {
                 }
 
                 // Clear cart and navigate to confirmation
-                dispatch(clearCartItems())
+                // dispatch(clearCartItems())
+                dispatch(resetCart())
+
                 // navigate('/order-confirmation')
                 window.location.href = '/order-confirmation'
             }
