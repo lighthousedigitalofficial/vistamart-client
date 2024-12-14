@@ -45,10 +45,11 @@ const NavList = () => {
                 color="blue-gray"
                 className="p-1 font-medium text-base"
             >
-                <Link to="/products?discount" className="navbar-item">
+                <Link to="/products/discount" className="navbar-item">
                     Discounted Products
                 </Link>
             </Typography>
+
             <Typography
                 as="li"
                 variant="paragraph"
@@ -67,7 +68,7 @@ const NavList = () => {
                         color="blue-gray"
                         className="p-1 font-medium cursor-pointer"
                     >
-                        <p className="navbar-item">Vandor Zone</p>
+                        <p className="navbar-item">Vendor Zone</p>
                     </Typography>
                 </MenuHandler>
                 <MenuList className="hidden overflow-visible md:grid shadow-md">
@@ -78,7 +79,7 @@ const NavList = () => {
                         className="p-1 font-medium border-0 outline-none"
                     >
                         <Link
-                            to="/vendor/auth/registration"
+                            to="/auth/vendor/registration"
                             className="flex items-center text-black border-b hover:text-primary-400 transition-colors"
                         >
                             Become a vendor
@@ -91,7 +92,7 @@ const NavList = () => {
                         className="p-1 font-medium border-0 outline-none"
                     >
                         <Link
-                            to="/auth/vendor/login"
+                            to="http://seller.vistamart.biz"
                             className="flex items-center text-black border-b hover:text-primary-400 transition-colors"
                         >
                             Vendor login

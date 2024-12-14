@@ -4,22 +4,23 @@ import { apiSlice } from './apiSlice'
 export const brandsApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getBrands: builder.query({
-            query: ({ brand }) => ({
-                url: `${BRANDS_URL}`,
-                params: { brand },
+            query: (query) => ({
+                url: `${BRANDS_URL}?status=active`,
+                params: query,
             }),
+            keepUnusedDataFor: 100,
         }),
         getBrandDetails: builder.query({
             query: (id) => ({
-                url: `${BRANDS_URL}/${id}`,
+                url: `${BRANDS_URL}/${id}?status=active`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 100,
         }),
         getBrandBySlug: builder.query({
             query: (slug) => ({
                 url: `${BRANDS_URL}/slug/${slug}`,
             }),
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 100,
         }),
         createBrand: builder.mutation({
             query: () => ({

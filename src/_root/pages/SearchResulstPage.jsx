@@ -1,67 +1,111 @@
-import { useLocation } from 'react-router-dom'
-import { useGetAllProductsQuery } from '../../redux/slices/productsApiSlice'
 import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { useSearchProductsQuery } from '../../redux/slices/productsApiSlice'
 import Loader from '../../components/Loader'
 import ProductCard from '../../components/Product/ProductCard'
 
+import TablePagination from '@mui/material/TablePagination'
+
 const SearchResultPage = () => {
-    const location = useLocation()
-    const [query, setQuery] = useState('')
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [currentPage, setCurrentPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(15)
 
-    // Extract query from the URL search params
+    const query = searchParams.get('query') || ''
+    const category = searchParams.get('category') || ''
+    const brand = searchParams.get('brand') || ''
+    const slug = searchParams.get('product') || ''
+
+    const [filters, setFilters] = useState({})
+
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search)
-        const queryParam = searchParams.get('query')
+        // Construct new filters object immutably
+        const newFilters = {}
 
-        if (queryParam) {
-            setQuery(queryParam)
+        if (category) {
+            newFilters.category = category // Add category filter
+        } else if (brand) {
+            newFilters.brand = brand // Add brand filter
+        } else if (query) {
+            newFilters.query = query // Add query filter
         }
-    }, [location.search])
+        if (slug) {
+            newFilters.slug = slug // Add slug filter
+        }
 
-    // Fetch all products
-    const { data: products, isLoading } = useGetAllProductsQuery()
+        // Update state with the new filters object
+        setFilters(newFilters)
+    }, [brand, category, query, slug])
 
-    // Filter products based on the query (starting with the query)
-    const filteredProducts = query
-        ? products?.doc.filter((product) =>
-              product.name.toLowerCase().startsWith(query.toLowerCase())
-          )
-        : []
+    const { data, isFetching } = useSearchProductsQuery({
+        ...filters,
+        page: currentPage + 1, // API expects 1-based indexing
+        limit: rowsPerPage,
+    })
 
-    return isLoading ? (
+    const totalProducts = data?.totalProducts || 0
+
+    // Handle page change
+    const handleChangePage = (_, newPage) => {
+        setCurrentPage(newPage)
+        setSearchParams({ query, page: newPage + 1 }) // Sync with URL (1-based indexing)
+        // Scroll to the top of the page
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        })
+    }
+
+    // Handle rows per page change
+    const handleChangeRowsPerPage = (event) => {
+        const newRowsPerPage = parseInt(event.target.value, 10)
+        setRowsPerPage(newRowsPerPage)
+        setCurrentPage(0) // Reset to the first page
+        setSearchParams({ query, page: 1 }) // Reset page to 1 in the URL
+    }
+
+    return isFetching ? (
         <Loader />
-    ) : products && filteredProducts.length > 0 ? (
-        <div className="bg-white shadow-md shadow-gray-200 rounded-lg py-8 px-4">
-            <div>
-                <h2 className="text-xl font-semibold">Search Result</h2>
-                <p className="text-gray-500">
-                    {filteredProducts.length} Items found
-                </p>
-            </div>
-
-            {filteredProducts.length ? (
-                <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-2 transition-all ease-in duration-300">
-                    {products?.doc?.map((product, index) => (
-                        <ProductCard key={index} data={product} />
-                    ))}
-                </div>
-            ) : (
-                <div className="text-lg flex mt-20 justify-center items-center bg-red-100 text-red-500 py-4 px-8 w-full text-center">
-                    <h2>No products found!</h2>
-                </div>
-            )}
-        </div>
     ) : (
-        <div>
-            <h2 className="text-xl font-semibold">Search Result</h2>
-            <p className="text-gray-500">0 Items found</p>
-
-            <div className="No-Product-Found mt-2 h-[300px] flex justify-center items-center">
-                <div className="Heading text-lg font-bold mt-1 ">
-                    No Product Found
+        data && (
+            <div className="container mx-auto p-4">
+                <div className="py-2">
+                    <h1 className="text-xl font-bold">Search Results</h1>
+                    <h1 className="text-base text-gray-600 mb-4">
+                        {totalProducts > 0
+                            ? `${totalProducts} items found for "${query}"`
+                            : 'No products found'}
+                    </h1>
                 </div>
+                {totalProducts > 0 ? (
+                    <>
+                        {/* Product Grid */}
+                        <div className="grid w-full lg:grid-cols-5 md:grid-cols-3 grid-cols-2 gap-4">
+                            {data.doc.map((product) => (
+                                <ProductCard key={product._id} data={product} />
+                            ))}
+                        </div>
+
+                        {/* Pagination Controls using MUI TablePagination */}
+                        {totalProducts > rowsPerPage && (
+                            <TablePagination
+                                component="div"
+                                count={totalProducts}
+                                page={currentPage}
+                                onPageChange={handleChangePage}
+                                rowsPerPage={rowsPerPage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                rowsPerPageOptions={[15, 30, 60]} // Customize options
+                            />
+                        )}
+                    </>
+                ) : (
+                    <p className="text-center mt-12 py-8 text-lg text-gray-600">
+                        {`There is no product! for this "${query}".`}
+                    </p>
+                )}
             </div>
-        </div>
+        )
     )
 }
 

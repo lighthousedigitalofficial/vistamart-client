@@ -17,9 +17,7 @@ const Quantity = ({ product, qty, setQty }) => {
     }, [dispatch, qty])
 
     const increaseQty = () => {
-        if (qty < product.stock) {
-            setQty(qty + 1)
-        }
+        if (qty < product.stock) setQty(qty + 1)
     }
 
     const decreaseQty = () => {
@@ -31,7 +29,7 @@ const Quantity = ({ product, qty, setQty }) => {
                     `Min. order for this item is ${product.minimumOrderQty} piece.`
                 )
             }
-        } else {
+        } else if (qty > 1) {
             setQty(qty - 1)
         }
     }

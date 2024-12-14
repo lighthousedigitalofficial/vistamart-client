@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import axios from 'axios'
 import keys from '../config/keys'
-
 // Function to get a pre-signed upload URL
 export const getUploadUrl = async (type, folder) => {
     try {
@@ -8,9 +8,12 @@ export const getUploadUrl = async (type, folder) => {
             fileType: type.split('/')[1],
             folder,
         }
-        const response = await axios.get(`${keys.BASE_URL}/image/upload`, {
-            params: query,
-        })
+        const response = await axios.get(
+            `${keys.BASE_URL}/api/v1/image/upload`,
+            {
+                params: query,
+            }
+        )
 
         return response.data // Contains the URL and the key for S3 storage
     } catch (error) {
@@ -35,7 +38,7 @@ export const uploadImageToS3 = async (uploadUrl, file) => {
 
 export const deleteUploadedImages = async (keys) => {
     try {
-        await axios.delete(`${keys.BASE_URL}/image/delete-images`, {
+        await axios.delete(`${keys.BASE_URL}/api/v1/image/delete-images`, {
             data: { keys },
         })
     } catch (error) {
@@ -43,10 +46,42 @@ export const deleteUploadedImages = async (keys) => {
         throw new Error('Failed to delete images')
     }
 }
+export const deleteUploadedImage = async (key) => {
+    try {
+        await axios.delete(`${keys.BASE_URL}/api/v1/image/delete-image`, {
+            data: { key },
+        })
+    } catch (error) {
+        console.error('Error deleting image', error)
+        throw new Error('Failed to delete image')
+    }
+}
+
+// export const formatPrice = (value) => {
+//     return Number(value).toLocaleString('en-PK', {
+//         minimumFractionDigits: 2,
+//         maximumFractionDigits: 2,
+//     })
+// }
 
 export const formatPrice = (value) => {
-    return Number(value).toLocaleString('en-PK', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-    })
+    return Number.isInteger(value)
+        ? Number(value).toLocaleString('en-PK')
+        : Number(value).toLocaleString('en-PK', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+          })
+}
+
+export const formatPAKPhoneNumber = (phoneNumber) => {
+    // Remove the leading '+' and country code '92', then prepend '0'
+    const formattedNumber = phoneNumber.replace('+92', '0')
+
+    // Split the number into chunks: the first chunk for area code and the second for the rest of the number
+    const formattedWithDashes = formattedNumber.replace(
+        /(\d{4})(\d{7})/,
+        '$1-$2'
+    )
+
+    return formattedWithDashes
 }

@@ -1,27 +1,32 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect } from 'react'
+import { fetchProducts } from '../api/productService'
 
-const useFetchProducts = (url) => {
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+const useFetchProducts = (query) => {
+    const [data, setData] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
 
-	useEffect(() => {
-		const getProducts = async () => {
-			try {
-				const { data } = await axios.get(url);
-				setProducts(data);
-			} catch (error) {
-				setError(error);
-			} finally {
-				setLoading(false);
-			}
-		};
+    useEffect(() => {
+        if (!query) return
 
-		getProducts();
-	}, [url]);
+        const getProducts = async () => {
+            setIsLoading(true)
+            setError(null)
 
-	return { products, loading, error };
-};
+            try {
+                const result = await fetchProducts(query)
+                setData(result)
+            } catch (err) {
+                setError(err.message || 'Something went wrong')
+            } finally {
+                setIsLoading(false)
+            }
+        }
 
-export default useFetchProducts;
+        getProducts()
+    }, [query])
+
+    return { data, isLoading, error }
+}
+
+export default useFetchProducts

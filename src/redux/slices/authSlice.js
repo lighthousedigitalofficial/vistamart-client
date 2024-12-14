@@ -1,35 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit'
+import encryptionManager from '../../utils/encryptionManager'
 
-let initialState = {};
+let initialState = {}
 
-if (typeof localStorage !== "undefined") {
-	initialState = {
-		userInfo: localStorage.getItem("userInfo")
-			? JSON.parse(localStorage.getItem("userInfo"))
-			: null,
-	};
+// Decrypt userInfo during initialization
+if (typeof localStorage !== 'undefined') {
+    const encryptedUserInfo = localStorage.getItem('userInfo')
+    initialState = {
+        userInfo: encryptedUserInfo
+            ? encryptionManager.decrypt(encryptedUserInfo) // Decrypt the data
+            : null,
+    }
 }
 
 const authSlice = createSlice({
-	name: "auth",
-	initialState,
-	reducers: {
-		setCredentials: (state, action) => {
-			state.userInfo = action.payload;
-			localStorage.setItem("userInfo", JSON.stringify(action.payload));
+    name: 'auth',
+    initialState,
+    reducers: {
+        setCredentials: (state, action) => {
+            state.userInfo = action.payload
 
-			const expirationTime = new Date().getTime() + 30 * 24 * 60 * 60 * 1000; // 30 days
-			localStorage.setItem("expirationTime", expirationTime);
-		},
-		logout: (state, action) => {
-			state.userInfo = null;
-			// NOTE: here we need to also remove the cart from storage so the next
-			// logged in user doesn't inherit the previous users cart and shipping
-			localStorage.clear();
-		},
-	},
-});
+            // Encrypt and store userInfo
+            const encryptedData = encryptionManager.encrypt(action.payload)
+            localStorage.setItem('userInfo', encryptedData)
 
-export const { setCredentials, logout } = authSlice.actions;
+            // Set an expiration time
+            const expirationTime =
+                new Date().getTime() + 30 * 24 * 60 * 60 * 1000 // 30 days
+            localStorage.setItem('expirationTime', expirationTime)
+        },
+        updateCredentials: (state, action) => {
+            state.userInfo = action.payload
 
-export default authSlice.reducer;
+            // Encrypt and store updated userInfo
+            const encryptedData = encryptionManager.encrypt(action.payload)
+            localStorage.setItem('userInfo', encryptedData)
+        },
+        logout: (state, action) => {
+            state.userInfo = null
+
+            // Clear userInfo and other sensitive data
+            localStorage.removeItem('userInfo')
+            localStorage.removeItem('expirationTime')
+        },
+    },
+})
+
+export const { setCredentials, updateCredentials, logout } = authSlice.actions
+
+export default authSlice.reducer

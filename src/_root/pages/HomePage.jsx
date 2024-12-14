@@ -1,24 +1,32 @@
-import { useEffect, useState } from 'react'
-import FeatureProducts from '../../components/Product/FeatureProducts'
-import Categories from '../../components/Categories'
-import FeaturedDeal from '../../components/Deals/FeaturedDeal'
-import LatestProducts from '../../components/Product/LatestProducts'
-import DealOfTheDay from '../../components/Deals/DealOfTheDay'
-import ProductsCategory from '../../components/Product/ProductsCategory'
-import FlashDeal from '../../components/Deals/FlashDeal'
-import ServicesList from '../../components/Services/ServicesList'
-import Loader from './../../components/Loader'
-import TopSeller from '../../components/Seller/TopSeller'
-import HeroSection from './../../components/Home/HeroSection'
-import Brands from '../../components/Brands'
-import TopProducts from '../../components/Home/TopProducts'
+import { useState, useEffect, Suspense, lazy } from 'react'
+
+// import FlashDeal from '../../components/Deals/FlashDeal'
+// import FeaturedDeal from '../../components/Deals/FeaturedDeal'
+// Lazy loading components
+const FeatureProducts = lazy(() =>
+    import('../../components/Product/FeatureProducts')
+)
+const Categories = lazy(() => import('../../components/Categories'))
+const LatestProducts = lazy(() =>
+    import('../../components/Product/LatestProducts')
+)
+const DealOfTheDay = lazy(() => import('../../components/Deals/DealOfTheDay'))
+const ProductsCategory = lazy(() =>
+    import('../../components/Product/ProductsCategory')
+)
+const ServicesList = lazy(() =>
+    import('../../components/Services/ServicesList')
+)
+const Loader = lazy(() => import('./../../components/Loader'))
+const TopSeller = lazy(() => import('../../components/Seller/TopSeller'))
+const HeroSection = lazy(() => import('./../../components/Home/HeroSection'))
+const Brands = lazy(() => import('../../components/Brands'))
+const TopProducts = lazy(() => import('../../components/Home/TopProducts'))
 
 // images
-import PromoSaleImage from './../../assets/banner/promo-sale.webp'
+import PromoSaleImage from './../../assets/banner/headphone-add.webp'
 import MegaSaleBanner1 from './../../assets/banner/mega-sale.webp'
 import MegaSaleBanner2 from './../../assets/banner/super-sale.webp'
-
-import keys from './../../config/keys'
 
 const HomePage = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -35,89 +43,68 @@ const HomePage = () => {
         <Loader />
     ) : (
         <main>
-            {/* Hero Section */}
-            <HeroSection />
+            <Suspense fallback={<Loader />}>
+                <HeroSection />
 
-            {/* Categories Section */}
-            <section>
-                <Categories />
-            </section>
+                <section>
+                    <Categories />
+                </section>
 
-            {/* Flash Deal */}
-            <section className="py-2 mb-4">
-                <FlashDeal />
-            </section>
+                {/* <section className="py-2 mb-4">
+                    <FlashDeal />
+                </section> */}
 
-            {/* Feature Products Section */}
-            <section className="py-4 mb-4">
-                <FeatureProducts />
-            </section>
+                <section className="py-4 mb-4">
+                    <FeatureProducts />
+                </section>
 
-            {/* Featured Deal */}
-            <section className="py-4">
-                <FeaturedDeal />
-            </section>
-
-            {/* Deal Offer Section */}
-            <section className="py-4 mb-4">
-                <img
-                    src={PromoSaleImage}
-                    alt="promo sale banner"
-                    className="rounded-lg"
-                />
-            </section>
-
-            {/* Top Sellers */}
-            <TopSeller />
-
-            <section className="py-4 mb-4 flex flex-col items-center w-full lg:flex-row lg:items-start justify-around gap-4">
-                <DealOfTheDay
-                    image={
-                        `https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/refurb-macbook-air-space-gray-m1-202010?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1634145627000` ||
-                        keys.DEFAULT_IMG
-                    }
-                    title={'Laptop'}
-                    price={150.0}
-                />
-                <LatestProducts />
-            </section>
-
-            {/* Banner Sale Section */}
-            <section className="py-4">
-                <div className="flex justify-between items-center lg:flex-row flex-col gap-4 w-full">
+                <section className="py-4 mb-4">
                     <img
-                        src={MegaSaleBanner1}
-                        alt="mega sale"
-                        className="lg:w-1/2 w-full rounded-lg"
+                        src={PromoSaleImage}
+                        alt="Promo Sale Banner"
+                        className="rounded-lg"
+                        loading="lazy"
                     />
-                    <img
-                        src={MegaSaleBanner2}
-                        alt="mega sale"
-                        className="lg:w-1/2 w-full rounded-lg"
-                    />
-                </div>
-            </section>
+                </section>
 
-            <TopProducts />
+                <TopSeller />
 
-            {/* Brands Section */}
-            <section>
-                <Brands />
-            </section>
+                <section className="py-4 mb-4 flex flex-col items-center w-full lg:flex-row lg:items-start justify-around gap-4">
+                    <DealOfTheDay />
+                    <LatestProducts />
+                </section>
 
-            <section className="py-4">
-                <ProductsCategory />
-            </section>
+                <section className="py-4">
+                    <div className="flex justify-between items-center lg:flex-row flex-col gap-4 w-full">
+                        <img
+                            src={MegaSaleBanner1}
+                            alt="Mega Sale 1"
+                            className="lg:w-1/2 w-full rounded-lg"
+                            loading="lazy"
+                        />
+                        <img
+                            src={MegaSaleBanner2}
+                            alt="Mega Sale 2"
+                            className="lg:w-1/2 w-full rounded-lg"
+                            loading="lazy"
+                        />
+                    </div>
+                </section>
 
-            <section>
-                <ServicesList />
-            </section>
+                <TopProducts />
+
+                <section>
+                    <Brands />
+                </section>
+                <section className="py-4">
+                    <ProductsCategory />
+                </section>
+                <section>
+                    <ServicesList />
+                </section>
+            </Suspense>
         </main>
     )
 }
 
 export default HomePage
-
-//   <div className="flex justify-center items-center py-4 px-8 text-lg bg-red-100 text-red-500 my-8">
-//                 Something went wrong, Please try again!
-//             </div>

@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'
 import { logout } from '../../redux/slices/authSlice'
 import { useCustomerLogoutMutation } from '../../redux/slices/customersApiSlice'
 import toast from 'react-hot-toast'
+import keys from '../../config/keys'
 
 const ProfileMenu = ({ user }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -58,6 +59,12 @@ const ProfileMenu = ({ user }) => {
         }
     }, [])
 
+    const customerAvatar = user?.image?.startsWith('customers')
+        ? `${keys.BUCKET_URL}${user.image}`
+        : user?.image
+        ? user.image
+        : UserAvatar
+
     return user ? (
         <div className="relative" ref={menuRef}>
             <button
@@ -65,16 +72,17 @@ const ProfileMenu = ({ user }) => {
                 className="flex items-center gap-2 p-1"
             >
                 <img
-                    className="h-8 w-8 object-contain rounded-full"
-                    src={
-                        user?.image
-                            ? `http://localhost:3000/${user?.image}`
-                            : UserAvatar
-                    }
+                    className="h-8 w-8 object-cover rounded-full"
+                    src={customerAvatar}
                     alt={user.firstName}
                 />
-                <div className="hidden md:block text-sm text-gray-900">
-                    <p>Hello, {user.firstName}</p>
+                <div className="hidden md:block text-sm max-w-[6rem] truncate text-gray-900">
+                    <p>
+                        Hello,{' '}
+                        {user.firstName.length > 10
+                            ? `${user.firstName.slice(0, 10)}...`
+                            : user.firstName}
+                    </p>
                     <p>Dashboard</p>
                 </div>
             </button>
@@ -82,21 +90,21 @@ const ProfileMenu = ({ user }) => {
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                     <button
                         onClick={() => closeMenu(`/profile/profile-info`)}
-                        className="flex items-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex users-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
                     >
                         <AiOutlineUser className="h-4 w-4" />
                         <span>Profile</span>
                     </button>
                     <button
                         onClick={() => closeMenu('/profile/my-orders')}
-                        className="flex items-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex users-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
                     >
                         <AiOutlineOrderedList className="h-4 w-4" />
                         <span>Orders</span>
                     </button>
                     <button
                         onClick={logoutHandler}
-                        className="flex items-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex users-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"
                     >
                         <AiOutlineLogout className="h-4 w-4" />
                         <span>Logout</span>

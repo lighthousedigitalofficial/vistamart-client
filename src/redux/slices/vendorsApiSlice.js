@@ -17,6 +17,13 @@ export const vendorsApiSlice = apiSlice.injectEndpoints({
                 body: data,
             }),
         }),
+        vendorOTPVerification: builder.mutation({
+            query: (data) => ({
+                url: `${VENDORS_URL}/otp/verify`,
+                method: 'POST',
+                body: data,
+            }),
+        }),
         vendorLogout: builder.mutation({
             query: (token) => ({
                 url: `${VENDORS_URL}/logout`,
@@ -27,11 +34,12 @@ export const vendorsApiSlice = apiSlice.injectEndpoints({
             }),
         }),
         getVendors: builder.query({
-            query: () => ({
-                url: `${VENDORS_URL}`,
+            query: (query) => ({
+                url: `${VENDORS_URL}?status=active`,
+                params: query,
             }),
             providesTags: ['Vendor'],
-            keepUnusedDataFor: 5,
+            keepUnusedDataFor: 600,
         }),
         deleteVendor: builder.mutation({
             query: (vendorId) => ({
@@ -71,4 +79,5 @@ export const {
     useUpdateVendorMutation,
     useGetVendorDetailsQuery,
     useGetVendorBySlugQuery,
+    useVendorOTPVerificationMutation,
 } = vendorsApiSlice

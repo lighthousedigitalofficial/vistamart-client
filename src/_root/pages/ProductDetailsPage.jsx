@@ -2,7 +2,6 @@ import { Link, useParams } from 'react-router-dom'
 import { FaAngleRight } from 'react-icons/fa'
 import {
     useGetProductBySlugQuery,
-    // useGetProductDetailsQuery,
     useGetProductsQuery,
 } from '../../redux/slices/productsApiSlice'
 
@@ -13,54 +12,54 @@ import ProductCarousel from '../../components/shared/ProductCarousel'
 import ProductReviews from '../../components/Product/ProductReviews'
 import VendorRightBar from '../../components/Seller/VendorRightBar'
 import Overview from '../../components/Product/subcomponent/Overview'
-import AddReview from '../../components/Product/AddReview'
+// import AddReview from '../../components/Product/AddReview'
 
 const ProductDetailsPage = () => {
     const { slug } = useParams()
 
-    const {
-        data: product,
-        isLoading,
-        refetch,
-    } = useGetProductBySlugQuery(slug, {
-        skip: !slug,
-    })
+    const { data: product, isFetching: isProductFetching } =
+        useGetProductBySlugQuery(slug, {
+            skip: !slug,
+        })
 
-    const { data: products, isLoading: isProductsLoading } =
+    const { data: products, isFetching: isProductsLoading } =
         useGetProductsQuery(
             {
-                category: product?.category?._id,
+                brand: product?.doc?.brand?._id,
+                limit: 10,
             },
-            { skip: !product?.category?._id }
+            { skip: !product?.doc?.brand?._id }
         )
 
-    return isLoading ? (
+    return isProductFetching ? (
         <Loader />
     ) : product && product.doc ? (
-        <div className="container mx-auto flex flex-col space-y-4 sm:space-y-0">
-            <div className="flex flex-col lg:flex-row justify-between gap-4 w-full">
-                <div className="flex flex-col">
+        <div className="container w-full flex flex-col space-y-4 sm:space-y-0 mb-8">
+            <div className="flex flex-col lg:flex-row gap-4 w-full">
+                <div className="flex flex-col w-full">
                     <Product product={product?.doc} />
                     <div className="flex flex-col-reverse lg:flex-row w-full gap-4">
                         <div className="flex flex-col w-full lg:w-3/4">
-                            <Overview />
+                            <Overview product={product?.doc} />
                             <ProductReviews product={product?.doc} />
-                            <AddReview
+                            {/* <AddReview
                                 productId={product?.doc._id}
                                 refetch={refetch}
-                            />
+                            /> */}
                         </div>
                         <div className="w-full lg:w-1/4 mt-8">
-                            <VendorRightBar vendorId={product?.userId} />
+                            <VendorRightBar
+                                vendorId={product?.doc?.userId}
+                                shop
+                            />
                         </div>
                     </div>
                 </div>
-                {/*  */}
             </div>
 
             {isProductsLoading ? (
                 <Loader />
-            ) : products && products.doc ? (
+            ) : products && products.doc?.length ? (
                 <div className="products-container">
                     <div className="flex justify-between items-center mx-2">
                         <div className="flex justify-between items-center w-fit gap-2 mb-4">
@@ -68,7 +67,10 @@ const ProductDetailsPage = () => {
                                 Similar Products
                             </h3>
                         </div>
-                        <Link to="/products" className="view-box">
+                        <Link
+                            to={`/products/brand/${product.doc.brand.slug}`}
+                            className="view-box"
+                        >
                             View All
                             <span>
                                 <FaAngleRight className="text-lg" />

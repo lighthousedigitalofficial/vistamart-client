@@ -1,17 +1,15 @@
 import { useState } from 'react'
-import { FaEye, FaStar } from 'react-icons/fa'
+import { FaEye } from 'react-icons/fa'
 import ProductDialog from './ProductDialog'
 import { Link } from 'react-router-dom'
 import { PropTypes } from 'prop-types'
 import keys from './../../config/keys'
 import { formatPrice } from '../../utils/helpers'
+import { Rating } from '@mui/material'
 
 const ProductCard = ({ data: product }) => {
-    const oldPrice = product?.price + product?.discountAmount || 0
     const [selectedProduct, setSelectedProduct] = useState(null)
     const [isDialogOpen, setIsDialogOpen] = useState(false)
-
-    // console.log(oldPrice)
 
     const handleProductClick = (product) => {
         setSelectedProduct(product)
@@ -23,26 +21,29 @@ const ProductCard = ({ data: product }) => {
         setSelectedProduct(null)
     }
 
-    // console.log(product)
+    const productThumbnail = product?.thumbnail
+        ? product.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.thumbnail}`
+            : product.thumbnail
+        : keys.DEFAULT_IMG
 
     return (
         product && (
             <div className="bg-white overflow-hidden shadow-sm  w-full">
-                <div className="relative  overflow-hidden group cursor-pointer z-10">
+                <div className="relative overflow-hidden group cursor-pointer z-10">
                     {product?.discountAmount > 0 && (
                         <div className="discount-badge">
                             - Rs.{formatPrice(product?.discountAmount)}
                         </div>
                     )}
-                    <img
-                        src={
-                            product?.thumbnail
-                                ? `${product.thumbnail}`
-                                : keys.DEFAULT_IMG
-                        }
-                        alt={product.name}
-                        className="product__img object-cover"
-                    />
+                    <Link to={`/products/${product}`}>
+                        <img
+                            src={productThumbnail}
+                            alt={product.name}
+                            loading="lazy"
+                            className="product__img object-cover object-top"
+                        />
+                    </Link>
                     <div className="product__quick-view z-20">
                         <button
                             onClick={() => handleProductClick(product)}
@@ -57,22 +58,37 @@ const ProductCard = ({ data: product }) => {
                         <p className="font-medium truncate mb-2 group-hover:text-primary-400 transition-all ease-in">
                             {product.name}
                         </p>
-                        {/* add the star with number of reviews */}
-                        <div className="flex items-center text-yellow-600 gap-1 ">
-                            <FaStar />
-                            <p className="text-sm text-gray-500">
-                                ({product?.numReviews || '0'})
+                        {product?.rating > 0 && (
+                            <div className="flex items-center gap-2">
+                                <Rating
+                                    name="half-rating-read"
+                                    defaultValue={0}
+                                    value={product?.rating}
+                                    precision={0.5}
+                                    readOnly
+                                    size="small"
+                                />
+                                <p className="text-xs">
+                                    ({product?.numOfReviews})
+                                </p>
+                            </div>
+                        )}
+
+                        <div className="flex items-center gap-2">
+                            <p className="text-sm font-bold text-primary-400">
+                                <span className="text-xs">Rs.</span>
+                                {product.discountAmount > 0
+                                    ? formatPrice(
+                                          product?.price -
+                                              product.discountAmount
+                                      )
+                                    : formatPrice(product?.price)}
                             </p>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            {oldPrice > product.price && (
-                                <p className="text-sm line-through text-gray-500">
-                                    Rs.{formatPrice(oldPrice)}
+                            {product.discountAmount > 0 && product.price && (
+                                <p className="text-xs line-through text-gray-500">
+                                    {formatPrice(product.price)}
                                 </p>
                             )}
-                            <p className="text-sm font-bold text-primary-400">
-                                Rs.{formatPrice(product?.price)}
-                            </p>
                         </div>
                     </Link>
                 </div>

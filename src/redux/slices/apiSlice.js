@@ -1,23 +1,75 @@
 /* eslint-disable no-unused-vars */
-import { fetchBaseQuery, createApi } from '@reduxjs/toolkit/query/react'
-import keys from '../../config/keys'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import baseQueryWithReauth from '../baseQueryWithReauth'
 
-const baseQuery = fetchBaseQuery({
-    baseUrl: `${keys.BASE_URL}/api/v1`,
-    prepareHeaders: (headers, { getState }) => {
-        const userInfo = localStorage.getItem('userInfo')
-        const user = JSON.parse(userInfo)
+// const baseQuery = fetchBaseQuery({
+//     baseUrl: `${keys.BASE_URL}/api/v1`,
+//     prepareHeaders: (headers, { getState }) => {
+//         const userInfo = localStorage.getItem('userInfo')
+//         const user = JSON.parse(userInfo)
 
-        if (user) {
-            headers.set('Authorization', `Bearer ${user?.accessToken}`)
-        }
+//         if (user) {
+//             headers.set('Authorization', `Bearer ${user?.accessToken}`)
+//         }
 
-        return headers
-    },
-})
+//         return headers
+//     },
+// })
+
+// export const apiSlice = createApi({
+//     baseQuery,
+//     credentials: 'include',
+//     tagTypes: [
+//         'Product',
+//         'Category',
+//         'Brand',
+//         'Order',
+//         'User',
+//         'Customer',
+//         'Vendor',
+//         'WishList',
+//         'Transaction',
+//     ],
+//     // eslint-disable-next-line no-unused-vars
+//     endpoints: (builder) => ({}),
+// })
+
+// const baseQueryWithReauth = async (args, api, extraOptions) => {
+//     let result = await baseQuery(args, api, extraOptions)
+
+//     if (result?.error?.status === 401) {
+//         // Attempt to refresh the token
+//         const refreshResult = await baseQuery(
+//             '/auth/refresh',
+//             api,
+//             extraOptions
+//         )
+//         if (refreshResult?.data) {
+//             // Store the new token and retry the original query
+//             localStorage.setItem('userInfo', JSON.stringify(refreshResult.data))
+//             result = await baseQuery(args, api, extraOptions)
+//         }
+//     }
+
+//     return result
+// }
+
+// const baseQuery = fetchBaseQuery({
+//     baseUrl: `${keys.BASE_URL}/api/v1`,
+//     prepareHeaders: (headers) => {
+//         const userInfo = localStorage.getItem('userInfo')
+//         const user = JSON.parse(userInfo)
+
+//         if (user?.accessToken) {
+//             headers.set('Authorization', `Bearer ${user.accessToken}`)
+//         }
+
+//         return headers
+//     },
+// })
 
 export const apiSlice = createApi({
-    baseQuery,
+    baseQuery: baseQueryWithReauth,
     credentials: 'include',
     tagTypes: [
         'Product',
@@ -28,7 +80,7 @@ export const apiSlice = createApi({
         'Customer',
         'Vendor',
         'WishList',
+        'Transaction',
     ],
-    // eslint-disable-next-line no-unused-vars
     endpoints: (builder) => ({}),
 })

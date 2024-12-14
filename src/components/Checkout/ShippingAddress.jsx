@@ -1,117 +1,211 @@
-import { PhoneInput } from "react-international-phone";
+/* eslint-disable react/prop-types */
+import { useEffect } from 'react'
+import { useForm, FormProvider, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import CityInput from './Shipping/CityInput'
 
-const ShippingAddress = () => {
-  return (
-    <div>
-      <div className=" mt-4 flex justify-center items-start">
-        <div className=" w-full ">
-          <h2 className="text-xl font-bold mb-6">Shipping Address</h2>
-          <form className="space-y-6 ">
-            {/* Contact Name and Phone */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="input-label">Contact person name *</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="Aqib Ahmed"
-                  required
-                />
-              </div>
-              <div>
-                <label className="input-label">Phone Number</label>
-                <PhoneInput
-                  defaultCountry="pk"
-                  // {...register('phoneNumber')}
-                  className="custom-phone-input"
-                  inputClassName="custom-phone-input"
-                />
-                {/* {errors.phoneNumber && (
-                        <p className="text-red-500 text-xs mt-1">
-                            {errors.phoneNumber.message}
-                        </p>
-                    )} */}
-              </div>
-            </div>
+import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
+import './../../styles/customPhoneInput.css'
+import CountrySelect from './Shipping/CountrySelect'
 
-            {/* Address Type */}
-            <div>
-              <label className="input-label">Address type</label>
-              <select className="input">
-                <option>Permanent</option>
-                <option>Temporary</option>
-              </select>
-            </div>
+const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
+    const methods = useForm({
+        resolver: zodResolver(shippingAddressSchema),
+        defaultValues: {
+            name: '',
+            phoneNumber: '',
+            country: '',
+            city: '',
+            state: '',
+            zipCode: '',
+            address: '',
+        },
+    })
 
-            {/* Country, City, Zip Code */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <label className="input-label">Country *</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="Pakistan"
-                  required
-                />
-              </div>
-              <div>
-                <label className="input-label">City *</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="Islamabad"
-                  required
-                />
-              </div>
-              <div>
-                <label className="input-label">Zip code *</label>
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="45710"
-                  required
-                />
-              </div>
-            </div>
+    const {
+        register,
+        handleSubmit,
+        reset,
+        setValue,
+        formState: { errors },
+    } = methods
 
-            {/* Address */}
-            <div>
-              <label className="input-label">Address *</label>
-              <input
-                type="text"
-                className="input"
-                placeholder="Soan Garden"
-                required
-              />
-            </div>
+    // Update default values when address data changes
+    useEffect(() => {
+        if (address) {
+            reset({
+                name: address.name || '',
+                phoneNumber: address.phoneNumber || '',
+                country: address.country || '',
+                city: address.city || '',
+                state: address.state || '',
+                zipCode: address.zipCode || '',
+                address: address.address || '',
+            })
+        }
+    }, [address, reset])
 
-            {/* Save Address Checkbox */}
-            <div className="mt-6">
-              <label className="inline-flex items-center">
-                <input
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                />
-                <span className="ml-2 text-sm text-gray-700">
-                  Save this Address
-                </span>
-              </label>
-            </div>
+    return (
+        <FormProvider {...methods}>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col w-full"
+            >
+                <div className="w-full">
+                    <h2 className="text-gray-900 font-bold text-xl mb-6">
+                        Shipping Address
+                    </h2>
+                    <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 w-full">
+                        <div>
+                            <label className="input-label">Full Name</label>
+                            <input
+                                type="text"
+                                {...register('name', {
+                                    required: 'Full Name is required',
+                                })}
+                                className={`input ${
+                                    errors.name
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
+                            />
+                            {errors.name && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.name.message}
+                                </p>
+                            )}
+                        </div>
 
-            {/* Submit Button */}
-            {/* <div className="flex justify-end">
-              <button
-                type="submit"
-                className="py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-300 hover:bg-primary-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Submit
-              </button>
-            </div> */}
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
+                        <div className="mb-4">
+                            <label className="input-label">Phone Number</label>
+                            <Controller
+                                name="phoneNumber"
+                                control={methods.control}
+                                render={({ field }) => (
+                                    <PhoneInput
+                                        {...field}
+                                        defaultCountry="pk"
+                                        className={`custom-phone-input ${
+                                            errors.phoneNumber
+                                                ? 'border-red-500'
+                                                : ''
+                                        }`}
+                                        inputClassName="custom-phone-input"
+                                    />
+                                )}
+                            />
+                            {/* <PhoneInput
+                                defaultCountry="pk"
+                                {...register('phoneNumber')}
+                                className={`custom-phone-input ${
+                                    errors.phoneNumber ? 'border-red-500' : ''
+                                }`}
+                                inputClassName="custom-phone-input"
+                            /> */}
+                            {errors.phoneNumber && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.phoneNumber.message}
+                                </p>
+                            )}
+                        </div>
 
-export default ShippingAddress;
+                        {/* <div>
+                            <label className="input-label">Country</label>
+                            <input
+                                type="text"
+                                {...register('country', {
+                                    required: 'Country is required',
+                                })}
+                                className={`input ${
+                                    errors.country
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
+                            />
+                            {errors.country && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.country.message}
+                                </p>
+                            )}
+                        </div> */}
+
+                        <CountrySelect
+                            register={register}
+                            setValue={setValue}
+                            errors={errors}
+                        />
+                        <CityInput register={register} errors={errors} />
+
+                        <div>
+                            <label className="input-label">State</label>
+                            <input
+                                type="text"
+                                {...register('state', {
+                                    required: 'State is required',
+                                })}
+                                className={`input ${
+                                    errors.state
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
+                            />
+                            {errors.state && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.state.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div>
+                            <label className="input-label">Zip Code</label>
+                            <input
+                                type="text"
+                                {...register('zipCode', {
+                                    required: 'Zip Code is required',
+                                })}
+                                className={`input ${
+                                    errors.zipCode
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
+                            />
+                            {errors.zipCode && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.zipCode.message}
+                                </p>
+                            )}
+                        </div>
+
+                        <div className="lg:col-span-2 col-span-1">
+                            <label className="input-label">Address</label>
+                            <input
+                                type="text"
+                                {...register('address', {
+                                    required: 'Address is required',
+                                })}
+                                className={`input ${
+                                    errors.address
+                                        ? 'border-red-500'
+                                        : 'border-gray-300'
+                                }`}
+                            />
+                            {errors.address && (
+                                <p className="text-red-500 text-xs mt-1">
+                                    {errors.address.message}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Disable the submit button if the form is invalid */}
+                <button type="submit" className="btn primary-btn mt-4">
+                    Submit
+                </button>
+            </form>
+        </FormProvider>
+    )
+}
+
+export default ShippingAddressForm
