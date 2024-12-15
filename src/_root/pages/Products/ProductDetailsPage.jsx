@@ -3,15 +3,15 @@ import { FaAngleRight } from 'react-icons/fa'
 import {
     useGetProductBySlugQuery,
     useGetProductsQuery,
-} from '../../redux/slices/productsApiSlice'
+} from '../../../redux/slices/productsApiSlice'
 
-import Product from '../../components/Product/Product'
-import Loader from '../../components/Loader'
-import ProductCard from '../../components/Product/ProductCard'
-import ProductCarousel from '../../components/shared/ProductCarousel'
-import ProductReviews from '../../components/Product/ProductReviews'
-import VendorRightBar from '../../components/Seller/VendorRightBar'
-import Overview from '../../components/Product/subcomponent/Overview'
+import Product from '../../../components/Product/Product'
+import Loader from '../../../components/Loader'
+import ProductCard from '../../../components/Product/ProductCard'
+import ProductCarousel from '../../../components/shared/ProductCarousel'
+import ProductReviews from '../../../components/Product/ProductReviews'
+import VendorRightBar from '../../../components/Seller/VendorRightBar'
+import Overview from '../../../components/Product/subcomponent/Overview'
 // import AddReview from '../../components/Product/AddReview'
 
 const ProductDetailsPage = () => {

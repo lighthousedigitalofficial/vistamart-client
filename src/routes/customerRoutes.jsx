@@ -1,11 +1,12 @@
 import SignInForm from '../_auth/Forms/SignInForm'
 import SignUpForm from '../_auth/Forms/SignUpForm'
-import CartPage from '../_root/pages/CartPage'
-import CheckoutPage from '../_root/pages/CheckoutPage'
-import CheckoutPaymentPage from '../_root/pages/CheckoutPaymentPage'
-import OrderConfirmationPage from '../_root/pages/OrderConfirmationPage'
-import OrderSummaryPage from '../_root/pages/OrderSummaryPage'
-import ShippingAddressPage from '../_root/pages/ShippingAddressPage'
+import CartPage from '../_root/pages/Checkout/CartPage'
+import CheckoutPage from '../_root/pages/Checkout/CheckoutPage'
+import CheckoutPaymentPage from '../_root/pages/Checkout/CheckoutPaymentPage'
+import OrderConfirmationPage from '../_root/pages/Checkout/OrderConfirmationPage'
+import OrderSummaryPage from '../_root/pages/Checkout/OrderSummaryPage'
+import ShippingAddressPage from '../_root/pages/Checkout/ShippingAddressPage'
+
 import CardPaymentStatus from '../components/Checkout/CaridCardPaymentStatus'
 import JazzCashCard from '../components/Checkout/JazzCashCard'
 

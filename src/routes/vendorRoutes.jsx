@@ -1,6 +1,6 @@
-import ShopViewPage from '../_root/pages/ShopViewPage'
-import VendorRegisterPage from '../_root/pages/VendorRegisterPage'
-import VendorsPage from '../_root/pages/VendorsPage'
+import ShopViewPage from '../_root/pages/Vendor/ShopViewPage'
+import VendorRegisterPage from '../_root/pages/Vendor/VendorRegisterPage'
+import VendorsPage from '../_root/pages/Vendor/VendorsPage'
 
 const vendorRoutes = [
     {

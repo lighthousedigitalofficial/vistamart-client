@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Loader from '../../components/Loader'
-import { useGetVendorsQuery } from '../../redux/slices/vendorsApiSlice'
-import StoreList from '../../components/Seller/StoreList'
+import Loader from '../../../components/Loader'
+import { useGetVendorsQuery } from '../../../redux/slices/vendorsApiSlice'
+import StoreList from '../../../components/Seller/StoreList'
 import TablePagination from '@mui/material/TablePagination'
 import { useSearchParams } from 'react-router-dom'
 

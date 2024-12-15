@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaTruck, FaShieldAlt, FaUndo, FaCheckCircle } from 'react-icons/fa'
 import { MdOutlineCelebration } from 'react-icons/md'
 import { useEffect } from 'react'
-import { useCreateOrderMutation } from '../../redux/slices/ordersApiSlice'
+import { useCreateOrderMutation } from '../../../redux/slices/ordersApiSlice'
 import toast from 'react-hot-toast'
-import { resetCart } from '../../redux/slices/cartSlice'
-import { formatPAKPhoneNumber, formatPrice } from '../../utils/helpers'
-import useAuth from './../../hooks/useAuth'
+import { resetCart } from '../../../redux/slices/cartSlice'
+import { formatPAKPhoneNumber, formatPrice } from '../../../utils/helpers'
+import useAuth from '../../../hooks/useAuth'
 
 const OrderSummaryPage = () => {
     const cart = useSelector((state) => state.cart)

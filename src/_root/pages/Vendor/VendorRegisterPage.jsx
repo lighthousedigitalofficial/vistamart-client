@@ -1,7 +1,7 @@
 // import WhySellWithUs from '../../components/Seller/WhyWithUs'
 // import SellingSteps from '../../components/Seller/SellingSteps'
 // import VandorApp from '../../components/Seller/VandorApp'
-import MultiStepForm from '../../_auth/Forms/MultiStepForm'
+import MultiStepForm from '../../../_auth/Forms/MultiStepForm'
 import { z } from 'zod'
 // import FAQSection from './../../components/Seller/FAQSection'
 

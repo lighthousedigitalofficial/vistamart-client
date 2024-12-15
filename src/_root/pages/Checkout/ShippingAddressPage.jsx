@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-import ShippingAddress from '../../components/Checkout/ShippingAddress'
+import ShippingAddress from '../../../components/Checkout/ShippingAddress'
 import {
     saveBillingAddress,
     saveShippingAddress,
-} from '../../redux/slices/cartSlice'
+} from '../../../redux/slices/cartSlice'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
-import useAuth from '../../hooks/useAuth'
+import useAuth from '../../../hooks/useAuth'
 import { z } from 'zod'
-import { phoneValidation } from '../../utils'
+import { phoneValidation } from '../../../utils'
 
 const shippingAddressSchema = z.object({
     name: z
