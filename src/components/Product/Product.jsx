@@ -63,8 +63,6 @@ const Product = ({ product }) => {
             )
     }
 
-    console.log(product)
-
     return (
         <div className="flex flex-col w-full p-4 rounded-lg">
             <div className="flex flex-col md:flex-row h-[50%] gap-10">
