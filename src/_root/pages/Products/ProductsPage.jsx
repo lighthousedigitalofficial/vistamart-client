@@ -1,14 +1,15 @@
-import FilterSidebar from '../../components/Sort/FilterSidebar'
-import Loader from '../../components/Loader'
-import ProductCard from '../../components/Product/ProductCard'
-import { useGetDiscountedProductsQuery } from '../../redux/slices/productsApiSlice'
+import FilterSidebar from '../../../components/Sort/FilterSidebar'
+import Loader from '../../../components/Loader'
+import ProductCard from '../../../components/Product/ProductCard'
+import { useGetProductsQuery } from '../../../redux/slices/productsApiSlice'
 import { useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
-import img from '../../assets/no-product-found.png'
 import { TablePagination } from '@mui/material'
-import ProductsHeader from '../../components/Product/subcomponent/ProductsHeader'
 
-export const DiscountedProductsPage = () => {
+import img from '../../../assets/no-product-found.png'
+import ProductsHeader from '../../../components/Product/subcomponent/ProductsHeader'
+
+export const ProductsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const [currentPage, setCurrentPage] = useState(
         parseInt(searchParams.get('page'), 10) - 1 || 0
@@ -25,7 +26,7 @@ export const DiscountedProductsPage = () => {
     )
 
     // Fetch discounted products
-    const { data, isFetching } = useGetDiscountedProductsQuery({
+    const { data, isFetching } = useGetProductsQuery({
         ...filters,
         page: currentPage + 1, // API expects 1-based indexing
         limit: rowsPerPage,
@@ -58,18 +59,29 @@ export const DiscountedProductsPage = () => {
         <Loader />
     ) : data ? (
         <div className="mt-4 w-full mx-auto py-4">
-            <ProductsHeader
-                title="Discounted Products"
-                totalItems={data?.totalDocs}
-            />
+            <ProductsHeader title="Products" totalItems={data?.totalDocs} />
 
             <div className="flex justify-between items-start gap-4 my-4">
                 <FilterSidebar filters={filters} />
                 {data?.doc?.length ? (
-                    <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all py-2 ease-in duration-300">
-                        {data?.doc?.map((product, index) => (
-                            <ProductCard key={index} data={product} />
-                        ))}
+                    <div>
+                        <div className="grid w-full lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4 transition-all py-2 ease-in duration-300">
+                            {data?.doc?.map((product, index) => (
+                                <ProductCard key={index} data={product} />
+                            ))}
+                        </div>
+                        {/* Pagination Controls using MUI TablePagination */}
+                        {totalProducts > rowsPerPage && (
+                            <TablePagination
+                                component="div"
+                                count={totalProducts}
+                                page={currentPage}
+                                onPageChange={handleChangePage}
+                                rowsPerPage={rowsPerPage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                rowsPerPageOptions={[12, 24, 36, 60]} // Customizable
+                            />
+                        )}
                     </div>
                 ) : (
                     <div className="text-lg flex mt-20 justify-center items-center w-full text-center">
@@ -81,22 +93,9 @@ export const DiscountedProductsPage = () => {
                     </div>
                 )}
             </div>
-            {/* Pagination Controls using MUI TablePagination */}
-            {totalProducts > rowsPerPage && (
-                <TablePagination
-                    component="div"
-                    count={totalProducts}
-                    page={currentPage}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={rowsPerPage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[12, 24, 36, 60]} // Customizable
-                />
-            )}
         </div>
     ) : (
-        <p className="text-center p-12">Discounted Products not found!</p>
+        <p className="text-center p-12">Products not found!</p>
     )
 }
-
-export default DiscountedProductsPage
+export default ProductsPage

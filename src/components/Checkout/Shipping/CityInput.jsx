@@ -135,58 +135,42 @@ const CityInput = ({ register, errors }) => {
     const { cities, loading, error } = useCities()
     const [selectedCity, setSelectedCity] = useState('')
 
-    // Handle city selection
-    const handleCitySelect = (event) => {
-        setSelectedCity(event.target.value) // Update selected city
-    }
-
-    if (loading) {
-        return (
-            <div>
-                <label className="block text-sm font-medium text-gray-700">
-                    City
-                </label>
-                <input
-                    className="input w-full h-10 p-2 text-sm bg-gray-100 text-gray-500 border border-gray-300 rounded-md cursor-not-allowed"
-                    disabled
-                    value="Loading cities..."
-                />
-            </div>
-        )
+    const handleChange = (event) => {
+        setSelectedCity(event.target.value)
     }
 
     return (
         <div className="relative">
             <label className="input-label">City</label>
-            {error && <div className="text-red-500 text-xs mt-1">{error}</div>}
-
-            <select
-                {...register('city', { required: 'City is required' })}
-                value={selectedCity}
-                onChange={handleCitySelect}
-                className={`input ${
-                    errors.city ? 'border-red-500' : 'border-gray-700'
-                }`}
-            >
-                <option value="" disabled className="text-gray-400">
-                    Select a city
-                </option>
-                {cities.length > 0 ? (
-                    cities.map((city) => (
-                        <option
-                            key={city.id || city.name}
-                            value={JSON.stringify({
-                                cityId: city.id,
-                                cityName: city.name,
-                            })}
-                        >
-                            {city.name}
-                        </option>
-                    ))
-                ) : (
-                    <option>No cities available</option>
-                )}
-            </select>
+            {error ? (
+                <p>{error}</p>
+            ) : (
+                <select
+                    {...register('city', { required: 'City is required' })}
+                    value={selectedCity}
+                    onChange={handleChange}
+                    className={`input ${
+                        errors.city ? 'border-red-500' : 'border-gray-300'
+                    }`}
+                >
+                    <option value="" disabled className="text-gray-700">
+                        Select a City
+                    </option>
+                    {loading
+                        ? 'is Loading...'
+                        : cities.map((city) => (
+                              <option
+                                  key={city.id}
+                                  value={JSON.stringify({
+                                      cityId: city.id,
+                                      cityName: city.name,
+                                  })}
+                              >
+                                  {city.name}
+                              </option>
+                          ))}
+                </select>
+            )}
 
             {/* Error Message */}
             {errors.city && (

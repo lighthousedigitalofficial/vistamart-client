@@ -1,14 +1,15 @@
-import ShopBanner from '../../components/Banners/ShopBanner'
-import Loader from '../../components/Loader'
-import { useGetVendorBySlugQuery } from '../../redux/slices/vendorsApiSlice'
+import ShopBanner from '../../../components/Banners/ShopBanner'
+import Loader from '../../../components/Loader'
+import { useGetVendorBySlugQuery } from '../../../redux/slices/vendorsApiSlice'
 import { useParams, useSearchParams } from 'react-router-dom'
-import ProductCard from '../../components/Product/ProductCard'
-import img from '../../assets/no-product-found.png'
+import ProductCard from '../../../components/Product/ProductCard'
+import img from '../../../assets/no-product-found.png'
+
 import { TablePagination } from '@mui/material'
 import { useState } from 'react'
-import FilterSidebar from '../../components/Sort/FilterSidebar'
-import { useGetProductsQuery } from '../../redux/slices/productsApiSlice'
-import ProductsHeader from '../../components/Product/subcomponent/ProductsHeader'
+import FilterSidebar from '../../../components/Sort/FilterSidebar'
+import { useGetProductsQuery } from '../../../redux/slices/productsApiSlice'
+import ProductsHeader from '../../../components/Product/subcomponent/ProductsHeader'
 
 const ShopViewPage = () => {
     const [searchParams] = useSearchParams()

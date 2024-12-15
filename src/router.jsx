@@ -2,9 +2,8 @@ import { createBrowserRouter } from 'react-router-dom'
 import RootLayout from './_root/RootLayout'
 
 import HomePage from './_root/pages/HomePage'
-import BrandsPage from './_root/pages/BrandsPage'
-import ContactUsPage from './_root/pages/ContactUsPage'
-import CategoriesPage from './_root/pages/CategoriesPage'
+import BrandsPage from './_root/pages/Brand/BrandsPage'
+import CategoriesPage from './_root/pages/Category/CategoriesPage'
 
 import SearchResultPage from './_root/pages/SearchResulstPage'
 
@@ -19,13 +18,14 @@ import ScrollToTop from './components/ScrollToTop'
 import ServerErrorPage from './_root/pages/ServerErrorPage'
 import NotFoundPage from './_root/pages/NotFoundPage'
 
-import PrivacyPolicyPage from './_root/pages/Web/PrivacyPolicyPage'
-import FaqPage from './_root/pages/Web/FaqPage'
-import AboutUsPage from './_root/pages/Web/AboutUsPagae'
-import RefundPolicy from './_root/pages/Web/RefundPolicyPage'
-import ReturnPolicy from './_root/pages/Web/ReturnPolicyPage'
-import CancellationPolicy from './_root/pages/Web/CancellationPolicyPage'
-import TermsPage from './_root/pages/Web/TermsPage'
+import ContactUsPage from './_root/pages/VistaMart/ContactUsPage'
+import PrivacyPolicyPage from './_root/pages/VistaMart/PrivacyPolicyPage'
+import FaqPage from './_root/pages/VistaMart/FaqPage'
+import AboutUsPage from './_root/pages/VistaMart/AboutUsPagae'
+import RefundPolicy from './_root/pages/VistaMart/RefundPolicyPage'
+import ReturnPolicy from './_root/pages/VistaMart/ReturnPolicyPage'
+import CancellationPolicy from './_root/pages/VistaMart/CancellationPolicyPage'
+import TermsPage from './_root/pages/VistaMart/TermsPage'
 
 // import ErrorBoundary from './components/ErrorBoundary'
 
@@ -80,19 +80,19 @@ const router = createBrowserRouter([
                 element: <FaqPage />,
             },
             {
-                path: '/refund-policy',
+                path: 'refund-policy',
                 element: <RefundPolicy />,
             },
             {
-                path: '/return-policy',
+                path: 'return-policy',
                 element: <ReturnPolicy />,
             },
             {
-                path: '/cancellation-policy',
+                path: 'cancellation-policy',
                 element: <CancellationPolicy />,
             },
             {
-                path: '/search',
+                path: 'search',
                 element: <SearchResultPage />,
             },
         ],

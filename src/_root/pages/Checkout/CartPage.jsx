@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
-import CartSummary from '../../components/Cart/CartSummery'
-import ShoppingCart from '../../components/Cart/ShoppingCart'
+import CartSummary from '../../../components/Cart/CartSummery'
+import ShoppingCart from '../../../components/Cart/ShoppingCart'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 

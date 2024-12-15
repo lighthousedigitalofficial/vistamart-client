@@ -7,18 +7,15 @@ import {
 } from '@material-tailwind/react'
 import { useState } from 'react'
 import { FaShoppingCart } from 'react-icons/fa'
-import { MdArrowDropDown } from 'react-icons/md'
 import { useSelector } from 'react-redux'
 import CartView from '../Cart/CartView'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const CartIcon = () => {
     const [openMenu, setOpenMenu] = useState(false)
-    const navigate = useNavigate()
 
     const cart = useSelector((state) => state.cart)
     const totalItems = cart?.totalQty?.toString() || '0'
-    const totalPrice = cart?.totalPrice || 0
 
     // Open menu on hover
     const handleMouseEnter = () => {

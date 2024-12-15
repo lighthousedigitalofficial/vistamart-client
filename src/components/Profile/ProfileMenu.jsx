@@ -12,6 +12,7 @@ import { logout } from '../../redux/slices/authSlice'
 import { useCustomerLogoutMutation } from '../../redux/slices/customersApiSlice'
 import toast from 'react-hot-toast'
 import keys from '../../config/keys'
+import encryptionManager from '../../utils/encryptionManager'
 
 const ProfileMenu = ({ user }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -29,14 +30,19 @@ const ProfileMenu = ({ user }) => {
     const logoutHandler = () => {
         try {
             // Get accessToken from localStorage
-            const userInfo = localStorage.getItem('userInfo')
-            const user = JSON.parse(userInfo)
+            const encryptedUserInfo = localStorage.getItem('userInfo')
+            const user = encryptedUserInfo
+                ? encryptionManager.decrypt(encryptedUserInfo)
+                : null
 
-            dispatch(logout())
-            customerLogout(user?.accessToken)
+            if (user) {
+                dispatch(logout())
+                customerLogout(user?.accessToken)
 
-            toast.success('Logout Successfully')
-            window.location.reload()
+                toast.success('Logout Successfully')
+                navigate('/customer/auth/sign-in')
+                // window.location.reload()
+            }
         } catch (err) {
             toast.error(err?.data?.message || err.error)
         }
@@ -87,7 +93,7 @@ const ProfileMenu = ({ user }) => {
                 </div>
             </button>
             {isMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                <div className="absolute overflow-visible right-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                     <button
                         onClick={() => closeMenu(`/profile/profile-info`)}
                         className="flex users-center gap-2 px-4 py-2 w-full text-left text-sm text-gray-700 hover:bg-gray-100"

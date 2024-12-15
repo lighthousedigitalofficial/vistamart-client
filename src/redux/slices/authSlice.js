@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 import encryptionManager from '../../utils/encryptionManager'
 
@@ -6,10 +7,15 @@ let initialState = {}
 // Decrypt userInfo during initialization
 if (typeof localStorage !== 'undefined') {
     const encryptedUserInfo = localStorage.getItem('userInfo')
-    initialState = {
-        userInfo: encryptedUserInfo
-            ? encryptionManager.decrypt(encryptedUserInfo) // Decrypt the data
-            : null,
+    try {
+        initialState = {
+            userInfo: encryptedUserInfo
+                ? encryptionManager.decrypt(encryptedUserInfo)
+                : null,
+        }
+    } catch (error) {
+        localStorage.clear()
+        window.location.reload()
     }
 }
 

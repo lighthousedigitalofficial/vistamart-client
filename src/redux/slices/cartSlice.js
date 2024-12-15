@@ -11,7 +11,6 @@ if (typeof localStorage !== 'undefined') {
         try {
             initialState = encryptionManager.decrypt(encryptedCart)
         } catch (error) {
-            console.error('Failed to decrypt cart data:', error)
             initialState = {
                 cartItems: [],
                 totalQty: 0,
@@ -103,7 +102,10 @@ const cartSlice = createSlice({
             saveEncryptedCart(state)
         },
 
-        resetCart: (state) => (state = initialState),
+        resetCart: (state) => {
+            state = initialState
+            saveEncryptedCart(state)
+        },
     },
 })
 

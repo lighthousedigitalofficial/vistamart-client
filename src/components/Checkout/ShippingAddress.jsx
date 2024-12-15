@@ -53,7 +53,7 @@ const ShippingAddressForm = ({ onSubmit, address, shippingAddressSchema }) => {
                 className="flex flex-col w-full"
             >
                 <div className="w-full">
-                    <h2 className="text-gray-900 font-bold text-xl mb-6">
+                    <h2 className="text-gray-900 font-bold text-xl md:text-2xl mb-6">
                         Shipping Address
                     </h2>
                     <div className="grid lg:grid-cols-2 grid-cols-1 gap-4 w-full">

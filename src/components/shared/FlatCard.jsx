@@ -1,20 +1,9 @@
 import { Link } from 'react-router-dom'
 import keys from './../../config/keys'
 import { formatPrice } from '../../utils/helpers'
-import { useEffect, useState } from 'react'
 import { Rating } from '@mui/material'
 
 const FlatCard = (product) => {
-    const oldPrice = product?.price + product?.discountAmount || 0
-
-    const [totalPrice, setTotalPrice] = useState(product.price || 0)
-
-    useEffect(() => {
-        if (!product?.taxIncluded) {
-            setTotalPrice(product?.price + product.taxAmount)
-        } else setTotalPrice(product.price)
-    }, [product])
-
     const productThumbnail = product?.thumbnail
         ? product.thumbnail.startsWith('products')
             ? `${keys.BUCKET_URL}${product.thumbnail}`
@@ -22,7 +11,7 @@ const FlatCard = (product) => {
         : keys.DEFAULT_IMG
 
     return (
-        <div className="w-full bg-white  rounded-lg overflow-hidden flex gap-2 items-start mx-2">
+        <div className="w-full bg-white rounded-lg overflow-hidden flex gap-2 items-start mx-2">
             <div className="relative overflow-hidden group cursor-pointer z-10">
                 {product.discount > 0 && (
                     <div className="discount-badge">
@@ -58,14 +47,19 @@ const FlatCard = (product) => {
                     </div>
                 )}
                 <div className="flex items-center gap-2">
-                    {oldPrice > product.price && (
-                        <p className="text-sm line-through text-gray-500">
-                            Rs.{formatPrice(oldPrice)}
+                    <p className="text-sm font-bold text-primary-400">
+                        <span className="text-xs">Rs.</span>
+                        {product.discountAmount > 0
+                            ? formatPrice(
+                                  product?.price - product.discountAmount
+                              )
+                            : formatPrice(product?.price)}
+                    </p>
+                    {product.discountAmount > 0 && product.price && (
+                        <p className="text-xs line-through text-gray-500">
+                            {formatPrice(product.price)}
                         </p>
                     )}
-                    <p className="text-lg font-bold text-primary-500">
-                        Rs.{formatPrice(totalPrice)}
-                    </p>
                 </div>
             </div>
         </div>

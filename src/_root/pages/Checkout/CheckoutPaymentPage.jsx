@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { savePaymentMethod } from '../../redux/slices/cartSlice'
-import PaymentMethod from '../../components/Checkout/PaymentMethod'
-import useAuth from '../../hooks/useAuth'
+import { savePaymentMethod } from '../../../redux/slices/cartSlice'
+import PaymentMethod from '../../../components/Checkout/PaymentMethod'
+import useAuth from '../../../hooks/useAuth'
 
 const CheckoutPaymentPage = () => {
     const user = useAuth()

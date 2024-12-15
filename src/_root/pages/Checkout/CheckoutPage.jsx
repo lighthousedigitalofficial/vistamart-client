@@ -8,12 +8,12 @@ import {
     saveBillingAddress,
     savePaymentMethod,
     clearCartItems,
-} from '../../redux/slices/cartSlice'
-import { addressSchema, paymentSchema } from './../../utils/schema'
-import PaymentMethod from '../../components/Checkout/PaymentMethod'
-import BillingAddressForm from '../../components/Checkout/BillingAddressForm'
-import { useCreateOrderMutation } from '../../redux/slices/ordersApiSlice'
-import CartSummary from '../../components/Cart/CartSummery'
+} from '../../../redux/slices/cartSlice'
+import { addressSchema, paymentSchema } from '../../../utils/schema'
+import PaymentMethod from '../../../components/Checkout/PaymentMethod'
+import BillingAddressForm from '../../../components/Checkout/BillingAddressForm'
+import { useCreateOrderMutation } from '../../../redux/slices/ordersApiSlice'
+import CartSummary from '../../../components/Cart/CartSummery'
 import toast from 'react-hot-toast'
 // import ShippingMethod from "../../components/Checkout/ShippingMethod";
 

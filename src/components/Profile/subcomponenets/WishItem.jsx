@@ -1,64 +1,62 @@
 /* eslint-disable react/prop-types */
-import { FaHeart } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-import { useDeleteWishlistProductMutation } from '../../../redux/slices/wishlistApiSlice'
+import { formatPrice } from '../../../utils/helpers'
+import keys from '../../../config/keys'
+import { FaDeleteLeft } from 'react-icons/fa6'
 
-const WishItem = ({ product, customer, refetch }) => {
-    const oldPrice = product?.price + product?.discount || 0
+const WishItem = ({ product, onRemove }) => {
+    const productThumbnail = product?.thumbnail
+        ? product.thumbnail.startsWith('products')
+            ? `${keys.BUCKET_URL}${product.thumbnail}`
+            : product.thumbnail
+        : keys.DEFAULT_IMG
 
-    const [deleteWishlistProduct] = useDeleteWishlistProductMutation()
-    const removeItem = async (productId) => {
-        try {
-            const data = {
-                customer,
-                productId,
-            }
-            await deleteWishlistProduct(data)
-            refetch()
-        } catch (error) {
-            // console.log(error)
-        }
-    }
     return (
         <div>
-            <div className="w-full bg-white border border-primary-100 rounded-lg overflow-hidden flex justify-between items-center mx-2 px-2">
-                <div className="relative flex gap-2 rounded-lg overflow-hidden group cursor-pointer z-10">
+            <div className="w-full bg-primary-50 p-2 shadow-sm rounded-lg overflow-hidden flex justify-between items-center mx-2">
+                <div className="flex gap-2 rounded-lg group cursor-pointer ">
                     {product.discount > 0 && (
                         <div className="discount-badge">
                             -${product.discount?.toFixed(2)}
                         </div>
                     )}
-                    <Link to={`/products/${product._id}`}>
+                    <Link to={`/products/${product.slug}`}>
                         <img
-                            src={`http://localhost:3000/${product.thumbnail}`}
+                            src={productThumbnail}
                             alt={product.name}
-                            className="product__img h-32"
+                            className="w-20 h-20 object-cover rounded-md"
                         />
                     </Link>
                     <div className="p-4 w-44">
-                        <Link to={`/products/${product._id}`}>
+                        <Link to={`/products/${product.slug}`}>
                             <p className="font-medium truncate mb-2 group:hover:text-primary-400">
                                 {product.name}
                             </p>
                         </Link>
                         <div className="flex items-center gap-2">
-                            {oldPrice > product.price && (
-                                <p className="text-sm line-through text-gray-500">
-                                    ${oldPrice.toFixed(2)}
+                            <p className="text-sm font-bold text-primary-400">
+                                <span className="text-xs">Rs.</span>
+                                {product.discountAmount > 0
+                                    ? formatPrice(
+                                          product?.price -
+                                              product.discountAmount
+                                      )
+                                    : formatPrice(product?.price)}
+                            </p>
+                            {product.discountAmount > 0 && product.price && (
+                                <p className="text-xs line-through text-gray-500">
+                                    {formatPrice(product.price)}
                                 </p>
                             )}
-                            <p className="text-lg font-bold">
-                                ${product.price.toFixed(2)}
-                            </p>
                         </div>
                     </div>
                 </div>
 
-                <button className="">
-                    <FaHeart
-                        className="mr-2 w-6 h-6 text-primary-400 hover:text-primary-500 transition-all duration-100 ease-in"
-                        onClick={() => removeItem(product._id)}
-                    />
+                <button
+                    onClick={() => onRemove(product._id)}
+                    className="py-1 px-4 bg-red-400 text-white text-base rounded-lg hover:bg-red-500 transition duration-200"
+                >
+                    <FaDeleteLeft />
                 </button>
             </div>
         </div>

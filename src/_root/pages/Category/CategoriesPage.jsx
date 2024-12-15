@@ -1,16 +1,15 @@
-/* eslint-disable react/prop-types */
-import Loader from '../../components/Loader'
-import { useGetBrandsQuery } from '../../redux/slices/brandsApiSlice'
+import CategoryCard from '../../../components/Categories/CategoryCard'
+import Loader from '../../../components/Loader'
+import { useGetCategoriesQuery } from '../../../redux/slices/categoriesApiSlice'
 import { useState } from 'react'
-import BrandCard from '../../components/Brands/BrandCard'
 import { BiSearchAlt2 } from 'react-icons/bi' // Import the search icon
 
-const BrandsPage = () => {
-    const { data: brands, isLoading } = useGetBrandsQuery({})
+const CategoriesPage = () => {
+    const { data: categories, isLoading } = useGetCategoriesQuery({})
     const [searchTerm, setSearchTerm] = useState('')
 
     // Filter brands based on the search term
-    const filteredBrands = brands?.doc?.filter((brand) =>
+    const filteredCategories = categories?.doc?.filter((brand) =>
         brand.name.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
@@ -21,10 +20,10 @@ const BrandsPage = () => {
             <div className="bg-primary-100 flex lg:flex-row flex-col gap-2 justify-between items-center p-8 rounded-lg mb-4">
                 <div>
                     <h2 className="text-2xl uppercase font-bold text-primary-400">
-                        ALL Brands
+                        ALL Category
                     </h2>
                     <p className="text-base text-primary-400">
-                        Find your favourite brands and products
+                        Find your favourite categories and products
                     </p>
                 </div>
                 {/* Search Input */}
@@ -32,7 +31,7 @@ const BrandsPage = () => {
                     <div className="relative flex-grow">
                         <input
                             type="text"
-                            placeholder="Search brands..."
+                            placeholder="Search categories..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 transition-all"
@@ -44,15 +43,15 @@ const BrandsPage = () => {
                 </div>
             </div>
             <div className="w-[100vw] py-4 mx-auto">
-                {filteredBrands && filteredBrands.length > 0 ? (
+                {filteredCategories && filteredCategories.length > 0 ? (
                     <div className="flex flex-wrap gap-4 transition-all ease-in">
-                        {filteredBrands.map((brand, index) => (
-                            <BrandCard key={index} brand={brand} />
+                        {filteredCategories.map((category, index) => (
+                            <CategoryCard key={index} category={category} />
                         ))}
                     </div>
                 ) : (
                     <p className="text-center text-gray-700 text-lg p-4">
-                        No brands match your search.
+                        No categories match your search.
                     </p>
                 )}
             </div>
@@ -60,4 +59,4 @@ const BrandsPage = () => {
     )
 }
 
-export default BrandsPage
+export default CategoriesPage
