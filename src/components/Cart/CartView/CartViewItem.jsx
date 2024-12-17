@@ -4,7 +4,7 @@ import { removeFromCart } from '../../../redux/slices/cartSlice'
 import { FaTrash } from 'react-icons/fa'
 import keys from './../../../config/keys'
 import { formatPrice } from '../../../utils/helpers'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
+// import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const CartViewItem = ({ item }) => {
     const dispatch = useDispatch()
@@ -24,10 +24,10 @@ const CartViewItem = ({ item }) => {
             key={item._id}
             className="flex items-center bg-gray-50 justify-around border-b p-2"
         >
-            <LazyLoadImage
+            <img
                 src={productImage}
-                effect="blur" // You can use "blur" or "opacity" as lazy load effect
                 alt={item.name}
+                loading="lazy"
                 className="w-16 h-16 object-contain mr-4"
             />
             <div className="flex-grow">

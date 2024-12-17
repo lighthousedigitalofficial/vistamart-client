@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import keys from '../../config/keys'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
+// import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 const ProductSlider = ({ images }) => {
     const [featuredImage, setFeaturedImage] = useState(images[0])
@@ -27,7 +27,7 @@ const ProductSlider = ({ images }) => {
         <div className="flex flex-wrap flex-col justify-center items-center gap-2 space-y-8 lg:space-y-0 lg:space-x-8">
             <div>
                 {featuredImage && (
-                    <LazyLoadImage
+                    <img
                         src={
                             featuredImage
                                 ? featuredImage?.startsWith('products')
@@ -35,7 +35,7 @@ const ProductSlider = ({ images }) => {
                                     : featuredImage
                                 : keys.DEFAULT_IMG
                         }
-                        effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                        loading="lazy"
                         alt="Featured product"
                         className="w-full lg:h-[55vh] md:h-[50vh] h-[40vh] object-contain border-2 border-gray-100 cursor-pointer"
                     />
@@ -54,7 +54,7 @@ const ProductSlider = ({ images }) => {
                     {images.map((image, index) => {
                         if (image.startsWith('products'))
                             return (
-                                <LazyLoadImage
+                                <img
                                     key={index}
                                     src={`${keys.BUCKET_URL}${image}`}
                                     alt={`Thumbnail ${index + 1}`}
@@ -64,6 +64,7 @@ const ProductSlider = ({ images }) => {
                                             ? 'opacity-100'
                                             : 'opacity-50'
                                     }`}
+                                    loading="lazy"
                                 />
                             )
                     })}

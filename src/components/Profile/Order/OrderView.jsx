@@ -37,6 +37,15 @@ const OrderView = () => {
                             #{order?.orderId}
                         </span>
                     </h2>
+                    {order?.trackingId && (
+                        <p className="text-[0.7rem] md:text-[0.9rem] text-wrap md:text-nowrap font-bold pb-5">
+                            Tracking ID:
+                            <span className="text-cyan-700">
+                                {order?.trackingId}
+                            </span>
+                        </p>
+                    )}
+
                     <p className="text-sm">
                         Date: {new Date(order?.createdAt).toLocaleString()}
                     </p>

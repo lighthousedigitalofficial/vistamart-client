@@ -1,13 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
-import { FaSyncAlt } from 'react-icons/fa'
+import { FaSearch } from 'react-icons/fa'
 
 const TrackOrderForm = ({ onSubmit }) => {
     const [orderId, setOrderId] = useState('')
-
-    const handleClear = () => {
-        setOrderId('')
-    }
 
     const handleTrackOrder = () => {
         if (orderId) {
@@ -16,25 +12,37 @@ const TrackOrderForm = ({ onSubmit }) => {
     }
 
     return (
-        <div className="xl:w-full mx-auto p-8 h-[100%] bg-white shadow-sm shadow-primary-100 items-center rounded-lg">
-            <button
-                onClick={handleClear}
-                className="flex items-center text-gray-600 hover:text-gray-800"
-            >
-                <FaSyncAlt className="mr-1" /> Clear
-            </button>
-            <h2 className="text-2xl font-semibold text-center mb-6">
-                Track Order
-            </h2>
-            <div className="flex justify-center items-center mb-4 gap-4">
+        <div className="w-full max-w-2xl mx-auto p-6 md:p-8">
+            {/* Title */}
+            <div className="flex flex-col justify-center items-center gap-2 mb-6">
+                <h2 className="text-3xl font-bold text-center text-gray-800 ">
+                    Track Your Order
+                </h2>
+                <p className="text-gray-500 text-center text-xs md:text-base">
+                    Enter your tracking ID to get delivery updates.
+                </p>
+            </div>
+
+            {/* Input and Button Section */}
+            <div className="flex flex-col md:flex-row justify-center items-center gap-4">
                 <input
-                    type="text"
+                    type="text" // Change type to text to remove spinner (upper/lower arrows)
+                    inputMode="numeric" // Ensures numeric keyboard on mobile
+                    pattern="[0-9]*" // Allow only numbers
                     value={orderId}
-                    onChange={(e) => setOrderId(e.target.value)}
-                    placeholder="Order ID"
-                    className="border border-gray-400 rounded-md px-4 py-2 w-1/3 focus:outline-none"
+                    onChange={(e) => {
+                        const value = e.target.value.replace(/\D/g, '') // Remove any non-numeric characters
+                        setOrderId(value)
+                    }}
+                    placeholder="Enter tracking ID"
+                    className="border border-gray-300 rounded-lg px-4 py-2 w-2/4 md:w-2/3 text-gray-700 focus:ring-2 focus:ring-primary-400 focus:outline-none transition duration-300"
                 />
-                <button onClick={handleTrackOrder} className="btn primary-btn">
+
+                <button
+                    onClick={() => handleTrackOrder(orderId)}
+                    className="flex items-center justify-center btn primary-btn"
+                >
+                    <FaSearch className="mr-2" />
                     Track Order
                 </button>
             </div>

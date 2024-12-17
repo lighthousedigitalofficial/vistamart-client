@@ -149,7 +149,7 @@ const CityInput = ({ register, errors }) => {
                     {...register('city', { required: 'City is required' })}
                     value={selectedCity}
                     onChange={handleChange}
-                    className={`input ${
+                    className={`input transition-all ${
                         errors.city ? 'border-red-500' : 'border-gray-300'
                     }`}
                 >

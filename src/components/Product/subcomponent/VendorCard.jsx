@@ -4,7 +4,7 @@ import { FaStar, FaBoxOpen, FaStore } from 'react-icons/fa'
 import { useGetVendorDetailsQuery } from '../../../redux/slices/vendorsApiSlice'
 import Loader from '../../Loader'
 import { Link } from 'react-router-dom'
-import { LazyLoadImage } from 'react-lazy-load-image-component'
+// import { LazyLoadImage } from 'react-lazy-load-image-component'
 import keys from '../../../config/keys'
 import { FcApproval } from 'react-icons/fc'
 
@@ -21,7 +21,7 @@ const VendorCard = ({ vendorId }) => {
             className="bg-white p-4 rounded shadow flex flex-col gap-2"
         >
             <div className="flex items-center gap-3">
-                <LazyLoadImage
+                <img
                     src={
                         vendor?.doc?.logo
                             ? vendor?.doc?.logo.startsWith('vendors')
@@ -29,7 +29,7 @@ const VendorCard = ({ vendorId }) => {
                                 : vendor?.doc?.logo
                             : keys.DEFAULT_IMG
                     }
-                    effect="blur" // You can use "blur" or "opacity" as lazy load effect
+                    loading="lazy"
                     alt={vendor?.doc?.shopName}
                     className="w-16 h-16 rounded-full border-2 border-primary-300 object-cover"
                 />
