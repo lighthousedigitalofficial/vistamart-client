@@ -1,10 +1,28 @@
+// import parsePhoneNumberFromString from 'libphonenumber-js'
 import { z } from 'zod'
 
 export const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
-export const phoneValidation = z.string().min(6, 'Phone number is required')
+export const phoneValidation = z.string().min(13, 'Phone number is invalid')
+// Dynamic phone number validation
+// export const phoneValidation = z
+//     .object({
+//         phone: z.string().nonempty('Phone number is required'),
+//         countryCode: z
+//             .string()
+//             .length(2, 'Country code must be a valid 2-letter ISO 3166 code'),
+//     })
+//     .refine(
+//         ({ phone, countryCode }) => {
+//             const phoneNumber = parsePhoneNumberFromString(phone, countryCode)
+//             return phoneNumber?.isValid() ?? false
+//         },
+//         {
+//             message: 'Phone number is invalid for the provided country code',
+//         }
+//     )
 // .regex(/^\+\d{1,4}\s\d{6,14}$/, 'Invalid phone number') // Regex to validate international numbers
 
 export const timeAgo = (date) => {
@@ -32,100 +50,6 @@ export const timeAgo = (date) => {
 
     return 'just now'
 }
-
-export const categories = [
-    {
-        name: 'Mens',
-        image: './src/assets/categories/mens.png',
-    },
-    {
-        name: 'Womens',
-        image: './src/assets/categories/womens.png',
-    },
-    {
-        name: 'Mobile',
-        image: './src/assets/categories/mobile.png',
-    },
-    {
-        name: 'Sports',
-        image: './src/assets/categories/sports.png',
-    },
-    {
-        name: 'Electronics',
-        image: 'src/assets/categories/laptop.png',
-    },
-    {
-        name: 'Home Appliances',
-        image: './src/assets/categories/home.png',
-    },
-    {
-        name: 'Fashion',
-        image: './src/assets/categories/jew.png',
-    },
-    {
-        name: 'Books',
-        image: './src/assets/categories/edu.png',
-    },
-    {
-        name: 'Toys',
-        image: './src/assets/categories/kids.png',
-    },
-    {
-        name: 'Beauty',
-        image: './src/assets/categories/hair.png',
-    },
-]
-
-export const brands = [
-    {
-        name: 'Mens',
-        image: './src/assets/brands/cart-icon.png',
-    },
-    {
-        name: 'Womens',
-        image: './src/assets/brands/green-good.png',
-    },
-    {
-        name: 'Mobile',
-        image: './src/assets/brands/green-leave.png',
-    },
-    {
-        name: 'Sports',
-        image: './src/assets/brands/green-yellow.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/helath-icon.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/cart-icon.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/i-logo.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/infine.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/micro-icon.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/people.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/pillar.png',
-    },
-    {
-        name: 'Electronics',
-        image: './src/assets/brands/w-logo.png',
-    },
-]
 
 export const services = [
     {
@@ -164,125 +88,6 @@ export const contacts = [
     },
 ]
 
-export const vendors = [
-    {
-        name: 'Zedx Bangladesh',
-        rating: 4.8,
-        reviews: 5,
-        products: 16,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Country Fair',
-        rating: 4.5,
-        reviews: 3,
-        products: 3,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Fashion Store',
-        rating: 4.9,
-        reviews: 5,
-        products: 5,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Super Market',
-        rating: 4.7,
-        reviews: 8,
-        products: 8,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Fashion Store',
-        rating: 4.9,
-        reviews: 5,
-        products: 5,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Super Market',
-        rating: 4.7,
-        reviews: 8,
-        products: 8,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Fashion Store',
-        rating: 4.9,
-        reviews: 5,
-        products: 5,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Super Market',
-        rating: 4.7,
-        reviews: 8,
-        products: 8,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Fashion Store',
-        rating: 4.9,
-        reviews: 5,
-        products: 5,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-    {
-        name: 'Super Market',
-        rating: 4.7,
-        reviews: 8,
-        products: 8,
-        logoUrl:
-            'https://6valley.6amtech.com/storage/app/public/shop/2023-06-13-64883892c6c11.png',
-        banner: 'https://6valley.6amtech.com/storage/app/public/shop/banner/2023-06-14-648870b2eec5b.png',
-    },
-]
-
-export const faqData = [
-    {
-        question: 'Can orders be placed using E-Baazaar App?',
-        answer: 'Yes, orders can be placed using the E-Baazaar App. It is user-friendly and allows easy order placement.',
-    },
-    {
-        question:
-            'Is it important for me to educate the customer before placing order?',
-        answer: 'Yes, educating the customer before placing an order ensures they are aware of the product details and policies.',
-    },
-    {
-        question: 'Why my id is blocked/blacklisted?',
-        answer: 'Your ID might be blocked or blacklisted due to violation of our policies or repeated fraudulent activities.',
-    },
-    {
-        question: 'Why my orders get canceled?',
-        answer: (
-            <ul>
-                <li>Cancellation from customer side.</li>
-                <li>Product is out of stock.</li>
-                <li>System recognizes it as a fraud order.</li>
-            </ul>
-        ),
-    },
-]
-
 export const features = [
     {
         title: 'Easy Onboarding',
@@ -311,25 +116,6 @@ export const features = [
     },
 ]
 
-export const SellerFaqs = [
-    {
-        question: 'How do I handle customer inquiries?',
-        answer: "You can manage customer inquiries directly through our platform's messaging system, ensuring quick and efficient communication.",
-    },
-    {
-        question: 'How do I upload products?',
-        answer: 'To upload products, go to the "Upload Products" section in your dashboard and follow the instructions provided.',
-    },
-    {
-        question: 'What are the fees for selling?',
-        answer: 'The fees for selling on our platform depend on the product category and the type of seller account you have. Please refer to our fees section for detailed information.',
-    },
-    {
-        question: 'How do I register as a seller?',
-        answer: 'To register as a seller, click on the "Get Registered" button on our homepage and fill out the registration form.',
-    },
-]
-
 export const steps = [
     {
         title: 'Get Registered',
@@ -348,44 +134,5 @@ export const steps = [
         description:
             'Go live and start reaching millions of potential buyers immediately. Watch your sales grow with our vast audience.',
         img: './src/assets/vendor/step3.png',
-    },
-]
-
-export const productReviews = [
-    {
-        id: 1,
-        name: 'J',
-        date: 'September 20, 2023',
-        color: 'Lavender',
-        verified: true,
-        rating: 5,
-        title: 'Great product!',
-        description:
-            'Works great! Very chic, easily fits in pocket, purse, bag, etc. Nice to be able to charge more than 1 device at a time, especially since it has a fast charge port!',
-        helpfulCount: 0,
-    },
-    {
-        id: 2,
-        name: 'John D.',
-        date: 'October 5, 2023',
-        color: 'Blue',
-        verified: true,
-        rating: 3,
-        title: 'Good charger, but could be better.',
-        description:
-            'The charger works well, but the cable is a bit too short for my liking. Still a solid purchase though!',
-        helpfulCount: 5,
-    },
-    {
-        id: 3,
-        name: 'Samantha P.',
-        date: 'October 11, 2023',
-        color: 'Red',
-        verified: true,
-        rating: 5,
-        title: 'Perfect for travel!',
-        description:
-            "I travel a lot and this charger has been amazing. It's compact and charges my devices super fast.",
-        helpfulCount: 8,
     },
 ]

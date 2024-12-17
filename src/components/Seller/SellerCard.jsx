@@ -35,6 +35,7 @@ const SellerCard = ({ data: seller }) => {
                                         : keys.DEFAULT_IMG
                                 }
                                 alt={seller.shopName}
+                                loading="lazy"
                                 className="w-16 h-16 object-cover bg-white rounded-full -mt-8 border-2 border-primary-300 shadow-md transform transition duration-300 ease-in-out hover:scale-105"
                             />
 

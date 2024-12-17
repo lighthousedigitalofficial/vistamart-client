@@ -1,12 +1,6 @@
 import { useEffect, useState } from 'react'
-import { Navbar, IconButton, Badge } from '@material-tailwind/react'
-import {
-    FaRegHeart,
-    FaUser,
-    FaSignInAlt,
-    FaUserPlus,
-    FaSearch,
-} from 'react-icons/fa'
+import { Navbar, IconButton } from '@material-tailwind/react'
+import { FaUser, FaSignInAlt, FaUserPlus, FaSearch } from 'react-icons/fa'
 import { Menu, MenuHandler, MenuList, MenuItem } from '@material-tailwind/react'
 import logo from '../../assets/app-logo/vista-app-logo.png'
 import SearchBar from './SerachBar'
@@ -18,24 +12,19 @@ import useAuth from './../../hooks/useAuth'
 import Loader from '../Loader'
 
 import { useGetCustomerDetailsQuery } from '../../redux/slices/customersApiSlice'
-import { useGetWishListByIdQuery } from '../../redux/slices/wishlistApiSlice'
+import WishlistBucket from './WishlistBucket'
 
 const NavbarSticky = () => {
     const [openMenu, setOpenMenu] = useState(false)
     const [isSticky, setIsSticky] = useState(false)
     const [isSearchOpen, setIsSearchOpen] = useState(false)
+
     const user = useAuth()
 
     const { data: userData, isFetching: isUserFetching } =
         useGetCustomerDetailsQuery(user?._id, {
             skip: !user?._id,
         })
-
-    const { data: wishList } = useGetWishListByIdQuery(user?._id, {
-        skip: !user?._id,
-    })
-
-    const totalWishListItems = wishList?.doc?.products?.length.toString() || '0'
 
     const handleScroll = () => {
         const scrollPosition = window.scrollY
@@ -104,16 +93,7 @@ const NavbarSticky = () => {
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <Badge content={totalWishListItems}>
-                            <Link to="/profile/wish-list">
-                                <IconButton
-                                    variant="text"
-                                    className="bg-gray-100 rounded-full border-none"
-                                >
-                                    <FaRegHeart className="h-5 w-5 text-primary-500" />
-                                </IconButton>
-                            </Link>
-                        </Badge>
+                        <WishlistBucket user={user} />
                         <CartIcon />
 
                         <div

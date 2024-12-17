@@ -9,8 +9,6 @@ const OrderDetail = () => {
         skip: !orderId,
     })
 
-    console.log(orderId, order)
-
     return isLoading ? (
         <Loader />
     ) : order && order?.doc ? (

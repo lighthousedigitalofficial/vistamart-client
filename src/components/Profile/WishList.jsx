@@ -32,8 +32,8 @@ const WishList = () => {
     const onRemove = async (productId) => {
         try {
             await removeWishList(productId)
-            toast.success('Product remove from wishlist')
             refetch()
+            toast.success('Product remove from wishlist')
         } catch (error) {
             toast.success(
                 error.data.message || 'Remove product from wishlist error'

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
-import { createApi } from '@reduxjs/toolkit/query/react'
-import baseQueryWithReauth from '../baseQueryWithReauth'
+import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react'
+import baseQuery from '../baseQuery'
 
 // const baseQuery = fetchBaseQuery({
 //     baseUrl: `${keys.BASE_URL}/api/v1`,
@@ -69,7 +69,7 @@ import baseQueryWithReauth from '../baseQueryWithReauth'
 // })
 
 export const apiSlice = createApi({
-    baseQuery: baseQueryWithReauth,
+    baseQuery: baseQuery,
     credentials: 'include',
     tagTypes: [
         'Product',

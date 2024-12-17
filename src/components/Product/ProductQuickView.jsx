@@ -4,40 +4,40 @@ import { Link, useNavigate } from 'react-router-dom'
 import { addToCart } from '../../redux/slices/cartSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Quantity from './subcomponent/Quantity'
-import { FaXmark } from 'react-icons/fa6'
-import Loader from '../Loader'
-import { useGetProductDetailsQuery } from '../../redux/slices/productsApiSlice'
 import WishListIcon from './subcomponent/WishListIcon'
 import toast from 'react-hot-toast'
 import Rating from '@mui/material/Rating'
 import { formatPrice } from '../../utils/helpers'
 import ProductSlider from './ProductSlider'
 
-const ProductQuickView = ({ productId, onClose }) => {
-    const { data: product, isLoading } = useGetProductDetailsQuery(productId, {
-        skip: !productId,
-    })
-
+const ProductQuickView = ({ product, onClose }) => {
     const [totalPrice, setTotalPrice] = useState(0)
     const [images, setImages] = useState([])
 
     const [qty, setQty] = useState(1)
     const [minimumOrderError, setMinimumOrderError] = useState(false)
 
-    const oldPrice = product?.doc?.price + product?.doc?.discountAmount || 0
     useEffect(() => {
-        if (product?.doc) {
-            const productImages = product?.doc
-                ? [product?.doc?.thumbnail, ...product.doc.images]
+        if (product) {
+            const productImages = product
+                ? [product?.thumbnail, ...product.images]
                 : []
             setImages(productImages)
         }
-        if (!product?.doc?.taxIncluded) {
-            setTotalPrice((product?.doc?.price + product?.doc.taxAmount) * qty)
-        } else setTotalPrice(product?.doc?.price * qty)
 
-        // setMainImage(productImage)
-    }, [product?.doc, qty])
+        if (product.discountAmount > 0) {
+            const total = product.price - product.discountAmount
+            setTotalPrice(total * qty)
+        } else setTotalPrice(product.price * qty)
+    }, [product, qty])
+
+    const discountAmount = product?.discountAmount || 0
+
+    // Avoid division by zero by ensuring oldPrice is greater than 0
+    const percentageDiscount =
+        product?.price > 0
+            ? Math.round((discountAmount / product?.price) * 100)
+            : 0
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -45,12 +45,12 @@ const ProductQuickView = ({ productId, onClose }) => {
     const { cartItems } = useSelector((state) => state.cart)
 
     const isProductAddToCart = cartItems?.find(
-        (item) => item._id === product?.doc?._id
+        (item) => item._id === product?._id
     )
 
     const addToCartHandler = () => {
-        if (qty >= product.doc.minimumOrderQty) {
-            dispatch(addToCart({ ...product.doc, qty }))
+        if (qty >= product.minimumOrderQty) {
+            dispatch(addToCart({ ...product, qty }))
             onClose()
             toast.success('Item added successfully')
         } else setMinimumOrderError(true)
@@ -63,32 +63,15 @@ const ProductQuickView = ({ productId, onClose }) => {
     }
 
     const buyNowHandler = () => {
-        if (qty >= product.doc.minimumOrderQty) {
-            dispatch(addToCart({ ...product.doc, qty }))
+        if (qty >= product.minimumOrderQty) {
+            dispatch(addToCart({ ...product, qty }))
             onClose()
             navigate('/checkout/shipping-address')
         } else setMinimumOrderError(true)
     }
 
-    return isLoading ? (
-        <div className="z-50">
-            <Loader />
-        </div>
-    ) : product && product?.doc ? (
-        <div className="flex flex-col  border shadow bg-white rounded w-full p-4 max-h-screen md:max-h-[100vh] overflow-y-auto">
-            {/* Close button and Product title */}
-            <div className="flex justify-between items-center p-4 border-b">
-                <Link
-                    to={`/products/${product.doc.slug}`}
-                    className="text-lg md:text-xl truncate w-2/3 font-semibold hover:text-primary-500 text-primary-600"
-                >
-                    {product.doc.name}
-                </Link>
-                <button onClick={onClose} className="text-gray-500 text-xl">
-                    <FaXmark />
-                </button>
-            </div>
-
+    return (
+        <div className="flex flex-col bg-white rounded w-full p-4 overflow-y-auto">
             {/* Product Image and Details */}
             <div className="flex flex-col lg:flex-row items-start gap-4 p-4">
                 {/* Product Image Section */}
@@ -98,58 +81,74 @@ const ProductQuickView = ({ productId, onClose }) => {
 
                 {/* Product Details Section */}
                 <div className="w-full lg:w-1/2 flex flex-col gap-8">
-                    <h2 className="text-xl md:text-2xl">{product.doc.name}</h2>
+                    <Link
+                        to={`/products/${product?.slug}` || ''}
+                        className="text-lg md:text-xl w-2/3 font-semibold hover:text-primary-500 text-primary-600"
+                    >
+                        {product.name || 'Product details'}
+                    </Link>
                     <div className="flex items-center mb-2">
                         <span className="mx-2 text-gray-600 ">
-                            {product?.doc?.rating || 0}
+                            {product?.rating || 0}
                         </span>
                         <Rating
                             name="half-rating-read"
                             defaultValue={0}
-                            value={product?.doc?.rating}
+                            value={product?.rating}
                             precision={0.5}
                             readOnly
                         />
 
                         <div className="flex justify-between gap-2 border-l-2 px-2 items-center mx-2 text-xs md:text-sm">
                             <p className="border-r-2 pr-2">
-                                {product?.doc?.numOfReviews || 0} Reviews
+                                {product?.numOfReviews || 0} Reviews
                             </p>
                             <p className="px-2">
-                                {product?.doc?.totalOrders || 0} Orders
+                                {product?.totalOrders || 0} Orders
                             </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <p className="text-lg font-bold text-primary-400">
-                            Rs.{formatPrice(product?.doc?.price)}
+                        <p className="text-xl font-bold text-primary-400">
+                            <span className="text-xs">Rs.</span>
+                            {product.discountAmount > 0
+                                ? formatPrice(
+                                      product.price - product.discountAmount
+                                  )
+                                : formatPrice(product.price)}
                         </p>
-                        {oldPrice > product.doc.price && (
-                            <p className="text-sm font-semibold line-through text-gray-500">
-                                Rs.{formatPrice(oldPrice)}
+                        {product.discountAmount > 0 && product.price && (
+                            <p className="text-sm line-through text-gray-500">
+                                {formatPrice(product.price)}
                             </p>
                         )}
+                        {percentageDiscount > 0 && (
+                            <div className=" text-primary-500 border border-primary-500 py-1 px-2">
+                                <p className="font-semibold text-xs">
+                                    - {percentageDiscount}% of Discount
+                                </p>
+                            </div>
+                        )}
                     </div>
-                    {product.doc.stock > 0 ? (
+                    {product.stock > 0 ? (
                         <div>
                             <div className="flex items-center gap-2 mb-2">
                                 <h3 className="font-bold">Quantity:</h3>
                                 <Quantity
                                     qty={qty}
                                     setQty={setQty}
-                                    product={product.doc}
+                                    product={product}
                                 />
                                 <span className="text-sm">
-                                    {product.doc.stock} left
+                                    {product.stock} left
                                 </span>
                             </div>
                             <p className="text-sm">
-                                (Minimum Order Qty:{' '}
-                                {product.doc.minimumOrderQty})
+                                (Minimum Order Qty: {product.minimumOrderQty})
                             </p>
                             {minimumOrderError && (
                                 <p className="bg-red-100 text-red-400 w-full rounded-lg p-2">
-                                    {`Minimum order for this item is ${product.doc.minimumOrderQty} piece.`}
+                                    {`Minimum order for this item is ${product.minimumOrderQty} piece.`}
                                 </p>
                             )}
                         </div>
@@ -165,17 +164,17 @@ const ProductQuickView = ({ productId, onClose }) => {
                         </p>
                         <span className="text-xs">
                             {' '}
-                            {product.doc.taxIncluded
+                            {product.taxIncluded
                                 ? '(Tax: incl.)'
-                                : `(Tax: Rs. ${product.doc.taxAmount || 0})`}
+                                : `(Tax: Rs. ${product.taxAmount || 0})`}
                         </span>
                     </div>
                     <div className="flex lg:flex-row flex-col gap-6 w-full">
                         <button
                             onClick={buyNowHandler}
-                            disabled={product.doc.stock < 1}
+                            disabled={product.stock < 1}
                             className={`btn px-10 text-white ${
-                                product.doc.stock < 1
+                                product.stock < 1
                                     ? 'bg-orange-500 opacity-50 cursor-not-allowed'
                                     : 'bg-orange-500 hover:bg-orange-600'
                             }`}
@@ -184,9 +183,9 @@ const ProductQuickView = ({ productId, onClose }) => {
                         </button>
                         <button
                             onClick={addToCartHandler}
-                            disabled={product.doc.stock < 1}
+                            disabled={product.stock < 1}
                             className={`btn px-10 ${
-                                product.doc.stock < 1
+                                product.stock < 1
                                     ? 'primary-btn opacity-50 cursor-not-allowed'
                                     : 'primary-btn'
                             }`}
@@ -198,8 +197,6 @@ const ProductQuickView = ({ productId, onClose }) => {
                 </div>
             </div>
         </div>
-    ) : (
-        <p>Product details not found!</p>
     )
 }
 

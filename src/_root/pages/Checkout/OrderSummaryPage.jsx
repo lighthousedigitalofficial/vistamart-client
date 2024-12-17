@@ -70,11 +70,8 @@ const OrderSummaryPage = () => {
                         const price = product.price || 0
                         const quantity = product.quantity || 0
                         const discount = product.discountAmount * quantity || 0
-                        const shippingCost =
-                            product.shippingCost * quantity || 0
-                        const taxAmount = product.taxIncluded
-                            ? product.taxAmount * quantity || 0
-                            : 0
+                        const shippingCost = product.shippingCost || 0
+                        const taxAmount = product.taxAmount * quantity || 0
 
                         // Calculate total amount for this product
                         const productTotal =
@@ -129,7 +126,6 @@ const OrderSummaryPage = () => {
                     paymentStatus: cart?.paymentStatus,
                 }
             })
-
             if (orders.length !== 0) {
                 // Submit each order separately
                 for (const order of orders) {

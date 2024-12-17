@@ -29,10 +29,7 @@ export const updateCart = (state) => {
 
     // Calculate the shipping price with a fallback to 0
     state.totalShippingPrice = addDecimals(
-        state.cartItems.reduce(
-            (acc, item) => acc + (item.shippingCost || 0) * (item.qty || 0),
-            0
-        )
+        state.cartItems.reduce((acc, item) => acc + (item.shippingCost || 0), 0)
     )
 
     // Calculate the tax price
