@@ -104,6 +104,7 @@ const cartSlice = createSlice({
 
         resetCart: (state) => {
             state = initialState
+            console.log(state)
             saveEncryptedCart(state)
         },
     },

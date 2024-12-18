@@ -64,16 +64,16 @@ const MyOrders = () => {
         }
     }
 
-    const getPaymentStatusColor = (status) => {
-        switch (status) {
-            case 'Unpaid':
-                return '#FF6F61' // Vibrant Red-Orange for Unpaid
-            case 'Paid':
-                return '#4CAF50' // Bright Green for Paid
-            default:
-                return '#B0BEC5' // Soft Gray for Default/Unknown
-        }
-    }
+    // const getPaymentStatusColor = (status) => {
+    //     switch (status) {
+    //         case 'Unpaid':
+    //             return '#FF6F61' // Vibrant Red-Orange for Unpaid
+    //         case 'Paid':
+    //             return '#4CAF50' // Bright Green for Paid
+    //         default:
+    //             return '#B0BEC5' // Soft Gray for Default/Unknown
+    //     }
+    // }
 
     return (
         <div style={{ padding: '16px' }}>
@@ -99,10 +99,10 @@ const MyOrders = () => {
                                     <strong>Order ID</strong>
                                 </TableCell>
                                 <TableCell>
-                                    <strong>Order Date</strong>
+                                    <strong>Tracking ID</strong>
                                 </TableCell>
                                 <TableCell>
-                                    <strong>Payment Status</strong>
+                                    <strong>Order Date</strong>
                                 </TableCell>
                                 <TableCell>
                                     <strong>Status</strong>
@@ -127,19 +127,39 @@ const MyOrders = () => {
                                             }}
                                         >
                                             <span>{order.orderId}</span>
-                                            <Tooltip title="Copy Order ID">
-                                                <IconButton
-                                                    size="small"
-                                                    onClick={() =>
-                                                        handleCopy(
-                                                            order.orderId
-                                                        )
-                                                    }
-                                                    sx={{ ml: 1 }}
-                                                >
-                                                    <FaRegCopy />
-                                                </IconButton>
-                                            </Tooltip>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            {order.trackingId !== '0' ? (
+                                                <>
+                                                    <span>
+                                                        {order.tracking}
+                                                    </span>
+                                                    <Tooltip title="Copy Tracking ID">
+                                                        <IconButton
+                                                            size="small"
+                                                            onClick={() =>
+                                                                handleCopy(
+                                                                    order.trackingId
+                                                                )
+                                                            }
+                                                            sx={{ ml: 1 }}
+                                                        >
+                                                            <FaRegCopy />
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                </>
+                                            ) : (
+                                                <span className="text-xs text-gray-600">
+                                                    Not Booked
+                                                </span>
+                                            )}
                                         </div>
                                     </TableCell>
                                     <TableCell>
@@ -149,25 +169,9 @@ const MyOrders = () => {
                                         <span
                                             style={{
                                                 padding: '4px 8px',
-                                                borderRadius: '4px',
+                                                fontSize: '12px',
                                                 fontWeight: 'bold',
-                                                textTransform: 'uppercase',
-                                                color: '#fff',
-                                                backgroundColor:
-                                                    getPaymentStatusColor(
-                                                        order.paymentStatus
-                                                    ),
-                                            }}
-                                        >
-                                            {order.paymentStatus}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>
-                                        <span
-                                            style={{
-                                                padding: '4px 8px',
                                                 borderRadius: '4px',
-                                                fontWeight: 'bold',
                                                 textTransform: 'uppercase',
                                                 ...getStatusStyle(order.status),
                                             }}

@@ -14,6 +14,7 @@ export const TRANSACTIONS_URL = '/transaction/payment'
 export const PRODUCTS_URL = '/seller/products'
 export const PRODUCT_REVIEW_URL = '/user/reviews'
 export const VENDORS_URL = '/seller/vendors'
+export const SHIPPING_INFO_URL = '/seller/shippingInfo'
 
 export const OTP_URL = '/user/otp'
 export const UPLOAD_URL = '/image'
