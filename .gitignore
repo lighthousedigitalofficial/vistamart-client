@@ -15,10 +15,10 @@ uploads/
 
 # Production
 /build
-s
 
 # Environment files
 .env
+.env.stage
 .env.production
 
 .env.local

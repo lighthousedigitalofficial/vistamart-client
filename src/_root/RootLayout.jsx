@@ -16,6 +16,7 @@ import { logout } from '../redux/slices/authSlice'
 import { useCustomerLogoutMutation } from '../redux/slices/customersApiSlice'
 
 import { validateSession } from '../api/validateService'
+import encryptionManager from '../utils/encryptionManager'
 
 const RootLayout = () => {
     const [isLoading, setIsLoading] = useState(true)
@@ -52,11 +53,11 @@ const RootLayout = () => {
 
     const logoutUser = async () => {
         // Get accessToken from localStorage
-        const userInfo = localStorage.getItem('userInfo')
-        const user = JSON.parse(userInfo)
+        const encryptedUserInfo = localStorage.getItem('userInfo')
+        const user = encryptionManager.decrypt(encryptedUserInfo)
 
-        dispatch(logout())
         await customerLogout(user?.accessToken)
+        dispatch(logout())
 
         window.location.reload()
     }

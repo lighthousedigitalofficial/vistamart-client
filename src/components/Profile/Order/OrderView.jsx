@@ -3,6 +3,9 @@ import { useParams } from 'react-router-dom'
 import Loader from '../../Loader'
 import VendorCard from '../../Product/subcomponent/VendorCard'
 import ProductTable from './ProductTable'
+import toast from 'react-hot-toast'
+import { IconButton, Tooltip } from '@mui/material'
+import { FaRegCopy } from 'react-icons/fa'
 
 const OrderView = () => {
     // Get the order ID from the URL parameters
@@ -21,6 +24,11 @@ const OrderView = () => {
 
     const { doc: order } = data ?? []
 
+    const handleCopy = (orderId) => {
+        navigator.clipboard.writeText(orderId)
+        toast.success(`Order ID ${orderId} copied to clipboard!`)
+    }
+
     return isLoading ? (
         <Loader />
     ) : data && data?.doc && order ? (
@@ -37,14 +45,31 @@ const OrderView = () => {
                             #{order?.orderId}
                         </span>
                     </h2>
-                    {order?.trackingId && (
-                        <p className="text-[0.7rem] md:text-[0.9rem] text-wrap md:text-nowrap font-bold pb-5">
-                            Tracking ID:
-                            <span className="text-cyan-700">
-                                {order?.trackingId}
+                    <p className="text-[0.7rem] md:text-[0.9rem] text-wrap md:text-nowrap font-bold pb-5">
+                        Tracking ID:
+                        {order?.trackingId !== '0' ? (
+                            <>
+                                <span className="text-cyan-700 ml-2">
+                                    {order?.trackingId}
+                                </span>
+                                <Tooltip title="Copy Tracking ID">
+                                    <IconButton
+                                        size="small"
+                                        onClick={() =>
+                                            handleCopy(order.trackingId)
+                                        }
+                                        sx={{ ml: 1 }}
+                                    >
+                                        <FaRegCopy />
+                                    </IconButton>
+                                </Tooltip>
+                            </>
+                        ) : (
+                            <span className="text-gray-600 ml-2">
+                                Not Booked
                             </span>
-                        </p>
-                    )}
+                        )}
+                    </p>
 
                     <p className="text-sm">
                         Date: {new Date(order?.createdAt).toLocaleString()}

@@ -30,7 +30,7 @@ const useCities = () => {
             } else {
                 try {
                     const { data } = await axios.get(
-                        `${keys.TRAX_API}/cities`,
+                        `${keys.TRAX_API}/cities?business_category=1`,
                         {
                             headers: {
                                 Authorization: keys.TRAX_AUTH,
