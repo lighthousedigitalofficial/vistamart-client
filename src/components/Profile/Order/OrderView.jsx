@@ -116,6 +116,10 @@ const OrderView = () => {
                             <span>Tax Amount</span>
                             <span>PKR {order.totalTaxAmount}</span>
                         </div>
+                        <div className="flex justify-between text-sm">
+                            <span>Shipping Cost</span>
+                            <span>PKR {order.totalShippingCost}</span>
+                        </div>
 
                         <div className="flex justify-between font-bold border-t pt-2">
                             <span>Total Price</span>

@@ -139,7 +139,7 @@ const MyOrders = () => {
                                             {order.trackingId !== '0' ? (
                                                 <>
                                                     <span>
-                                                        {order.tracking}
+                                                        {order.trackingId}
                                                     </span>
                                                     <Tooltip title="Copy Tracking ID">
                                                         <IconButton
